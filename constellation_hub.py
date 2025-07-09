@@ -103,15 +103,15 @@ NOTES: [Additional context]
 Please respond with your cosmic wisdom:"""
         
         try:
-            # Call the constellation model
+            # Call the constellation model with proper encoding
             result = subprocess.run([
                 'ollama', 'run', model, enhanced_prompt
-            ], capture_output=True, text=True, timeout=60)
+            ], capture_output=True, text=True, timeout=60, encoding='utf-8', errors='replace')
             
-            if result.returncode == 0:
+            if result.returncode == 0 and result.stdout:
                 return result.stdout.strip()
             else:
-                return f"Error communicating with {model}: {result.stderr}"
+                return f"Error communicating with {model}: {result.stderr if result.stderr else 'No response'}"
                 
         except subprocess.TimeoutExpired:
             return f"Timeout communicating with {model}"
@@ -181,12 +181,12 @@ Please execute this directive using your advanced toolkit systems:
 Execute now:"""
         
         try:
-            # Call IDHHC model directly
+            # Call IDHHC model directly with proper encoding
             result = subprocess.run([
                 'ollama', 'run', 'Yufok1/djinn-federation:idhhc', idhhc_prompt
-            ], capture_output=True, text=True, timeout=120)
+            ], capture_output=True, text=True, timeout=120, encoding='utf-8', errors='replace')
             
-            if result.returncode == 0:
+            if result.returncode == 0 and result.stdout:
                 # Log the execution
                 log_entry = {
                     "timestamp": datetime.now().isoformat(),
@@ -198,12 +198,12 @@ Execute now:"""
                 # Save to execution log
                 log_file = Path("memory_bank/idhhc_executions.jsonl")
                 log_file.parent.mkdir(exist_ok=True)
-                with open(log_file, 'a') as f:
-                    f.write(json.dumps(log_entry) + '\n')
+                with open(log_file, 'a', encoding='utf-8') as f:
+                    f.write(json.dumps(log_entry, ensure_ascii=False) + '\n')
                 
                 return result.stdout.strip()
             else:
-                return f"IDHHC execution error: {result.stderr}"
+                return f"IDHHC execution error: {result.stderr if result.stderr else 'No response'}"
                 
         except subprocess.TimeoutExpired:
             return "IDHHC execution timeout"
