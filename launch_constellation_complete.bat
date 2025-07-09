@@ -22,17 +22,17 @@ echo.
 
 REM Check if AI models are built
 echo [1/4] Checking AI Models...
-ollama list | findstr "Yufok1/djinn-federation:constellation"
+ollama list | findstr "neural-constellation"
 if %errorlevel% neq 0 (
-    echo Constellation Hub not found - installing...
-    ollama pull Yufok1/djinn-federation:constellation
+    echo Neural Constellation Hub not found - building...
+    call build_neural_constellation.bat
     if %errorlevel% neq 0 (
-        echo Failed to install Constellation Hub
+        echo Failed to build Neural Constellation Hub
         pause
         exit /b 1
     )
 ) else (
-    echo Constellation Hub ready
+    echo Neural Constellation Hub ready
 )
 
 ollama list | findstr "Yufok1/djinn-federation:council"
@@ -106,7 +106,7 @@ echo LAUNCHING CONSTELLATION HUB COMPLETE
 echo ========================================
 echo.
 echo Federation: AI Model Coordination
-echo   - Yufok1/djinn-federation:constellation (Master Coordinator)
+echo   - neural-constellation (Neural Pattern Coordinator)
 echo   - Yufok1/djinn-federation:council (Sovereign Meta-Intelligence)
 echo   - Yufok1/djinn-federation:idhhc (Operational Strategist)
 echo   - Yufok1/djinn-federation:companion (Dialogue Controller)

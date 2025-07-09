@@ -52,8 +52,8 @@ LAUNCH OPTIONS
 
 **Option 2: Individual Model Testing**
 ```bash
-# Master coordinator with intelligent routing
-ollama run Yufok1/djinn-federation:constellation
+# Neural pattern coordinator with advanced routing
+ollama run neural-constellation
 
 # Ethical decisions and philosophical guidance
 ollama run Yufok1/djinn-federation:council
@@ -69,11 +69,11 @@ ollama run Yufok1/djinn-federation:companion
 FEDERATION MODELS
 -------------------------------------
 
-**🌟 CONSTELLATION HUB** - Master System Coordinator
-- **Model:** `Yufok1/djinn-federation:constellation`
-- **Base:** codellama:13b (7.4GB)
-- **Role:** Intelligent routing and federation management
-- **Capabilities:** Query analysis, model selection, state management
+**🌟 NEURAL CONSTELLATION HUB** - Neural Pattern Coordinator
+- **Model:** `neural-constellation`
+- **Base:** neural-chat:7b (4.1GB)
+- **Role:** Advanced pattern recognition and federation coordination
+- **Capabilities:** Neural pattern analysis, multi-threaded conversation handling, federation routing
 
 **🧬 COUNCIL MODEL** - Sovereign Meta-Intelligence
 - **Model:** `Yufok1/djinn-federation:council`
