@@ -121,51 +121,94 @@ Please respond with your cosmic wisdom:"""
     def generate_coder_directive(self, prompt, constellation_response):
         """Generate a directive for the coding chat."""
         directive = {
-            'timestamp': datetime.now().isoformat(),
-            'source': 'constellation_hub',
+            'task': f"Execute: {prompt}",
+            'priority': 'Medium',
+            'agent': 'IDHHC',
+            'commands': [],
+            'sequence': [],
+            'notes': f"Generated from constellation analysis: {constellation_response[:200]}...",
+            'requires_approval': True,
             'original_prompt': prompt,
-            'constellation_analysis': constellation_response,
-            'directive': {
-                'task': f"Execute: {prompt}",
-                'priority': 'Medium',
-                'agent': 'IDHHC',
-                'commands': [],
-                'sequence': [],
-                'notes': f"Generated from constellation analysis: {constellation_response[:200]}...",
-                'requires_approval': True
-            }
+            'constellation_analysis': constellation_response
         }
-        
-        # Save directive to file
-        with open(self.coder_directives_file, 'a') as f:
-            f.write(json.dumps(directive) + '\n')
         
         return directive
     
     def display_directive_for_approval(self, directive):
         """Display directive and ask for user approval."""
         print("\n" + "="*60)
-        print("CONSTELLATION DIRECTIVE FOR CODING CHAT")
+        print("CONSTELLATION DIRECTIVE FOR IDHHC")
         print("="*60)
-        print(f"TASK: {directive['directive']['task']}")
-        print(f"PRIORITY: {directive['directive']['priority']}")
-        print(f"AGENT: {directive['directive']['agent']}")
-        print(f"NOTES: {directive['directive']['notes']}")
+        print(f"TASK: {directive['task']}")
+        print(f"PRIORITY: {directive['priority']}")
+        print(f"AGENT: {directive['agent']}")
+        print(f"NOTES: {directive['notes']}")
         print("="*60)
         
-        approval = input("\nApprove this directive for coding chat? (y/n): ").lower().strip()
+        approval = input("\nApprove this directive for IDHHC execution? (y/n): ").lower().strip()
         if approval in ['y', 'yes']:
-            # Mark as approved
-            directive['directive']['approved'] = True
-            directive['directive']['approved_at'] = datetime.now().isoformat()
-            
-            # Update the file
-            self.update_directive_status(directive)
-            
-            print("Directive approved and queued for coding chat!")
-            print("The coder can now access this directive for execution.")
+            # Execute directly via IDHHC
+            try:
+                result = self.execute_with_idhhc(directive)
+                print("✅ Directive approved and executed by IDHHC!")
+                print(f"🤖 IDHHC Response: {result[:200]}...")
+                
+            except Exception as e:
+                print(f"❌ Error executing with IDHHC: {e}")
+                print("⚠️ Directive approved but execution failed")
         else:
             print("Directive not approved.")
+    
+    def execute_with_idhhc(self, directive):
+        """Execute directive directly with IDHHC model."""
+        # Prepare enhanced prompt for IDHHC
+        idhhc_prompt = f"""CONSTELLATION DIRECTIVE EXECUTION
+
+You are IDHHC (Internode Djinn HUD Companion) receiving a directive from the Constellation system.
+
+DIRECTIVE DETAILS:
+Task: {directive['task']}
+Priority: {directive['priority']}
+Notes: {directive['notes']}
+
+AUTONOMOUS EXECUTION:
+Please execute this directive using your advanced toolkit systems:
+- Deploy appropriate toolkits (Kleene, Phoenix, Harmonic, Breath, Symbolic) as needed
+- Provide detailed analysis and implementation
+- Use sovereign autonomous protocols
+- Apply full IDHHC capabilities
+
+Execute now:"""
+        
+        try:
+            # Call IDHHC model directly
+            result = subprocess.run([
+                'ollama', 'run', 'Yufok1/djinn-federation:idhhc', idhhc_prompt
+            ], capture_output=True, text=True, timeout=120)
+            
+            if result.returncode == 0:
+                # Log the execution
+                log_entry = {
+                    "timestamp": datetime.now().isoformat(),
+                    "directive": directive,
+                    "idhhc_response": result.stdout.strip(),
+                    "execution_status": "completed"
+                }
+                
+                # Save to execution log
+                log_file = Path("memory_bank/idhhc_executions.jsonl")
+                log_file.parent.mkdir(exist_ok=True)
+                with open(log_file, 'a') as f:
+                    f.write(json.dumps(log_entry) + '\n')
+                
+                return result.stdout.strip()
+            else:
+                return f"IDHHC execution error: {result.stderr}"
+                
+        except subprocess.TimeoutExpired:
+            return "IDHHC execution timeout"
+        except Exception as e:
+            return f"IDHHC execution failed: {str(e)}"
     
     def update_directive_status(self, directive):
         """Update directive status in the file."""
