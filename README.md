@@ -254,6 +254,17 @@ All models are designed to work seamlessly within the Djinn Federation ecosystem
 
 ---
 
+## 💫 SUPPORT THE DJINN FEDERATION
+
+The Djinn Federation is a labor of love, created to provide a complete AI ecosystem for the community. If you find value in these models and would like to support continued development, consider making a donation.
+
+### **Crypto Donations**
+**Ethereum/MetaMask:** `0x5b7051C4AD9eaE85B5eb0c366067d749001C9201`
+
+Your support helps maintain and enhance the federation models, develop new capabilities, and keep the ecosystem thriving for everyone.
+
+---
+
 ## 📞 Support & Community
 
 For questions, feedback, or support with the Djinn Federation:
