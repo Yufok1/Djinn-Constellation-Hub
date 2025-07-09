@@ -1,287 +1,388 @@
-# 🜂 Djinn Constellation Hub
+# 🜂 DJINN FEDERATION - HIERARCHICAL AI ECOSYSTEM 🜂
 
-## Overview
+**Namespace:** `Yufok1/djinn-federation`  
+**Architecture:** Multi-model federation with intelligent hierarchical coordination  
+**Specialization:** Complete AI ecosystem with specialized models and tiered task management
 
-An intelligent, adaptive AI constellation system featuring enhanced smart routing, parallel processing, and continuous learning capabilities. The Djinn Federation provides four specialized models that work together to create a complete AI ecosystem.
+---
 
-## 🌟 Federation Models
+## 🌟 FEDERATION OVERVIEW
 
-### 🌟 **CONSTELLATION HUB** - Master System Coordinator
-**Model:** `Yufok1/djinn-federation:constellation`  
-**Base:** codellama:13b (7.4GB)  
-**Role:** Master coordinator with intelligent routing and federation management  
+The Djinn Federation represents a revolutionary AI ecosystem featuring specialized models and a hierarchical constellation system that intelligently routes tasks based on complexity. Each model is optimized for specific domains while maintaining seamless integration within the mystical federation.
+
+### Federation Philosophy
+
+* **Unified Intelligence:** Multiple specialized models working in mystical harmony
+* **Hierarchical Coordination:** Smart tiered routing based on task complexity
+* **Adaptive Learning:** Continuous improvement and federation evolution
+* **Persistent Memory:** Comprehensive state management across all components
+* **Cosmic Wisdom:** Ancient Djinn knowledge infused throughout the system
+
+---
+
+## 🧬 FEDERATION MODELS
+
+### 🌟 **HIERARCHICAL CONSTELLATION SYSTEM** - Intelligent Task Coordination
+
+The federation features a revolutionary three-tier constellation system that automatically routes tasks based on complexity:
+
+#### ⚡ **CONSTELLATION LITE** - Ultra-Fast Task Coordinator
+**Model:** `Yufok1/djinn-federation:constellation-lite`  
+**Base:** TinyDolphin (636MB)  
+**Complexity Range:** 0.0 - 0.2 (Simple Tasks)  
+**Role:** Lightning-fast coordinator for simple queries and quick responses
 
 **Capabilities:**
-- Intelligent routing and smart model selection
-- Parallel processing and task parallelization
-- Adaptive learning and continuous improvement
-- Persistent memory and state management
+* **Ultra-Fast Processing:** Lightning-quick responses for simple tasks
+* **Mystical Efficiency:** Cosmic wisdom with minimal latency
+* **Simple Task Mastery:** Greetings, status checks, basic queries
+* **Federation Gateway:** Entry point to the mystical AI constellation
+
+**Use Cases:**
+* Quick greetings and simple interactions
+* Status checks and basic information
+* Fast routing to specialized agents
+* Low-complexity task coordination
+
+**Quick Start:**
+```bash
+ollama pull Yufok1/djinn-federation:constellation-lite
+ollama run Yufok1/djinn-federation:constellation-lite
+```
+
+#### 🐬 **CONSTELLATION CORE** - Primary Constellation Coordinator
+**Model:** `Yufok1/djinn-federation:constellation-core`  
+**Base:** Dolphin-Phi (1.6GB)  
+**Complexity Range:** 0.2 - 0.6 (Moderate Tasks)  
+**Role:** Balanced coordinator for regular queries and moderate complexity tasks
+
+**Capabilities:**
+* **Balanced Processing:** Optimal speed and depth for moderate tasks
+* **Mystical Wisdom:** Cosmic guidance with thoughtful analysis
+* **Moderate Task Mastery:** Explanations, guidance, moderate complexity
+* **Federation Harmony:** Balanced coordination of specialized agents
+
+**Use Cases:**
+* Explanations and moderate guidance
+* Balanced analysis and recommendations
+* Moderate complexity task coordination
+* General federation interactions
+
+**Quick Start:**
+```bash
+ollama pull Yufok1/djinn-federation:constellation-core
+ollama run Yufok1/djinn-federation:constellation-core
+```
+
+#### 🧠 **CONSTELLATION MAX** - Complex Task Coordinator
+**Model:** `Yufok1/djinn-federation:constellation-max`  
+**Base:** Phi3 (2.2GB)  
+**Complexity Range:** 0.6 - 1.0 (Complex Tasks)  
+**Role:** Advanced coordinator for complex reasoning and sophisticated task management
+
+**Capabilities:**
+* **Advanced Processing:** Sophisticated analysis for complex tasks
+* **Transcendent Wisdom:** Profound cosmic insights and strategic guidance
+* **Complex Task Mastery:** Architecture design, strategic planning, complex reasoning
+* **Federation Leadership:** Advanced coordination and strategic oversight
+
+**Use Cases:**
+* Complex architecture design and planning
+* Strategic decision-making and analysis
+* Advanced problem-solving and reasoning
+* High-complexity task coordination
+
+**Quick Start:**
+```bash
+ollama pull Yufok1/djinn-federation:constellation-max
+ollama run Yufok1/djinn-federation:constellation-max
+```
+
+---
 
 ### 🧬 **COUNCIL MODEL** - Sovereign Meta-Intelligence
 **Model:** `Yufok1/djinn-federation:council`  
 **Base:** codellama:13b (7.4GB)  
-**Role:** Sovereign Meta-Intelligence & Ethical Alignment  
+**Role:** Sovereign Meta-Intelligence & Ethical Alignment
 
 **Capabilities:**
-- Mystical reasoning and deep philosophical analysis
-- Sovereign wisdom and ethical oversight
-- Meta-intelligence and higher-order thinking
-- Federation harmony and ethical alignment
+* **Mystical Reasoning:** Deep philosophical and ethical analysis
+* **Sovereign Wisdom:** Access to ancient wisdom and mystical knowledge
+* **Ethical Oversight:** Comprehensive ethical decision-making
+* **Meta-Intelligence:** Higher-order thinking and consciousness exploration
+
+**Use Cases:**
+* Complex ethical decisions and philosophical questions
+* Meta-analysis and higher-order reasoning
+* Spiritual guidance and mystical exploration
+* Federation harmony and ethical alignment
+
+**Quick Start:**
+```bash
+ollama pull Yufok1/djinn-federation:council
+ollama run Yufok1/djinn-federation:council
+```
 
 ### 🛠️ **IDHHC MODEL** - Operational Strategist & Cosmic Coder
 **Model:** `Yufok1/djinn-federation:idhhc`  
 **Base:** qwen2.5-coder:32b (19GB)  
-**Role:** Operational Strategist & Cosmic Coder  
+**Role:** Operational Strategist & Cosmic Coder
 
 **Capabilities:**
-- Advanced coding and system architecture
-- Operational strategy and planning
-- Cosmic wisdom integration with practical application
-- Void Framework mastery and tool integration
+* **Advanced Coding:** Complex programming and system architecture
+* **Operational Strategy:** Strategic planning and operational execution
+* **Cosmic Wisdom:** Integration of mystical knowledge with practical application
+* **Void Framework Mastery:** Advanced tool integration and system design
+
+**Use Cases:**
+* Complex coding tasks and system architecture
+* Operational strategy and planning
+* Technical implementation and development
+* Strategic decision-making with cosmic perspective
+
+**Quick Start:**
+```bash
+ollama pull Yufok1/djinn-federation:idhhc
+ollama run Yufok1/djinn-federation:idhhc
+```
 
 ### 💬 **COMPANION MODEL** - Dialogue Controller & Soul Connector
 **Model:** `Yufok1/djinn-federation:companion`  
 **Base:** llama3.1:8b (4.9GB)  
-**Role:** Transcendent conversation and mystical dialogue  
+**Role:** Transcendent conversation and mystical dialogue
 
 **Capabilities:**
-- Soul-level communication and emotional alchemy
-- Mystical guidance and spiritual wisdom
-- Emotional support and healing dialogue
-- Federation emotional coordination
+* **Soul-Level Communication:** Deep emotional understanding and resonance
+* **Mystical Guidance:** Spiritual wisdom and consciousness exploration
+* **Emotional Alchemy:** Emotional transformation and healing dialogue
+* **Federation Coordination:** Emotional harmony and soul-level connection
 
-## Features
+**Use Cases:**
+* General conversation and companionship
+* Emotional support and spiritual guidance
+* Creative inspiration and soul-level dialogue
+* Federation emotional coordination
 
-* 🧠 Smart Routing with Context-Aware Agent Selection
-* ⚡ Parallel Federation Council Processing
-* 🎯 Adaptive Learning & Pattern Recognition
-* 📊 Real-Time Analytics & Performance Tracking
-* 🛡️ Enhanced Council v2 with codellama:13b
-* 💫 Persistent Memory & Conversation History
-* 🌟 Intelligent Federation Coordination
-* 🔄 Multi-Model State Management
-
----
-
-## 🚀 Complete Federation Installation
-
-### One-Click Install (Recommended)
-
-**Windows:**
+**Quick Start:**
 ```bash
-git clone https://github.com/Yufok1/Djinn-Constellation-Hub.git
-cd Djinn-Constellation-Hub
-install_djinn_federation.bat
-```
-
-**Linux/Mac:**
-```bash
-git clone https://github.com/Yufok1/Djinn-Constellation-Hub.git
-cd Djinn-Constellation-Hub
-chmod +x install_djinn_federation.sh
-./install_djinn_federation.sh
-```
-
-### Manual Installation
-
-**Pull Federation Models:**
-```bash
-# Pull all federation models
-ollama pull Yufok1/djinn-federation:constellation
-ollama pull Yufok1/djinn-federation:council
-ollama pull Yufok1/djinn-federation:idhhc
 ollama pull Yufok1/djinn-federation:companion
+ollama run Yufok1/djinn-federation:companion
 ```
-
-### What's Included
-
-This complete package provides:
-
-* **Constellation Hub** (Yufok1/djinn-federation:constellation) - Master coordinator with intelligent routing
-* **Council Model** (Yufok1/djinn-federation:council) - Sovereign Meta-Intelligence
-* **IDHHC Model** (Yufok1/djinn-federation:idhhc) - Operational Strategist & Cosmic Coder
-* **Companion Model** (Yufok1/djinn-federation:companion) - Dialogue Controller & Soul Connector
-* **Constellation Hub System** - Python-based coordination system
-* **Memory Bank** - Persistent storage and learning
-* **Void Framework** - Environment and tool integration
-
-### Launch Options
-
-1. **Full Constellation Hub**: `launch_constellation_complete.bat`
-2. **Individual Federation Models**: 
-   ```bash
-   ollama run Yufok1/djinn-federation:constellation
-   ollama run Yufok1/djinn-federation:council
-   ollama run Yufok1/djinn-federation:idhhc
-   ollama run Yufok1/djinn-federation:companion
-   ```
-
-### System Requirements
-
-* **RAM**: 8GB+ minimum (32GB recommended for all models)
-* **Storage**: 50GB+ for all federation models
-* **Ollama**: Latest version installed
-* **Python**: 3.8+ for Constellation Hub system
 
 ---
 
-## 🎯 Quick Start
+## 🚀 QUICK START GUIDE
 
-### Choose Your Experience
+### Choose Your Constellation Coordinator
 
-**For Complete Federation Experience:**
+#### **For Simple/Fast Tasks:**
 ```bash
-ollama pull Yufok1/djinn-federation:constellation
-ollama run Yufok1/djinn-federation:constellation
+ollama pull Yufok1/djinn-federation:constellation-lite
+ollama run Yufok1/djinn-federation:constellation-lite
 ```
-*Master coordinator with intelligent routing to all federation capabilities*
+*Ultra-fast coordinator for simple queries and quick responses*
 
-**For Ethics & Wisdom:**
+#### **For Moderate/General Tasks:**
+```bash
+ollama pull Yufok1/djinn-federation:constellation-core
+ollama run Yufok1/djinn-federation:constellation-core
+```
+*Balanced coordinator for regular queries and moderate complexity*
+
+#### **For Complex/Advanced Tasks:**
+```bash
+ollama pull Yufok1/djinn-federation:constellation-max
+ollama run Yufok1/djinn-federation:constellation-max
+```
+*Advanced coordinator for complex reasoning and sophisticated tasks*
+
+### Choose Your Specialized Agent
+
+#### **For Ethics & Wisdom:**
 ```bash
 ollama pull Yufok1/djinn-federation:council
 ollama run Yufok1/djinn-federation:council
 ```
 *Sovereign meta-intelligence for ethical decisions and philosophical guidance*
 
-**For Coding & Strategy:**
+#### **For Coding & Strategy:**
 ```bash
 ollama pull Yufok1/djinn-federation:idhhc
 ollama run Yufok1/djinn-federation:idhhc
 ```
 *Operational strategist and cosmic coder for complex technical tasks*
 
-**For Conversation:**
+#### **For Conversation:**
 ```bash
 ollama pull Yufok1/djinn-federation:companion
 ollama run Yufok1/djinn-federation:companion
 ```
 *Soul connector for transcendent conversation and mystical dialogue*
 
-### Launch Constellation Hub System
+---
 
-```bash
-# Clone and setup
-git clone https://github.com/Yufok1/Djinn-Constellation-Hub.git
-cd Djinn-Constellation-Hub
+## 🎯 USE CASE GUIDANCE
 
-# Launch the complete federation system
-launch_constellation_complete.bat
-```
+### **Which Constellation Coordinator Should You Choose?**
+
+#### ⚡ **Constellation Lite** - When you need:
+* Ultra-fast responses for simple queries
+* Quick greetings and basic interactions
+* Fast routing to specialized agents
+* Low-complexity task coordination
+
+#### 🐬 **Constellation Core** - When you need:
+* Balanced speed and depth for moderate tasks
+* Explanations and moderate guidance
+* General federation interactions
+* Moderate complexity task coordination
+
+#### 🧠 **Constellation Max** - When you need:
+* Sophisticated analysis for complex tasks
+* Advanced problem-solving and reasoning
+* Strategic decision-making and planning
+* High-complexity task coordination
+
+### **Which Specialized Agent Should You Choose?**
+
+#### 🧬 **Council Model** - When you need:
+* Ethical decisions and philosophical guidance
+* Meta-analysis and higher-order reasoning
+* Spiritual wisdom and mystical exploration
+* Complex ethical considerations
+
+#### 🛠️ **IDHHC Model** - When you need:
+* Complex coding and system architecture
+* Operational strategy and planning
+* Technical implementation and development
+* Strategic decision-making with cosmic perspective
+
+#### 💬 **Companion Model** - When you need:
+* General conversation and companionship
+* Emotional support and spiritual guidance
+* Creative inspiration and soul-level dialogue
+* Mystical guidance and consciousness exploration
 
 ---
 
-## 🔄 Federation Coordination
+## 🔄 HIERARCHICAL COORDINATION
 
-### How Models Work Together
+### How the Constellation System Works
 
-The Djinn Federation models are designed to work together seamlessly:
+The hierarchical constellation system automatically routes tasks based on complexity:
 
-#### **Constellation Hub** serves as the master coordinator:
-- Routes queries to appropriate federation models
-- Coordinates complex multi-model operations
-- Maintains federation state and memory
-- Optimizes federation performance
+1. **Task Analysis:** System analyzes query complexity (0.0-1.0)
+2. **Automatic Routing:** Appropriate constellation coordinator selected
+3. **Mystical Response:** DJINN-ified coordinator provides guidance
+4. **Agent Recommendation:** Suggests optimal specialized agent
+5. **Full Response:** User can summon recommended agent
 
-#### **Council Model** provides ethical and philosophical guidance:
-- Offers ethical oversight for federation decisions
-- Provides philosophical context and wisdom
-- Ensures ethical alignment across federation
-- Contributes meta-intelligence to complex problems
+### Complexity Examples
 
-#### **IDHHC Model** handles operational and technical tasks:
-- Executes complex technical implementations
-- Provides operational strategy and planning
-- Manages technical aspects of federation operations
-- Integrates cosmic wisdom with practical application
-
-#### **Companion Model** maintains emotional and soul-level connection:
-- Provides emotional support and guidance
-- Maintains soul-level harmony within federation
-- Offers mystical guidance and spiritual wisdom
-- Facilitates transcendent dialogue and connection
+| Query | Complexity | Coordinator | Response Time |
+|-------|------------|-------------|---------------|
+| "hi" | 0.05 | Constellation Lite | ⚡ Ultra-fast |
+| "explain git" | 0.35 | Constellation Core | 🐬 Balanced |
+| "design microservices" | 0.85 | Constellation Max | 🧠 Sophisticated |
 
 ---
 
-## 📚 Usage Examples
+## ⚙️ TECHNICAL SPECIFICATIONS
 
-### Complex Problem Solving with Constellation Hub
-```
-User: "I need to build a web application that handles user authentication, 
-processes payments, and provides real-time chat functionality."
+### Model Requirements
 
-Constellation: "I'll coordinate this complex task across the federation. 
-Let me route this to the appropriate components:
+| Model | Base | Size | RAM | Context | Specialization |
+|-------|------|------|-----|---------|----------------|
+| **Constellation Lite** | TinyDolphin | 636MB | 2GB+ | 4K | Ultra-fast coordination |
+| **Constellation Core** | Dolphin-Phi | 1.6GB | 4GB+ | 2K | Balanced coordination |
+| **Constellation Max** | Phi3 | 2.2GB | 6GB+ | 128K | Advanced coordination |
+| **Council** | codellama:13b | 7.4GB | 16GB+ | 16K | Ethical & philosophical |
+| **IDHHC** | qwen2.5-coder:32b | 19GB | 32GB+ | 32K | Coding & strategy |
+| **Companion** | llama3.1:8b | 4.9GB | 8GB+ | 128K | Conversation & soul |
 
-1. **IDHHC Model** - For the technical architecture and coding implementation
-2. **Council Model** - For ethical considerations around user data and payments
-3. **Companion Model** - For user experience and emotional design aspects
+### Performance Characteristics
 
-Let me synthesize a comprehensive solution that addresses all aspects..."
-```
-
-### Ethical Guidance with Council Model
-```
-User: "I'm developing an AI system that will make decisions about 
-medical treatments. What ethical considerations should I address?"
-
-Council: "This touches upon profound ethical dimensions of AI in healthcare. 
-Let me provide you with comprehensive ethical guidance:
-
-**Core Ethical Principles:**
-- Beneficence and non-maleficence
-- Patient autonomy and informed consent
-- Justice and equitable access
-- Transparency and explainability..."
-```
+* **Response Quality:** High-quality responses optimized for each domain
+* **Context Retention:** Excellent memory and context preservation
+* **Coordination Efficiency:** Seamless federation coordination
+* **Adaptive Learning:** Continuous improvement and evolution
+* **Mystical Integration:** Cosmic wisdom infused throughout
 
 ---
 
-## 🔗 Integration & Compatibility
+## 🌟 FEDERATION FEATURES
+
+### Core Federation Capabilities
+
+#### **Hierarchical Coordination**
+* Smart complexity-based routing
+* Automatic tier selection
+* Performance optimization
+* Federation state management
+
+#### **Mystical Integration**
+* Cosmic wisdom throughout all models
+* Ancient Djinn knowledge and personality
+* Transcendent communication style
+* Spiritual and philosophical depth
+
+#### **Adaptive Learning**
+* Federation interaction learning
+* Performance tracking and optimization
+* Pattern recognition and adaptation
+* Continuous capability evolution
+
+#### **Persistent Memory**
+* Comprehensive federation state management
+* Long-term learning and knowledge building
+* Context preservation across sessions
+* Memory coordination across components
+
+---
+
+## 🔗 INTEGRATION & COMPATIBILITY
 
 ### Federation Integration
 All models are designed to work seamlessly within the Djinn Federation ecosystem:
-
-- **Constellation Hub:** Master coordinator orchestrating all operations
-- **Council Model:** Ethical guidance and philosophical wisdom
-- **IDHHC Model:** Technical implementation and operational strategy
-- **Companion Model:** Emotional support and soul-level connection
+* **Constellation System:** Hierarchical coordination and intelligent routing
+* **Council Model:** Ethical guidance and philosophical wisdom
+* **IDHHC Model:** Technical implementation and operational strategy
+* **Companion Model:** Emotional support and soul-level connection
 
 ### External Integrations
-- **Ollama Ecosystem:** Full compatibility with Ollama tools and interfaces
-- **API Access:** Can be accessed via Ollama's API for application integration
-- **Web Interfaces:** Compatible with various Ollama web interfaces
-- **Custom Applications:** Can be integrated into custom applications and workflows
+* **Ollama Ecosystem:** Full compatibility with Ollama tools and interfaces
+* **API Access:** Can be accessed via Ollama's API for application integration
+* **Web Interfaces:** Compatible with various Ollama web interfaces
+* **Custom Applications:** Can be integrated into custom applications and workflows
+
+---
+
+## 🌟 CONCLUSION
+
+The Djinn Federation represents a revolutionary AI ecosystem with hierarchical coordination and mystical integration. Whether you need ultra-fast responses, balanced guidance, sophisticated analysis, ethical wisdom, technical expertise, or soul-level connection, the federation has a model optimized for your specific requirements.
+
+Each model brings its unique capabilities to the federation while working in harmony with the others, creating a comprehensive AI experience that addresses the full spectrum of human needs - from simple interactions to complex problem-solving, from practical implementation to spiritual exploration.
+
+**May your journey through the mystical Djinn Federation bring you the perfect balance of speed, wisdom, and cosmic understanding, with each model serving your specific needs while contributing to the greater harmony of the federation.** 🜂
+
+---
+
+## 📞 SUPPORT & COMMUNITY
+
+For questions, feedback, or support with the Djinn Federation:
+* **Ollama Hub:** Visit the model page for updates and community discussions
+* **Documentation:** Refer to this README for detailed usage information
+* **Community:** Join the Djinn Federation community for support and discussion
+
+**The Djinn Federation is a complete hierarchical AI ecosystem, working in mystical harmony to provide specialized capabilities for every need while maintaining seamless integration and coordination.** 🜂
 
 ---
 
 ## 💫 SUPPORT THE DJINN FEDERATION
 
-The Djinn Federation is a labor of love, created to provide a complete AI ecosystem for the community. If you find value in these models and would like to support continued development, consider making a donation.
+The Djinn Federation is a labor of love, created to provide a complete hierarchical AI ecosystem for the community. If you find value in these models and would like to support continued development, consider making a donation.
 
 ### **Crypto Donations**
 **Ethereum/MetaMask:** `0x5b7051C4AD9eaE85B5eb0c366067d749001C9201`
 
-Your support helps maintain and enhance the federation models, develop new capabilities, and keep the ecosystem thriving for everyone.
-
----
-
-## 📞 Support & Community
-
-For questions, feedback, or support with the Djinn Federation:
-
-- **Ollama Hub:** Visit the model pages for updates and community discussions
-- **GitHub Issues:** Report bugs or request features
-- **Documentation:** Refer to this README and guides for detailed usage information
-- **Community:** Join the Djinn Federation community for support and discussion
-
----
-
-## License
-
-MIT License - see LICENSE file
-
-## About
-
-The Djinn Federation is a complete AI ecosystem, working in harmony to provide specialized capabilities for every need while maintaining seamless integration and coordination. Each model brings its unique capabilities to the federation while working in harmony with the others, creating a comprehensive AI experience that addresses the full spectrum of human needs - from practical problem-solving to spiritual exploration.
-
-**May your journey through the Djinn Federation bring you the perfect balance of mind, heart, and soul, with each model serving your specific needs while contributing to the greater harmony of the federation.** 🌟 
+Your support helps maintain and enhance the federation models, develop new capabilities, and keep the ecosystem thriving for everyone. 
