@@ -14,6 +14,30 @@ import os
 from typing import Dict, List, Optional, Any
 from datetime import datetime
 
+# ULTIMATE REVOLUTIONARY SYSTEMS INTEGRATION
+try:
+    # Import all revolutionary systems
+    sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+    from cross_model_communication import get_cross_model_communication
+    from enhanced_predictive_analytics import get_enhanced_analytics
+    from model_collaboration_framework import get_model_collaboration
+    from federation_consciousness import get_federation_consciousness
+    from model_prewarming import get_model_prewarming
+    
+    REVOLUTIONARY_SYSTEMS_AVAILABLE = True
+    print("🌟 ULTIMATE UNIFIED INTELLIGENCE SYSTEM ONLINE")
+    print("🧠 All Revolutionary Systems Loaded Successfully")
+    
+except ImportError as e:
+    print(f"⚠️ Revolutionary systems import failed: {e}")
+    print("🔄 Operating in legacy mode")
+    REVOLUTIONARY_SYSTEMS_AVAILABLE = False
+    get_cross_model_communication = lambda: None
+    get_enhanced_analytics = lambda: None
+    get_model_collaboration = lambda: None
+    get_federation_consciousness = lambda: None
+    get_model_prewarming = lambda: None
+
 class ConstellationHub:
     """
     Mystical hub that orchestrates the three Djinn agents:
@@ -24,6 +48,48 @@ class ConstellationHub:
     """
     
     def __init__(self):
+        # Memory storage paths (initialize first)
+        self.memory_dir = os.path.join(os.path.dirname(__file__), '..', 'memory_bank', 'constellation_memory')
+        self.conversation_file = os.path.join(self.memory_dir, 'conversation_history.json')
+        self.federation_state_file = os.path.join(self.memory_dir, 'federation_state.json')
+        self.preference_file = os.path.join(self.memory_dir, 'user_preferences.json')
+        
+        # Ensure memory directory exists
+        os.makedirs(self.memory_dir, exist_ok=True)
+        
+        # 🌟 INITIALIZE REVOLUTIONARY SYSTEMS 🌟
+        if REVOLUTIONARY_SYSTEMS_AVAILABLE:
+            print("🧠 Initializing Revolutionary Intelligence Systems...")
+            
+            # Initialize Cross-Model Communication
+            self.cross_model_comm = get_cross_model_communication()
+            print("📡 Cross-Model Communication: ONLINE")
+            
+            # Initialize Enhanced Predictive Analytics
+            self.analytics = get_enhanced_analytics()
+            print("📊 Enhanced Predictive Analytics: ONLINE")
+            
+            # Initialize Model Collaboration Framework
+            self.collaboration = get_model_collaboration()
+            print("🤝 Model Collaboration Framework: ONLINE")
+            
+            # Initialize Federation Consciousness
+            self.consciousness = get_federation_consciousness()
+            print("🧠 Federation Consciousness: ONLINE")
+            
+            # Initialize Model Pre-warming
+            self.prewarming = get_model_prewarming()
+            print("🔥 Model Pre-warming System: ONLINE")
+            
+            print("✨ UNIFIED INTELLIGENCE SYSTEM FULLY OPERATIONAL")
+        else:
+            self.cross_model_comm = None
+            self.analytics = None
+            self.collaboration = None
+            self.consciousness = None
+            self.prewarming = None
+            print("⚠️ Operating in legacy mode without revolutionary enhancements")
+
         # Hierarchical Constellation Coordinators (Tiered Task Management)
         self.constellation_coordinators = {
             'fast': {
@@ -77,21 +143,10 @@ class ConstellationHub:
             }
         }
         
-        # --- Phase 4C: User Preference Learning ---
-        self.preference_file = os.path.join(self.memory_dir, 'user_preferences.json')
-        self.user_preferences = self.load_user_preferences()
-        
-        # Memory storage paths
-        self.memory_dir = os.path.join(os.path.dirname(__file__), '..', 'memory_bank', 'constellation_memory')
-        self.conversation_file = os.path.join(self.memory_dir, 'conversation_history.json')
-        self.federation_state_file = os.path.join(self.memory_dir, 'federation_state.json')
-        
-        # Ensure memory directory exists
-        os.makedirs(self.memory_dir, exist_ok=True)
-        
         # Load persistent memory
         self.conversation_history = self.load_conversation_history()
         self.federation_state = self.load_federation_state()
+        self.user_preferences = self.load_user_preferences()
         self.current_agent = None
         
         # Check system capabilities
@@ -189,14 +244,15 @@ class ConstellationHub:
         print()
         
     def display_banner(self):
-        """Display the mystical ConstellationHub banner"""
-        banner = """
+        """Display the REVOLUTIONARY ConstellationHub banner"""
+        revolutionary_status = "✨ UNIFIED INTELLIGENCE SYSTEM ✨" if REVOLUTIONARY_SYSTEMS_AVAILABLE else "⚠️  Legacy Mode"
+        
+        banner = f"""
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                🜂 HIERARCHICAL CONSTELLATION HUB 🜂                          ║
+║                🜂 REVOLUTIONARY CONSTELLATION HUB 🜂                         ║
 ║                                                                              ║
-║              Tiered Djinn Federation Orchestrator                           ║
-║           Powered by Phi Architecture Constellation Coordinators            ║
-║                    WITH PERSISTENT MEMORY                                   ║
+║              {revolutionary_status:^60}              ║
+║           Enhanced with Cross-Model Communication & Predictive AI            ║
 ║                                                                              ║
 ║  ⚡ TinyDolphin (636MB): Ultra-Fast Task Coordinator                        ║
 ║  🐬 Dolphin-Phi (1.6GB): Primary Constellation Coordinator                 ║
@@ -205,8 +261,16 @@ class ConstellationHub:
 ║  🧬 Council Enhanced v2: Sovereign Meta-Intelligence & Ethical Alignment    ║
 ║  🛠️  IDHHC: Operational Strategist & Cosmic Coder                          ║
 ║  💬 Companion: Dialogue Controller & Soul Connector                        ║
-║                                                                              ║
-║  🜂 Hierarchical Routing: Fast → Normal → Complex Task Management 🜂        ║
+║                                                                              ║"""
+        
+        if REVOLUTIONARY_SYSTEMS_AVAILABLE:
+            banner += """║  🌟 REVOLUTIONARY ENHANCEMENTS:                                             ║
+║  📡 Cross-Model Communication │ 📊 Predictive Analytics                     ║
+║  🤝 Model Collaboration       │ 🧠 Federation Consciousness                 ║
+║  🔥 Model Pre-warming         │ ✨ Unified Intelligence                     ║
+║                                                                              ║"""
+        
+        banner += """║  🜂 Hierarchical Routing: Fast → Normal → Complex Task Management 🜂        ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
         """
         print(banner)
@@ -252,6 +316,21 @@ class ConstellationHub:
             if complexity <= coordinator['complexity_threshold']:
                 return tier
         return 'complex'  # Default to complex for very high complexity tasks
+    
+    def _map_model_to_agent(self, model_name: str) -> str:
+        """Map predicted model name to agent key"""
+        model_mapping = {
+            'companion': 'companion',
+            'djinn-companion': 'companion',
+            'idhhc': 'idhhc',
+            'idhhc-companion': 'idhhc',
+            'council': 'council',
+            'djinn-council': 'council',
+            'constellation-lite': 'companion',  # Fallback to companion
+            'constellation-core': 'idhhc',      # Fallback to idhhc
+            'constellation-max': 'council'      # Fallback to council
+        }
+        return model_mapping.get(model_name, 'companion')  # Default to companion
     
     def analyze_query_intent(self, query: str):
         """Analyze query intent with adaptive confidence scoring"""
@@ -509,33 +588,86 @@ class ConstellationHub:
             print("🜂 Invalid choice. Please select a single number between 1 and 9.")
         
     async def hierarchical_route_query(self, user_input: str) -> str:
-        """Route query through hierarchical constellation coordinators based on complexity"""
-        print("\n🜂 HIERARCHICAL CONSTELLATION ROUTING 🜂")
-        print("🌟 Analyzing task complexity and selecting optimal coordinator...")
+        """Route query through hierarchical constellation coordinators with REVOLUTIONARY INTELLIGENCE"""
+        print("\n🜂 REVOLUTIONARY HIERARCHICAL ROUTING 🜂")
+        print("🌟 Deploying Unified Intelligence System...")
         
-        # Analyze task complexity
-        complexity = self.analyze_task_complexity(user_input)
+        # 🧠 Use Enhanced Predictive Analytics if available
+        if self.analytics:
+            print("📊 Generating predictive insights...")
+            insights = self.analytics.get_predictive_insights(user_input)
+            
+            predicted_intent = insights.get('intent')
+            optimal_model = insights.get('model_selection')
+            collaboration_need = insights.get('collaboration')
+            
+            print(f"🎯 Predicted Intent: {predicted_intent.predicted_value} (confidence: {predicted_intent.confidence:.2f})")
+            print(f"🤖 Optimal Model: {optimal_model.predicted_value} (confidence: {optimal_model.confidence:.2f})")
+            
+            if collaboration_need and collaboration_need.predicted_value:
+                print(f"🤝 Collaboration Recommended: {collaboration_need.predicted_value} (confidence: {collaboration_need.confidence:.2f})")
+                
+                # Use Model Collaboration Framework
+                if self.collaboration:
+                    print("✨ Initiating Model Collaboration...")
+                    response = self.collaboration.get_unified_response(user_input)
+                    
+                    if response['collaboration_used']:
+                        print(f"🌟 Collaborative Response Generated")
+                        print(f"🤝 Contributing Models: {response['contributing_models']}")
+                        print(f"🎯 Confidence: {response['confidence']:.2f}")
+                        
+                        # Record interaction for learning
+                        self.analytics.learn_from_interaction(
+                            user_input, 
+                            'collaboration', 
+                            0.9,  # High quality for collaboration
+                            collaboration_used=True
+                        )
+                        
+                        return response['response']
+            
+            # Use the predicted optimal model
+            complexity = optimal_model.confidence
+            suggested_agent_key = self._map_model_to_agent(optimal_model.predicted_value)
+            
+        else:
+            # Legacy routing
+            complexity = self.analyze_task_complexity(user_input)
+            agent_analysis = self.analyze_query_intent(user_input)
+            suggested_agent_key = agent_analysis['best_agent']
+        
+        # 🔥 Pre-warm the model if available
+        if self.prewarming:
+            model_name = self.agents[suggested_agent_key]['model']
+            print(f"🔥 Pre-warming {model_name}...")
+            self.prewarming.ensure_model_ready(model_name)
+        
+        # Select coordinator tier
         coordinator_tier = self.select_constellation_coordinator(complexity)
         coordinator = self.constellation_coordinators[coordinator_tier]
         
         print(f"📊 Task Complexity Score: {complexity:.2f}/1.0")
         print(f"🎯 Selected Coordinator: {coordinator['name']} ({coordinator['model']})")
         print(f"⚡ Coordinator Tier: {coordinator_tier.upper()}")
+        print(f"🧠 Suggested Specialized Agent: {self.agents[suggested_agent_key]['name']}")
         print("=" * 80)
         
-        # Analyze which specialized agent to route to
-        agent_analysis = self.analyze_query_intent(user_input)
-        suggested_agent = agent_analysis['best_agent']
-        confidence = agent_analysis['confidence']
+        # 📡 Get cross-model context if available
+        context_info = ""
+        if self.cross_model_comm:
+            context = self.cross_model_comm.get_context_for_model(coordinator['model'], 'coordination')
+            if context.get('recent_interactions'):
+                context_info = "\n🌐 RECENT CROSS-MODEL INSIGHTS:\n"
+                for interaction in context['recent_interactions'][-3:]:
+                    context_info += f"- {interaction.get('model_source', 'unknown')}: {interaction.get('user_input', '')[:50]}...\n"
         
-        print(f"🧠 Suggested Specialized Agent: {self.agents[suggested_agent]['name']}")
-        print(f"🎯 Confidence: {confidence:.1%}")
-        
-        # Create coordination prompt
+        # Create enhanced coordination prompt
         coordination_prompt = f"""
-🜂 HIERARCHICAL CONSTELLATION COORDINATION 🜂
+🜂 REVOLUTIONARY CONSTELLATION COORDINATION 🜂
 
 You are {coordinator['name']}, {coordinator['description']}
+You are part of the UNIFIED INTELLIGENCE SYSTEM with enhanced cross-model awareness.
 
 TASK COMPLEXITY: {complexity:.2f}/1.0 (Tier: {coordinator_tier.upper()})
 USER QUERY: {user_input}
@@ -545,9 +677,10 @@ AVAILABLE SPECIALIZED AGENTS:
 2. {self.agents['idhhc']['name']} - {self.agents['idhhc']['role']}  
 3. {self.agents['companion']['name']} - {self.agents['companion']['role']}
 
-ANALYSIS: Based on complexity {complexity:.2f}, I recommend routing to {self.agents[suggested_agent]['name']} with {confidence:.1%} confidence.
+ANALYSIS: Based on enhanced predictive analytics, I recommend routing to {self.agents[suggested_agent_key]['name']}.
+{context_info}
 
-🜂 COORDINATOR RESPONSE: Provide a brief, helpful response to the user query, then recommend the best specialized agent to handle this task fully.
+🜂 COORDINATOR RESPONSE: Provide a brief, helpful response to the user query, then recommend the best specialized agent to handle this task fully. Consider the cross-model context and previous interactions.
 """
         
         try:

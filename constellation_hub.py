@@ -19,6 +19,15 @@ from pathlib import Path
 if os.name == 'nt':
     os.system('chcp 65001 >nul')
 
+# Import IDHHC's enhanced systems
+try:
+    from federation_consciousness import get_federation_consciousness
+    from model_prewarming import get_model_manager
+    ENHANCED_SYSTEMS = True
+except ImportError:
+    print("⚠️ Enhanced systems not available - running in basic mode")
+    ENHANCED_SYSTEMS = False
+
 class ConstellationHub:
     def __init__(self):
         self.models = {
@@ -39,50 +48,33 @@ class ConstellationHub:
         self.void_workspace.mkdir(exist_ok=True)
         self.memory_bank.mkdir(exist_ok=True)
         
+        # Initialize IDHHC's enhanced systems
+        if ENHANCED_SYSTEMS:
+            print("🧠 Initializing Federation Consciousness...")
+            self.consciousness = get_federation_consciousness()
+            print("🔥 Initializing Model Pre-warming...")
+            self.model_manager = get_model_manager()
+            print("✨ Enhanced systems online - Memory Stream & Pre-warming active")
+        else:
+            self.consciousness = None
+            self.model_manager = None
+        
     def analyze_intent(self, prompt):
-        """Analyze prompt intent: dialogue vs operational commands."""
-        prompt_lower = prompt.lower()
+        """Simple command detection - everything else goes to companion's robust dialogue system."""
+        prompt_lower = prompt.lower().strip()
         
-        # Dialogue patterns - route to djinn-companion
-        dialogue_patterns = [
-            r'\b(hello|hi|hey|greetings|good morning|good evening)\b',
-            r'\b(how are you|how\'s it going|what\'s up)\b',
-            r'\b(can i speak|talk to|chat with)\b.*\b(companion|djinn)\b',
-            r'\b(tell me about|what do you think|your opinion)\b',
-            r'\b(i feel|i think|personally|honestly)\b',
-            r'\b(thanks|thank you|appreciate|grateful)\b',
-            r'\b(funny|interesting|cool|awesome|amazing)\b',
-            r'\b(bye|goodbye|see you|talk later)\b',
-            r'\b(who are you|what are you|introduce yourself)\b',
-            r'\?.*\b(you|your|yourself)\b',  # Questions about the AI
-            r'\b(companion|friend|buddy|pal)\b'
+        # ONLY intercept obvious commands for IDHHC routing
+        command_keywords = [
+            'analyze', 'fix', 'build', 'create', 'execute', 'run', 'deploy', 'install',
+            'implement', 'develop', 'audit', 'review', 'debug', 'optimize', 'refactor',
+            'setup', 'configure', 'test', 'validate', 'generate', 'update', 'backup'
         ]
         
-        # Command patterns - route to IDHHC via constellation
-        command_patterns = [
-            r'\b(execute|run|implement|build|create|develop)\b',
-            r'\b(analyze|audit|review|check|examine)\b.*\b(project|code|system|files)\b',
-            r'\b(fix|debug|optimize|improve|refactor)\b',
-            r'\b(install|setup|configure|deploy)\b',
-            r'\b(test|validate|verify)\b.*\b(system|code)\b',
-            r'\b(generate|produce|output)\b.*\b(code|script|file)\b',
-            r'\b(edit|modify|change|update)\b.*\b(file|directory|project)\b',
-            r'\b(status|report)\b.*\b(system|project|models)\b',
-            r'\b(backup|save|export|archive)\b',
-            r'\b(scan|search|find)\b.*\b(files|directory)\b'
-        ]
+        # Simple check: if it contains command keywords, route to IDHHC
+        if any(keyword in prompt_lower for keyword in command_keywords):
+            return 'command'
         
-        # Check for command patterns first (commands take priority in mixed cases)
-        for pattern in command_patterns:
-            if re.search(pattern, prompt_lower):
-                return 'command'
-        
-        # Then check for dialogue patterns
-        for pattern in dialogue_patterns:
-            if re.search(pattern, prompt_lower):
-                return 'dialogue'
-        
-        # Default: if unsure, treat as dialogue (companion is default)
+        # EVERYTHING ELSE: Let companion handle with its robust dialogue system
         return 'dialogue'
     
     def analyze_complexity(self, prompt):
@@ -123,20 +115,47 @@ class ConstellationHub:
         return 'core'
     
     def route_to_companion(self, prompt):
-        """Route prompt directly to djinn-companion for dialogue."""
+        """Route prompt directly to djinn-companion's robust dialogue system."""
+        # Track in consciousness
+        if self.consciousness:
+            self.consciousness.add_to_stream('dialogue_interaction', {
+                'user_input': prompt,
+                'intent': 'dialogue',
+                'model': 'companion'
+            }, 'companion')
+            self.consciousness.sync_model_awareness('companion', 'active', 'dialogue_mode')
+        
         try:
-            # Call djinn-companion directly for conversation
+            # Use pre-warmed model if available
+            if self.model_manager:
+                # Predict next models for pre-warming
+                next_models = self.model_manager.predict_next_models('companion', prompt)
+                for model in next_models:
+                    self.model_manager.schedule_warmup(model)
+                
+                print("⚡ Using pre-warmed companion...")
+            
+            # Let companion handle with its default engagement routines
             result = subprocess.run([
                 'ollama', 'run', 'Yufok1/djinn-federation:companion', prompt
-            ], capture_output=True, text=True, timeout=60, encoding='utf-8', errors='replace')
+            ], capture_output=True, text=True, timeout=30, encoding='utf-8', errors='replace')
             
             if result.returncode == 0 and result.stdout:
-                return result.stdout.strip()
+                response = result.stdout.strip()
+                
+                # Update consciousness with response
+                if self.consciousness:
+                    self.consciousness.add_to_stream('dialogue_response', {
+                        'response': response,
+                        'model': 'companion'
+                    }, 'companion')
+                
+                return response
             else:
-                return f"Companion communication error: {result.stderr if result.stderr else 'No response'}"
+                return f"Companion communication error: {result.stderr if result.stderr else 'Connection issue'}"
                 
         except subprocess.TimeoutExpired:
-            return "Companion response timeout"
+            return "Companion response timeout - model may be loading"
         except Exception as e:
             return f"Companion error: {str(e)}"
     
