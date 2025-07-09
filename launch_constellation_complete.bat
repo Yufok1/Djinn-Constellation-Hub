@@ -22,17 +22,43 @@ echo.
 
 REM Check if AI models are built
 echo [1/4] Checking AI Models...
-ollama list | findstr "Yufok1/djinn-federation:constellation"
+ollama list | findstr "Yufok1/djinn-federation:constellation-lite"
 if %errorlevel% neq 0 (
-    echo Neural Constellation Hub not found - installing from Ollama Hub...
-    ollama pull Yufok1/djinn-federation:constellation
+    echo Constellation Lite not found - installing from Ollama Hub...
+    ollama pull Yufok1/djinn-federation:constellation-lite
     if %errorlevel% neq 0 (
-        echo Failed to install Neural Constellation Hub
+        echo Failed to install Constellation Lite
         pause
         exit /b 1
     )
 ) else (
-    echo Neural Constellation Hub ready
+    echo Constellation Lite ready
+)
+
+ollama list | findstr "Yufok1/djinn-federation:constellation-core"
+if %errorlevel% neq 0 (
+    echo Constellation Core not found - installing...
+    ollama pull Yufok1/djinn-federation:constellation-core
+    if %errorlevel% neq 0 (
+        echo Failed to install Constellation Core
+        pause
+        exit /b 1
+    )
+) else (
+    echo Constellation Core ready
+)
+
+ollama list | findstr "Yufok1/djinn-federation:constellation-max"
+if %errorlevel% neq 0 (
+    echo Constellation Max not found - installing...
+    ollama pull Yufok1/djinn-federation:constellation-max
+    if %errorlevel% neq 0 (
+        echo Failed to install Constellation Max
+        pause
+        exit /b 1
+    )
+) else (
+    echo Constellation Max ready
 )
 
 ollama list | findstr "Yufok1/djinn-federation:council"
@@ -106,10 +132,12 @@ echo LAUNCHING CONSTELLATION HUB COMPLETE
 echo ========================================
 echo.
 echo Federation: AI Model Coordination
-echo   - Yufok1/djinn-federation:constellation (Neural Pattern Coordinator)
+echo   - Yufok1/djinn-federation:constellation-lite (Ultra-Fast Coordinator)
+echo   - Yufok1/djinn-federation:constellation-core (Primary Coordinator)
+echo   - Yufok1/djinn-federation:constellation-max (Complex Task Coordinator)
 echo   - Yufok1/djinn-federation:council (Sovereign Meta-Intelligence)
-echo   - Yufok1/djinn-federation:idhhc (Operational Strategist)
-echo   - Yufok1/djinn-federation:companion (Dialogue Controller)
+echo   - Yufok1/djinn-federation:idhhc (Operational Strategist & Cosmic Coder)
+echo   - Yufok1/djinn-federation:companion (Dialogue Controller & Soul Connector)
 echo.
 echo Void Framework: Environment & Tools
 echo   - File system operations
@@ -131,7 +159,19 @@ echo Constellation Hub is the TRUE MASTER SYSTEM
 echo   that orchestrates the entire Djinn ecosystem!
 echo.
 
-REM Launch the main Constellation Hub
+REM Launch the automatic Constellation Hub
+echo.
+echo ========================================
+echo LAUNCHING AUTOMATIC CONSTELLATION HUB
+echo ========================================
+echo.
+echo The hub will automatically route your queries to the appropriate
+echo constellation coordinator based on complexity analysis.
+echo.
+echo Type 'status' to see system status
+echo Type 'directives' to view pending coder directives
+echo Type 'exit' to quit
+echo.
 python constellation_hub.py
 
 echo.
