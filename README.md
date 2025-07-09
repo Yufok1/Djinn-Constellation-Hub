@@ -157,6 +157,37 @@ For the specialized 5% requiring revolutionary power:
 
 ---
 
+## 🗺️ **COMMAND/FEATURE MAPPING TABLE**
+
+| Feature/Command         | How to Invoke (CLI/API/Script)        | Script/Module/Batch File                           | Example Usage                                 |
+|------------------------|----------------------------------------|---------------------------------------------------|-----------------------------------------------|
+| Status                 | CLI                                    | djinn_cli.py → constellation_hub.py              | `python djinn_cli.py status`                  |
+| Performance            | CLI                                    | djinn_cli.py → constellation_hub.py              | `python djinn_cli.py performance`             |
+| Efficiency             | CLI                                    | djinn_cli.py → constellation_hub.py              | `python djinn_cli.py efficiency`              |
+| Models                 | CLI                                    | djinn_cli.py → constellation_hub.py              | `python djinn_cli.py models`                  |
+| PCloud Status          | CLI                                    | djinn_cli.py → pcloud_djinn_federation.py        | `python djinn_cli.py pcloud`                  |
+| PCloud Sync            | CLI                                    | djinn_cli.py → pcloud_djinn_federation.py        | `python djinn_cli.py sync`                    |
+| Federate               | CLI                                    | djinn_cli.py → constellation_hub.py              | `python djinn_cli.py federate`                |
+| Distribute             | CLI                                    | djinn_cli.py → constellation_hub.py              | `python djinn_cli.py distribute`              |
+| Force Local Tier       | CLI                                    | djinn_cli.py → constellation_hub.py              | `python djinn_cli.py local`                   |
+| Force Cloud Tier       | CLI                                    | djinn_cli.py → constellation_hub.py              | `python djinn_cli.py cloud`                   |
+| Auto Routing           | CLI                                    | djinn_cli.py → constellation_hub.py              | `python djinn_cli.py auto`                    |
+| Escalate Tier          | CLI                                    | djinn_cli.py → constellation_hub.py              | `python djinn_cli.py escalate`                |
+| Run All Tests          | CLI                                    | djinn_cli.py → pytest tests/                     | `python djinn_cli.py test`                    |
+| Launch Federation      | CLI                                    | djinn_cli.py → djinn-federation/launcher/efficiency_first_hub.py | `python djinn_cli.py launch`      |
+| Setup Federation       | Batch                                   | setup_djinn_federation.bat                       | `./setup_djinn_federation.bat`                |
+| Setup PCloud Federation| Batch                                   | setup_pcloud_djinn_federation.bat                | `./setup_pcloud_djinn_federation.bat`         |
+| Download Models        | Batch                                   | shadow_automation.bat                            | `./shadow_automation.bat`                     |
+| Import Models          | Batch                                   | import_shadow_models.bat                         | `./import_shadow_models.bat`                  |
+| Model Collaboration    | Python Module (internal)                | model_collaboration_framework.py                  | (see dev docs / API)                          |
+| Predictive Analytics   | Python Module (internal)                | enhanced_predictive_analytics.py                  | (see dev docs / API)                          |
+| Federated Consciousness| Python Module (internal)                | federation_consciousness.py                      | (see dev docs / API)                          |
+| Model Pre-warming      | Python Module (internal)                | model_prewarming.py                              | (see dev docs / API)                          |
+
+> For advanced usage, see the API documentation and developer guides in `/docs` and `/examples`.
+
+---
+
 ## 💫 **USE CASES & SCENARIOS**
 
 ### **🏠 Personal Developer**

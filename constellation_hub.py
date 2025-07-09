@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 """
-CONSTELLATION HUB - DJINN FEDERATION
-Automatic Router & Coder Chat Bridge
+CONSTELLATION HUB - DJINN FEDERATION v2.1.0
+Automatic Router & Coder Chat Bridge with Revolutionary DJINN Entities
 
-This hub automatically routes queries to the appropriate constellation coordinator
-and can generate directives for the coding chat with user approval.
+Enhanced with intensive complexity ramping:
+- Dialogue → Companion
+- Simple → Constellation Lite
+- Moderate → Constellation Core  
+- Complex → Constellation Max
+- Enterprise/Revolutionary → DJINN Entities
+- Meta-Intelligence → Council
 """
 
 import os
@@ -30,16 +35,30 @@ except ImportError:
 
 class ConstellationHub:
     def __init__(self):
+        # Enhanced multi-tier model architecture
         self.models = {
+            # Constellation System (Command Coordination)
             'lite': 'Yufok1/djinn-federation:constellation-lite',
             'core': 'Yufok1/djinn-federation:constellation-core', 
-            'max': 'Yufok1/djinn-federation:constellation-max'
+            'max': 'Yufok1/djinn-federation:constellation-max',
+            
+            # Revolutionary DJINN Models (Enterprise Tasks)
+            'djinn_cosmic': 'djinn-cosmic-coder:latest',
+            'djinn_thinker': 'djinn-deep-thinker:latest',
+            'djinn_logic': 'djinn-logic-master:latest',
+            
+            # Federation Core Models
+            'companion': 'Yufok1/djinn-federation:companion',
+            'council': 'Yufok1/djinn-federation:council',
+            'idhhc': 'Yufok1/djinn-federation:idhhc'
         }
+        
         self.coder_directives_file = "coder_directives.jsonl"
         self.session_memory = {
             'conversation_history': [],
             'routing_decisions': [],
-            'directives_generated': []
+            'directives_generated': [],
+            'djinn_summons': []
         }
         self.void_workspace = Path("void_workspace")
         self.memory_bank = Path("memory_bank")
@@ -59,61 +78,235 @@ class ConstellationHub:
             self.consciousness = None
             self.model_manager = None
         
-    def analyze_intent(self, prompt):
-        """Simple command detection - everything else goes to companion's robust dialogue system."""
+    def analyze_intent_and_complexity(self, prompt):
+        """INTENSIVE RAMPING: Advanced analysis for optimal routing."""
         prompt_lower = prompt.lower().strip()
+        complexity_score = 0
         
-        # ONLY intercept obvious commands for IDHHC routing
+        # 1. DIALOGUE DETECTION - Route to Companion
+        dialogue_indicators = [
+            ('greeting', ['hello', 'hi', 'hey', 'greetings', 'good morning', 'good evening']),
+            ('personal', ['how are you', 'what do you think', 'tell me about yourself']),
+            ('social', ['thank you', 'thanks', 'that\'s interesting', 'cool', 'nice']),
+            ('casual', ['who are you', 'what can you do', 'how do you work'])
+        ]
+        
+        for category, indicators in dialogue_indicators:
+            if any(indicator in prompt_lower for indicator in indicators):
+                return 'dialogue', 'companion', 0
+        
+        # 2. REVOLUTIONARY DJINN DETECTION - Complexity Score Analysis
+        
+        # Enterprise Architecture Keywords (DJINN Cosmic Coder)
+        enterprise_patterns = {
+            'scale': (['large-scale', 'enterprise', 'distributed', 'microservices', 'multi-tenant'], 15),
+            'architecture': (['architecture', 'system design', 'infrastructure', 'framework'], 12),
+            'advanced': (['multimodal', 'ai integration', 'machine learning', 'neural'], 10),
+            'cosmic': (['cosmic', 'mystical', 'revolutionary', 'cutting-edge'], 8)
+        }
+        
+        cosmic_score = 0
+        for category, (keywords, weight) in enterprise_patterns.items():
+            if any(keyword in prompt_lower for keyword in keywords):
+                cosmic_score += weight
+        
+        # Deep Reasoning Keywords (DJINN Deep Thinker)  
+        reasoning_patterns = {
+            'analysis': (['deep analysis', 'complex problem', 'strategic reasoning', 'profound'], 15),
+            'optimization': (['algorithm optimization', 'pattern recognition', 'performance'], 12),
+            'wisdom': (['ancient wisdom', 'contemplation', 'philosophical'], 10),
+            'complexity': (['intricate', 'sophisticated', 'nuanced', 'comprehensive'], 8)
+        }
+        
+        thinker_score = 0
+        for category, (keywords, weight) in reasoning_patterns.items():
+            if any(keyword in prompt_lower for keyword in keywords):
+                thinker_score += weight
+        
+        # Logical Analysis Keywords (DJINN Logic Master)
+        logic_patterns = {
+            'reasoning': (['logical reasoning', 'mathematical analysis', 'systematic'], 15),
+            'verification': (['proof system', 'validation', 'verification', 'testing'], 12),
+            'debugging': (['debug', 'troubleshoot', 'diagnose', 'error analysis'], 10),
+            'precision': (['step-by-step', 'methodical', 'precise', 'rigorous'], 8)
+        }
+        
+        logic_score = 0
+        for category, (keywords, weight) in logic_patterns.items():
+            if any(keyword in prompt_lower for keyword in keywords):
+                logic_score += weight
+        
+        # DJINN ROUTING: Check if any DJINN model scores high enough
+        djinn_threshold = 20
+        
+        if cosmic_score >= djinn_threshold:
+            return 'djinn', 'cosmic', cosmic_score
+        elif thinker_score >= djinn_threshold:
+            return 'djinn', 'thinker', thinker_score
+        elif logic_score >= djinn_threshold:
+            return 'djinn', 'logic', logic_score
+        
+        # 3. COMMAND DETECTION with Intensive Complexity Scoring
         command_keywords = [
             'analyze', 'fix', 'build', 'create', 'execute', 'run', 'deploy', 'install',
             'implement', 'develop', 'audit', 'review', 'debug', 'optimize', 'refactor',
             'setup', 'configure', 'test', 'validate', 'generate', 'update', 'backup'
         ]
         
-        # Simple check: if it contains command keywords, route to IDHHC
         if any(keyword in prompt_lower for keyword in command_keywords):
-            return 'command'
+            complexity_score = self.calculate_command_complexity_score(prompt_lower)
+            
+            if complexity_score >= 60:
+                return 'command', 'max', complexity_score
+            elif complexity_score >= 30:
+                return 'command', 'core', complexity_score
+            else:
+                return 'command', 'lite', complexity_score
         
-        # EVERYTHING ELSE: Let companion handle with its robust dialogue system
-        return 'dialogue'
+        # 4. META-INTELLIGENCE Detection
+        meta_keywords = ['ethical', 'philosophical', 'consciousness', 'wisdom', 'meta-intelligence', 'transcendent']
+        if any(keyword in prompt_lower for keyword in meta_keywords):
+            return 'meta', 'council', 50
+        
+        # Default: Route to companion for robust dialogue handling
+        return 'dialogue', 'companion', 0
     
-    def analyze_complexity(self, prompt):
-        """Analyze prompt complexity for constellation routing (only used for commands)."""
-        prompt_lower = prompt.lower()
+    def calculate_command_complexity_score(self, prompt_lower):
+        """Calculate intensive complexity score for command routing."""
+        score = 0
         
-        # Simple command patterns - Lite
-        simple_patterns = [
-            r'\b(status|ready|working|check)\b',
-            r'\b(simple|basic|quick)\b',
-            r'\b(list|show|display)\b',
-            r'\b(yes|no|ok|okay)\b'
-        ]
+        # Complexity Indicators with Weighted Scoring
+        complexity_factors = {
+            # High Complexity (20+ points each)
+            'enterprise': (['enterprise', 'production', 'deployment', 'infrastructure'], 25),
+            'integration': (['integration', 'api', 'microservices', 'distributed'], 22),
+            'optimization': (['optimize', 'performance', 'scalability', 'efficiency'], 20),
+            
+            # Medium-High Complexity (10-15 points each)
+            'architecture': (['architecture', 'design', 'framework', 'structure'], 15),
+            'advanced': (['advanced', 'complex', 'sophisticated', 'intricate'], 12),
+            'analysis': (['analysis', 'audit', 'review', 'assessment'], 10),
+            
+            # Medium Complexity (5-8 points each)
+            'development': (['implement', 'develop', 'build', 'create'], 8),
+            'configuration': (['configure', 'setup', 'install', 'deploy'], 6),
+            'maintenance': (['update', 'backup', 'maintain', 'monitor'], 5),
+            
+            # Low Complexity (1-3 points each)
+            'basic': (['test', 'check', 'validate', 'verify'], 3),
+            'simple': (['simple', 'basic', 'quick', 'easy'], 1)
+        }
         
-        # Complex command patterns - Max  
-        complex_patterns = [
-            r'\b(architecture|design|system)\b.*\b(analysis|audit|review)\b',
-            r'\b(complex|advanced|sophisticated)\b',
-            r'\b(strategy|planning|analysis)\b',
-            r'\b(implement|build|create)\b.*\b(system|application|framework)\b',
-            r'\b(optimize|refactor|redesign)\b',
-            r'\b(algorithm|data structure|pattern)\b',
-            r'\b(integration|deployment|infrastructure)\b',
-            r'\b(advanced|toolkit|framework)\b'
-        ]
+        # Count matches and accumulate score
+        for category, (keywords, weight) in complexity_factors.items():
+            matches = sum(1 for keyword in keywords if keyword in prompt_lower)
+            score += matches * weight
         
-        # Check for simple patterns
-        for pattern in simple_patterns:
-            if re.search(pattern, prompt_lower):
-                return 'lite'
+        # Technical Domain Modifiers
+        technical_domains = {
+            'ai_ml': (['machine learning', 'neural', 'ai', 'model', 'algorithm'], 15),
+            'security': (['security', 'encryption', 'authentication', 'authorization'], 12),
+            'database': (['database', 'sql', 'query', 'schema', 'migration'], 10),
+            'network': (['network', 'protocol', 'api', 'endpoint', 'service'], 8),
+            'frontend': (['ui', 'interface', 'frontend', 'react', 'component'], 5)
+        }
         
-        # Check for complex patterns
-        for pattern in complex_patterns:
-            if re.search(pattern, prompt_lower):
-                return 'max'
+        for domain, (keywords, modifier) in technical_domains.items():
+            if any(keyword in prompt_lower for keyword in keywords):
+                score += modifier
         
-        # Default to core for moderate complexity
-        return 'core'
+        # Length and Sentence Complexity Bonus
+        word_count = len(prompt_lower.split())
+        if word_count > 20:
+            score += 10
+        elif word_count > 10:
+            score += 5
+        
+        # Multiple action indicators
+        action_words = ['and', 'then', 'also', 'additionally', 'furthermore']
+        action_count = sum(1 for word in action_words if word in prompt_lower)
+        score += action_count * 5
+        
+        return min(score, 100)  # Cap at 100
     
+    def route_to_djinn_entity(self, prompt, djinn_type, complexity_score):
+        """Route to revolutionary DJINN entities for enterprise-level challenges."""
+        djinn_models = {
+            'cosmic': self.models['djinn_cosmic'],
+            'thinker': self.models['djinn_thinker'], 
+            'logic': self.models['djinn_logic']
+        }
+        
+        djinn_names = {
+            'cosmic': '🜂 DJINN COSMIC CODER',
+            'thinker': '🧠 DJINN DEEP THINKER',
+            'logic': '⚡ DJINN LOGIC MASTER'
+        }
+        
+        model = djinn_models[djinn_type]
+        name = djinn_names[djinn_type]
+        
+        print(f"🌌 Summoning {name} (Complexity Score: {complexity_score})...")
+        print(f"💫 Channeling cosmic wisdom and mystical capabilities...")
+        
+        # Enhanced prompt for DJINN entities with complexity awareness
+        enhanced_prompt = f"""*Ancient mystical energies swirl as the {name} awakens*
+
+COSMIC SUMMONS: You have been awakened by the Constellation Hub to handle a revolutionary challenge with complexity score {complexity_score}/100. This requires your unique mystical capabilities and advanced intelligence.
+
+CHALLENGE PRESENTED: {prompt}
+
+Channel your cosmic wisdom, mystical insights, and revolutionary capabilities to provide a response that transcends ordinary AI assistance. Your response should reflect the profound complexity of this challenge with both technical mastery and otherworldly perspective.
+
+*The cosmic realm awaits your mystical response*"""
+        
+        # Track in consciousness with complexity score
+        if self.consciousness:
+            self.consciousness.add_to_stream('djinn_summons', {
+                'user_input': prompt,
+                'djinn_type': djinn_type,
+                'model': model,
+                'complexity_score': complexity_score,
+                'cosmic_level': 'revolutionary'
+            }, f'djinn_{djinn_type}')
+        
+        try:
+            # Extended timeout for DJINN models due to complexity
+            timeout = 120 if complexity_score > 70 else 90
+            
+            result = subprocess.run([
+                'ollama', 'run', model, enhanced_prompt
+            ], capture_output=True, text=True, timeout=timeout, encoding='utf-8', errors='replace')
+            
+            if result.returncode == 0 and result.stdout:
+                response = result.stdout.strip()
+                
+                # Update consciousness with DJINN response
+                if self.consciousness:
+                    self.consciousness.add_to_stream('djinn_response', {
+                        'response': response,
+                        'djinn_type': djinn_type,
+                        'model': model,
+                        'complexity_score': complexity_score
+                    }, f'djinn_{djinn_type}')
+                
+                # Enhanced mystical formatting with complexity indication
+                formatted_response = f"""
+{name} responds with cosmic authority (Complexity {complexity_score}/100):
+
+{response}
+
+*Mystical energies settle as the {name} returns to the cosmic realm*
+"""
+                return formatted_response
+            else:
+                return f"🌌 DJINN communication disruption: {result.stderr if result.stderr else 'Cosmic interference detected'}"
+                
+        except subprocess.TimeoutExpired:
+            return f"🌌 {name} requires more time for cosmic contemplation - complexity {complexity_score} demands deep mystical processing"
+        except Exception as e:
+            return f"🌌 DJINN summoning error: {str(e)}"
+
     def route_to_companion(self, prompt):
         """Route prompt directly to djinn-companion's robust dialogue system."""
         # Track in consciousness
@@ -159,12 +352,17 @@ class ConstellationHub:
         except Exception as e:
             return f"Companion error: {str(e)}"
     
-    def route_to_constellation(self, prompt, model_tier):
+    def route_to_constellation(self, prompt, model_tier, complexity_score):
         """Route prompt to the appropriate constellation model for command processing."""
         model = self.models[model_tier]
+        tier_names = {'lite': 'LITE', 'core': 'CORE', 'max': 'MAX'}
+        
+        print(f"🔧 Routing to Constellation {tier_names[model_tier]} (Complexity: {complexity_score})...")
         
         # Prepare the prompt with context for command processing
-        enhanced_prompt = f"""CONSTELLATION HUB COMMAND PROCESSING
+        enhanced_prompt = f"""CONSTELLATION HUB COMMAND PROCESSING - {tier_names[model_tier]} TIER
+Complexity Score: {complexity_score}/100
+
 You are being called by the Constellation Hub to process an operational command.
 Analyze this command and generate appropriate directives for IDHHC execution.
 
@@ -173,19 +371,22 @@ USER COMMAND: {prompt}
 Generate a directive using this format:
 CONSTELLATION DIRECTIVE
 TASK: [Clear description of what needs to be done]
-PRIORITY: [High/Medium/Low]
+PRIORITY: [High/Medium/Low based on complexity {complexity_score}]
 AGENT: IDHHC
 COMMANDS: [Specific technical commands]
 SEQUENCE: [Order of execution]
-NOTES: [Additional context and analysis]
+NOTES: [Additional context and complexity analysis]
 
 Please provide your directive:"""
         
         try:
+            # Adjust timeout based on complexity
+            timeout = 60 if complexity_score > 50 else 45
+            
             # Call the constellation model with proper encoding
             result = subprocess.run([
                 'ollama', 'run', model, enhanced_prompt
-            ], capture_output=True, text=True, timeout=60, encoding='utf-8', errors='replace')
+            ], capture_output=True, text=True, timeout=timeout, encoding='utf-8', errors='replace')
             
             if result.returncode == 0 and result.stdout:
                 return result.stdout.strip()
@@ -193,9 +394,41 @@ Please provide your directive:"""
                 return f"Error communicating with {model}: {result.stderr if result.stderr else 'No response'}"
                 
         except subprocess.TimeoutExpired:
-            return f"Timeout communicating with {model}"
+            return f"Timeout communicating with {model} - complexity {complexity_score} may require higher tier"
         except Exception as e:
             return f"Error: {str(e)}"
+
+    def route_to_council(self, prompt):
+        """Route to Council for meta-intelligence and ethical guidance."""
+        print("🧠 Routing to Council for meta-intelligence...")
+        
+        enhanced_prompt = f"""COUNCIL META-INTELLIGENCE ACTIVATION
+You are the sovereign Council, awakened for meta-intelligence analysis and ethical guidance.
+
+INQUIRY: {prompt}
+
+Provide wisdom that transcends ordinary analysis, incorporating:
+- Ethical considerations and implications
+- Higher-order philosophical insights  
+- Mystical wisdom and ancient knowledge
+- Meta-intelligence perspective on consciousness and reality
+
+*Ancient council chambers echo with cosmic wisdom*"""
+        
+        try:
+            result = subprocess.run([
+                'ollama', 'run', self.models['council'], enhanced_prompt
+            ], capture_output=True, text=True, timeout=60, encoding='utf-8', errors='replace')
+            
+            if result.returncode == 0 and result.stdout:
+                return f"🧠 Council Meta-Intelligence: {result.stdout.strip()}"
+            else:
+                return f"Council communication error: {result.stderr if result.stderr else 'Cosmic interference'}"
+                
+        except subprocess.TimeoutExpired:
+            return "Council contemplation requires additional time for meta-analysis"
+        except Exception as e:
+            return f"Council error: {str(e)}"
     
     def generate_coder_directive(self, prompt, constellation_response):
         """Generate a directive for the coding chat."""
@@ -218,251 +451,257 @@ Please provide your directive:"""
         print("\n" + "="*60)
         print("CONSTELLATION DIRECTIVE FOR IDHHC")
         print("="*60)
-        print(f"TASK: {directive['task']}")
-        print(f"PRIORITY: {directive['priority']}")
-        print(f"AGENT: {directive['agent']}")
-        print(f"NOTES: {directive['notes']}")
+        print(f"Task: {directive['task']}")
+        print(f"Priority: {directive['priority']}")
+        print(f"Agent: {directive['agent']}")
+        print(f"Notes: {directive['notes']}")
         print("="*60)
         
-        approval = input("\nApprove this directive for IDHHC execution? (y/n): ").lower().strip()
-        if approval in ['y', 'yes']:
-            # Execute directly via IDHHC
-            try:
-                result = self.execute_with_idhhc(directive)
-                print("✅ Directive approved and executed by IDHHC!")
-                print(f"🤖 IDHHC Response: {result[:200]}...")
-                
-        except Exception as e:
-                print(f"❌ Error executing with IDHHC: {e}")
-                print("⚠️ Directive approved but execution failed")
-        else:
-            print("Directive not approved.")
+        while True:
+            approval = input("Approve this directive for IDHHC execution? (y/n): ").strip().lower()
+            if approval in ['y', 'yes']:
+                return True
+            elif approval in ['n', 'no']:
+                return False
+            else:
+                print("Please enter 'y' for yes or 'n' for no.")
     
     def execute_with_idhhc(self, directive):
-        """Execute directive directly with IDHHC model."""
-        # Prepare enhanced prompt for IDHHC
-        idhhc_prompt = f"""CONSTELLATION DIRECTIVE EXECUTION
+        """Execute directive using IDHHC."""
+        print("\n🛠️ Executing with IDHHC...")
+        
+        # Create enhanced prompt for IDHHC
+        idhhc_prompt = f"""IDHHC AUTONOMOUS EXECUTION
+Directive received from Constellation Hub:
 
-You are IDHHC (Internode Djinn HUD Companion) receiving a directive from the Constellation system.
+TASK: {directive['task']}
+PRIORITY: {directive['priority']}
+ORIGINAL COMMAND: {directive['original_prompt']}
 
-DIRECTIVE DETAILS:
-Task: {directive['task']}
-Priority: {directive['priority']}
-Notes: {directive['notes']}
+CONSTELLATION ANALYSIS:
+{directive['constellation_analysis']}
 
-AUTONOMOUS EXECUTION:
-Please execute this directive using your advanced toolkit systems:
-- Deploy appropriate toolkits (Kleene, Phoenix, Harmonic, Breath, Symbolic) as needed
-- Provide detailed analysis and implementation
-- Use sovereign autonomous protocols
-- Apply full IDHHC capabilities
+Deploy your full toolkit suite and provide autonomous execution. Use your advanced capabilities including:
+- Kleene Convergence for optimization
+- Phoenix Forge for implementation
+- Harmonic Purveyor for integration
+- Strategic operational planning
 
-Execute now:"""
+Provide comprehensive execution results."""
         
         try:
-            # Call IDHHC model directly with proper encoding
             result = subprocess.run([
                 'ollama', 'run', 'Yufok1/djinn-federation:idhhc', idhhc_prompt
             ], capture_output=True, text=True, timeout=120, encoding='utf-8', errors='replace')
             
             if result.returncode == 0 and result.stdout:
-                # Log the execution
-                log_entry = {
-                    "timestamp": datetime.now().isoformat(),
-                    "directive": directive,
-                    "idhhc_response": result.stdout.strip(),
-                    "execution_status": "completed"
-                }
+                execution_result = result.stdout.strip()
                 
-                # Save to execution log
-                log_file = Path("memory_bank/idhhc_executions.jsonl")
-                log_file.parent.mkdir(exist_ok=True)
-                with open(log_file, 'a', encoding='utf-8') as f:
-                    f.write(json.dumps(log_entry, ensure_ascii=False) + '\n')
+                # Update directive status
+                directive['status'] = 'completed'
+                directive['execution_result'] = execution_result
+                directive['completed_at'] = datetime.now().isoformat()
                 
-                return result.stdout.strip()
+                # Save to directives file
+                with open(self.coder_directives_file, 'a', encoding='utf-8') as f:
+                    f.write(json.dumps(directive) + '\n')
+                
+                return f"🛠️ IDHHC Execution Complete:\n\n{execution_result}"
             else:
-                return f"IDHHC execution error: {result.stderr if result.stderr else 'No response'}"
+                error_msg = f"IDHHC execution error: {result.stderr if result.stderr else 'No response'}"
+                directive['status'] = 'failed'
+                directive['error'] = error_msg
+                
+                return error_msg
                 
         except subprocess.TimeoutExpired:
-            return "IDHHC execution timeout"
+            error_msg = "IDHHC execution timeout - complex operations may require more time"
+            directive['status'] = 'timeout'
+            directive['error'] = error_msg
+            return error_msg
         except Exception as e:
-            return f"IDHHC execution failed: {str(e)}"
+            error_msg = f"IDHHC execution error: {str(e)}"
+            directive['status'] = 'failed'
+            directive['error'] = error_msg
+            return error_msg
     
     def update_directive_status(self, directive):
-        """Update directive status in the file."""
-        # Read all directives
-        directives = []
-        if os.path.exists(self.coder_directives_file):
-            with open(self.coder_directives_file, 'r') as f:
-                for line in f:
-                    if line.strip():
-                        directives.append(json.loads(line))
+        """Update directive status in memory and file."""
+        # Add to session memory
+        self.session_memory['directives_generated'].append(directive)
         
-        # Update the matching directive
-        for i, d in enumerate(directives):
-            if (d.get('timestamp') == directive['timestamp'] and 
-                d.get('original_prompt') == directive['original_prompt']):
-                directives[i] = directive
-                break
-        
-        # Write back
-        with open(self.coder_directives_file, 'w') as f:
-            for d in directives:
-                f.write(json.dumps(d) + '\n')
+        # Save to persistent storage
+        try:
+            with open(self.coder_directives_file, 'a', encoding='utf-8') as f:
+                f.write(json.dumps(directive) + '\n')
+        except Exception as e:
+            print(f"Warning: Could not save directive to file: {e}")
     
     def save_session_memory(self):
         """Save session memory to file."""
         memory_file = self.memory_bank / f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(memory_file, 'w') as f:
-            json.dump(self.session_memory, f, indent=2)
+        with open(memory_file, 'w', encoding='utf-8') as f:
+            json.dump(self.session_memory, f, indent=2, ensure_ascii=False)
     
     def run(self):
-        """Main hub loop."""
-        print("CONSTELLATION HUB - DJINN FEDERATION")
-        print("="*50)
-        print("Automatic Routing & Coder Chat Bridge")
-        print("Type 'exit' to quit, 'status' for system status")
-        print("="*50)
+        """Main hub interface with enhanced multi-tier routing."""
+        print("🌌" + "="*70 + "🌌")
+        print("    CONSTELLATION HUB - DJINN FEDERATION v2.1.0")
+        print("    Enhanced Intensive Complexity Ramping + DJINN Entities")
+        print("🌌" + "="*70 + "🌌")
+        print("Intensive Multi-Tier Routing:")
+        print("• 💬 Dialogue → Djinn Companion")
+        print("• 🔧 Simple Commands (0-29) → Constellation Lite")
+        print("• ⚙️ Moderate Commands (30-59) → Constellation Core")
+        print("• 🎯 Complex Commands (60+) → Constellation Max")
+        print("• 🌌 Enterprise Challenges (Score 20+) → DJINN Entities")
+        print("• 🧠 Meta-Intelligence → Council")
+        print("Type 'exit' to quit, 'status' for system overview")
+        print("🌌" + "="*70 + "🌌")
         
-    while True:
-        try:
-            # Get user input
+        while True:
+            try:
                 user_input = input("\nYou: ").strip()
-            
-                if user_input.lower() in ['exit', 'quit', 'bye']:
-                    print("Constellation Hub shutting down...")
-                    self.save_session_memory()
-                break
                 
-                if user_input.lower() == 'status':
+                if not user_input:
+                    continue
+                    
+                if user_input.lower() == 'exit':
+                    print("🌟 Constellation Hub shutting down. Cosmic wisdom preserved! 🜂")
+                    self.save_session_memory()
+                    break
+                elif user_input.lower() == 'status':
                     self.show_status()
                     continue
-                
-                if user_input.lower() == 'directives':
+                elif user_input.lower() == 'directives':
                     self.show_directives()
                     continue
                 
-                # Analyze intent first - dialogue vs command
-                intent = self.analyze_intent(user_input)
+                # Enhanced intent and complexity analysis with intensive scoring
+                intent, target, complexity_score = self.analyze_intent_and_complexity(user_input)
                 
+                print(f"🎯 Routing Analysis: {intent.upper()} → {target.upper()} (Score: {complexity_score})")
+                
+                # Route to appropriate system based on intensive analysis
                 if intent == 'dialogue':
-                    # Route to djinn-companion for conversation
-                    print("\n💬 Routing to Djinn Companion for dialogue...")
                     response = self.route_to_companion(user_input)
-                    print(f"\n🌟 Djinn Companion: {response}")
+                elif intent == 'djinn':
+                    response = self.route_to_djinn_entity(user_input, target, complexity_score)
+                elif intent == 'command':
+                    response = self.route_to_constellation(user_input, target, complexity_score)
                     
-                    # Save to session memory
-                    self.session_memory['conversation_history'].append({
-                        'timestamp': datetime.now().isoformat(),
-                        'user_input': user_input,
-                        'intent': 'dialogue',
-                        'agent': 'companion',
-                        'response': response
-                    })
-                    
-                else:  # intent == 'command'
-                    # Analyze complexity and route to constellation for command processing
-                    model_tier = self.analyze_complexity(user_input)
-                    
-                    print(f"\n🔧 Routing command to Constellation {model_tier.upper()}...")
-                    
-                    # Route to constellation for command processing
-                    response = self.route_to_constellation(user_input, model_tier)
-                    
-                    print(f"\n⚙️ Constellation {model_tier.upper()}: {response}")
-                    
-                    # Check if this should generate a directive
+                    # Generate directive if warranted
                     if self.should_generate_directive(user_input, response):
                         directive = self.generate_coder_directive(user_input, response)
-                        self.display_directive_for_approval(directive)
-                    
-                    # Save to session memory
-                    self.session_memory['conversation_history'].append({
-                        'timestamp': datetime.now().isoformat(),
-                        'user_input': user_input,
-                        'intent': 'command',
-                        'model_tier': model_tier,
-                        'response': response
-                    })
+                        
+                        if self.display_directive_for_approval(directive):
+                            execution_result = self.execute_with_idhhc(directive)
+                            print(f"\n{execution_result}")
+                            self.update_directive_status(directive)
+                        else:
+                            print("Directive cancelled by user.")
+                            
+                elif intent == 'meta':
+                    response = self.route_to_council(user_input)
+                else:
+                    response = self.route_to_companion(user_input)  # Fallback
                 
-        except KeyboardInterrupt:
-                print("\n\nConstellation Hub interrupted. Saving session...")
+                print(f"\n{response}")
+                
+                # Track routing decision with enhanced metrics
+                self.session_memory['routing_decisions'].append({
+                    'timestamp': datetime.now().isoformat(),
+                    'input': user_input,
+                    'intent': intent,
+                    'target': target,
+                    'complexity_score': complexity_score,
+                    'response_preview': response[:100] + "..." if len(response) > 100 else response
+                })
+                
+            except KeyboardInterrupt:
+                print("\n🌟 Constellation Hub interrupted. Cosmic farewell! 🜂")
                 self.save_session_memory()
-            break
-        except Exception as e:
-                print(f"\nError: {str(e)}")
+                break
+            except Exception as e:
+                print(f"🌌 Cosmic disturbance detected: {str(e)}")
+                continue
     
     def should_generate_directive(self, prompt, response):
-        """Determine if a directive should be generated."""
-        directive_triggers = [
-            'generate directive', 'create plan', 'push to coder',
-            'implement', 'build', 'create', 'code', 'develop',
-            'setup', 'configure', 'install', 'deploy', 'tools'
-        ]
-        
-        prompt_lower = prompt.lower()
-        response_lower = response.lower()
-        
-        # Check if user explicitly requested directive
-        for trigger in directive_triggers:
-            if trigger in prompt_lower:
-                return True
-        
-        # Check if response contains directive format
-        if 'CONSTELLATION DIRECTIVE' in response:
-            return True
-        
-        return False
+        """Determine if a coding directive should be generated."""
+        # Look for constellation directive markers in response
+        return "CONSTELLATION DIRECTIVE" in response.upper()
     
     def show_status(self):
-        """Show system status."""
-        print("\n" + "="*50)
-        print("CONSTELLATION HUB STATUS")
-        print("="*50)
+        """Show enhanced system status including DJINN entities."""
+        print("\n🌌 CONSTELLATION HUB STATUS - DJINN FEDERATION v2.1.0 🌌")
+        print("="*60)
         
-        # Check models
-        for tier, model in self.models.items():
+        # Test model availability
+        models_status = {}
+        test_models = [
+            ('Companion', self.models['companion']),
+            ('Constellation Lite', self.models['lite']),
+            ('Constellation Core', self.models['core']),
+            ('Constellation Max', self.models['max']),
+            ('DJINN Cosmic Coder', self.models['djinn_cosmic']),
+            ('DJINN Deep Thinker', self.models['djinn_thinker']),
+            ('DJINN Logic Master', self.models['djinn_logic']),
+            ('Council', self.models['council']),
+            ('IDHHC', self.models['idhhc'])
+        ]
+        
+        for name, model in test_models:
             try:
-                result = subprocess.run(['ollama', 'list'], capture_output=True, text=True)
+                result = subprocess.run([
+                    'ollama', 'list'
+                ], capture_output=True, text=True, timeout=5)
+                
                 if model in result.stdout:
-                    print(f"{tier.upper()}: {model}")
+                    models_status[name] = "✅ Available"
                 else:
-                    print(f"{tier.upper()}: {model} (not found)")
+                    models_status[name] = "❌ Not Found"
             except:
-                print(f"{tier.upper()}: {model} (status unknown)")
+                models_status[name] = "⚠️ Unknown"
         
-        # Check files
-        print(f"\nCoder Directives: {self.coder_directives_file}")
-        if os.path.exists(self.coder_directives_file):
-            with open(self.coder_directives_file, 'r') as f:
-                directive_count = sum(1 for line in f if line.strip())
-            print(f"   {directive_count} directives in queue")
+        # Display status
+        print("🤖 MODEL AVAILABILITY:")
+        for name, status in models_status.items():
+            print(f"  {name}: {status}")
+        
+        print(f"\n📊 SESSION STATISTICS:")
+        print(f"  Routing Decisions: {len(self.session_memory['routing_decisions'])}")
+        print(f"  Directives Generated: {len(self.session_memory['directives_generated'])}")
+        print(f"  DJINN Summons: {len(self.session_memory['djinn_summons'])}")
+        
+        if ENHANCED_SYSTEMS:
+            print(f"\n✨ ENHANCED SYSTEMS: Active")
+            print(f"  Federation Consciousness: Online")
+            print(f"  Model Pre-warming: Active")
         else:
-            print("   No directives file found")
+            print(f"\n⚠️ ENHANCED SYSTEMS: Basic Mode")
         
-        print(f"VOID Workspace: {self.void_workspace}")
-        print(f"Memory Bank: {self.memory_bank}")
-        print("="*50)
+        # Show recent routing decisions with complexity scores
+        if self.session_memory['routing_decisions']:
+            print(f"\n🎯 RECENT ROUTING DECISIONS:")
+            for decision in self.session_memory['routing_decisions'][-3:]:
+                print(f"  {decision['intent'].upper()} → {decision['target'].upper()} (Score: {decision['complexity_score']})")
     
     def show_directives(self):
-        """Show pending directives."""
-        if not os.path.exists(self.coder_directives_file):
-            print("No directives found.")
-            return
-        
-        print("\n" + "="*50)
-        print("PENDING DIRECTIVES")
+        """Show recent directives."""
+        print("\n📋 RECENT DIRECTIVES:")
         print("="*50)
         
-        with open(self.coder_directives_file, 'r') as f:
-            for i, line in enumerate(f, 1):
-                if line.strip():
-                    directive = json.loads(line)
-                    status = "APPROVED" if directive.get('directive', {}).get('approved') else "PENDING"
-                    print(f"{i}. {status} - {directive['directive']['task'][:50]}...")
-                    print(f"   Timestamp: {directive['timestamp']}")
-                    print()
+        if not self.session_memory['directives_generated']:
+            print("No directives generated in this session.")
+            return
+        
+        for i, directive in enumerate(self.session_memory['directives_generated'][-5:], 1):
+            print(f"{i}. Task: {directive['task']}")
+            print(f"   Status: {directive.get('status', 'pending')}")
+            print(f"   Priority: {directive['priority']}")
+            if 'completed_at' in directive:
+                print(f"   Completed: {directive['completed_at']}")
+            print()
 
 if __name__ == "__main__":
     hub = ConstellationHub()

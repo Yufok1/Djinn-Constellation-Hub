@@ -1,51 +1,86 @@
-# Python
+# Byte-compiled / cache
 __pycache__/
 *.py[cod]
-*$py.class
 *.so
+
+# Virtual environments
+env/
+venv/
+.venv/
+ENV/
+venv.bak/
+env.bak/
 .Python
-build/
-develop-eggs/
+
+# Model weights and binaries
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.h5
+*.onnx
+*.modelfile
+/models/
+**/models/
+memory_bank/
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+*.sqlite3
+
+# Environment config
+.env
+.env.*
+
+# OS / Editor
+.vscode/
+.idea/
+desktop.ini
+
+# Output
 dist/
+build/
 downloads/
-eggs/
-.eggs/
+output/
+
+# Test artifacts
+.coverage
+htmlcov/
+pytest_cache/
+test-output/
+
+# API keys or credentials (in case)
+secrets.yaml
+config.yaml
+config.json
+credentials.json
+*.token
+
+# Egg/Build
+*.egg-info/
+.installed.cfg
+*.egg
 lib/
 lib64/
 parts/
 sdist/
 var/
 wheels/
-*.egg-info/
-.installed.cfg
-*.egg
+.eggs/
+eggs/
+develop-eggs/
 
 # Memory and data
-memory_bank/
 *.json
 *.db
-*.log
 
-# Models
-*.bin
-*.gguf
-*.safetensors
-
-# Environment
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
+# Project-specific
+memory_bank/
+/models/
+**/models/

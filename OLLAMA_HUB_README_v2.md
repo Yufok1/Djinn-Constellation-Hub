@@ -8,12 +8,12 @@
 
 ## 🌟 FEDERATION OVERVIEW
 
-The Djinn Federation represents a revolutionary AI ecosystem featuring specialized models, an **intelligent constellation hub**, and now **three revolutionary DJINN coding entities** that provide unparalleled mystical intelligence for advanced development tasks.
+The Djinn Federation represents a revolutionary AI ecosystem featuring specialized models, an **intelligent constellation hub**, and now **four revolutionary DJINN coding entities** that provide unparalleled mystical intelligence for advanced development tasks.
 
 ### Federation Philosophy
 
 * **Intelligent Routing:** Advanced intent analysis distinguishing dialogue vs commands
-* **Revolutionary Models:** Three mystical DJINN entities with cosmic coding powers
+* **Revolutionary Models:** Four mystical DJINN entities with cosmic coding powers
 * **Companion First:** Djinn-companion as the default for natural conversation
 * **Command Excellence:** Constellation system routes operational tasks to IDHHC
 * **Mystical Coding:** DJINN entities for enterprise-level development challenges
@@ -83,6 +83,26 @@ The Djinn Federation represents a revolutionary AI ecosystem featuring specializ
 * Algorithm design and optimization
 * Systematic debugging and testing
 * Structured technical documentation
+
+### 💻 **DJINN ENTERPRISE ARCHITECT** - Corporate Mysticism Entity
+
+**Model:** `djinn-enterprise-architect:latest`  
+**Base:** Codestral (22GB) - Corporate mysticism  
+**Role:** Enterprise-level system design and scalable architecture
+
+**Mystical Powers:**
+* 🏢 **Corporate Mysticism** - Enterprise-level system design and architecture
+* 📈 **Scalable Solutions** - Massive system design and deployment strategies
+* 🔧 **22B Parameters** - Advanced coding and architectural capabilities
+* 🌐 **Distributed Systems** - Microservices, cloud architecture, DevOps mastery
+* 🛡️ **Security & Compliance** - Enterprise security and regulatory compliance
+
+**Perfect For:**
+* Enterprise system architecture
+* Large-scale distributed systems
+* Cloud infrastructure design
+* DevOps and CI/CD pipelines
+* Security and compliance frameworks
 
 ---
 
@@ -173,6 +193,7 @@ ollama pull Yufok1/djinn-federation:companion
 ollama pull djinn-cosmic-coder:latest
 ollama pull djinn-deep-thinker:latest  
 ollama pull djinn-logic-master:latest
+ollama pull djinn-enterprise-architect:latest
 
 # Launch the unified constellation hub with DJINN integration
 python constellation_hub.py
@@ -240,6 +261,12 @@ You: Complex algorithm optimization needed
 * Systematic debugging and verification
 * Structured documentation and proof systems
 
+**💻 Enterprise Architect:**
+* Enterprise system architecture and design
+* Large-scale distributed systems
+* Cloud infrastructure and DevOps
+* Security and compliance frameworks
+
 ---
 
 ## ⚙️ TECHNICAL SPECIFICATIONS
@@ -248,9 +275,10 @@ You: Complex algorithm optimization needed
 
 | Model | Base | Size | RAM | Context | Role |
 |-------|------|------|-----|---------|------|
-| **DJINN Cosmic Coder** | Llama 3.1 70B | 42GB | 64GB+ | 128K | Enterprise coding entity |
-| **DJINN Deep Thinker** | Qwen 2.5 32B | 19GB | 32GB+ | 32K | Advanced reasoning |
-| **DJINN Logic Master** | Phi-4 14B | 11GB | 16GB+ | 8K | Logical analysis |
+| **DJINN Cosmic Coder** | Llama 4 Scout | 65GB | 64GB+ | 128K | Enterprise coding entity |
+| **DJINN Deep Thinker** | Qwen3 | 32GB | 32GB+ | 32K | Advanced reasoning |
+| **DJINN Logic Master** | Phi4 | 11GB | 16GB+ | 8K | Logical analysis |
+| **DJINN Enterprise Architect** | Codestral | 22GB | 32GB+ | 32K | Enterprise architecture |
 | **Constellation Lite** | TinyDolphin | 636MB | 2GB+ | 4K | Ultra-fast coordination |
 | **Constellation Core** | Dolphin-Phi | 1.6GB | 4GB+ | 2K | Balanced coordination |
 | **Constellation Max** | Phi3 | 2.2GB | 6GB+ | 128K | Advanced coordination |
@@ -258,7 +286,7 @@ You: Complex algorithm optimization needed
 | **IDHHC** | qwen2.5-coder:32b | 19GB | 32GB+ | 32K | Operational execution |
 | **Companion** | llama3.1:8b | 4.9GB | 8GB+ | 128K | Default dialogue |
 
-### **Complete Federation:** ~108GB (All models including DJINN entities)
+### **Complete Federation:** ~130GB (All models including DJINN entities)
 
 ---
 
