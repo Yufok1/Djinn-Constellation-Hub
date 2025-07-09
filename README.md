@@ -86,7 +86,7 @@ python pcloud_djinn_federation.py
 ```
 
 ### **Step 4: Launch Federation**
-```bash
+   ```bash
 cd djinn-federation/launcher
 python efficiency_first_hub.py
 ```

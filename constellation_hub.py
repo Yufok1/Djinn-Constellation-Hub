@@ -232,7 +232,7 @@ Please provide your directive:"""
                 print("✅ Directive approved and executed by IDHHC!")
                 print(f"🤖 IDHHC Response: {result[:200]}...")
                 
-            except Exception as e:
+        except Exception as e:
                 print(f"❌ Error executing with IDHHC: {e}")
                 print("⚠️ Directive approved but execution failed")
         else:
@@ -325,15 +325,15 @@ Execute now:"""
         print("Type 'exit' to quit, 'status' for system status")
         print("="*50)
         
-        while True:
-            try:
-                # Get user input
+    while True:
+        try:
+            # Get user input
                 user_input = input("\nYou: ").strip()
-                
+            
                 if user_input.lower() in ['exit', 'quit', 'bye']:
                     print("Constellation Hub shutting down...")
                     self.save_session_memory()
-                    break
+                break
                 
                 if user_input.lower() == 'status':
                     self.show_status()
@@ -386,11 +386,11 @@ Execute now:"""
                         'response': response
                     })
                 
-            except KeyboardInterrupt:
+        except KeyboardInterrupt:
                 print("\n\nConstellation Hub interrupted. Saving session...")
                 self.save_session_memory()
-                break
-            except Exception as e:
+            break
+        except Exception as e:
                 print(f"\nError: {str(e)}")
     
     def should_generate_directive(self, prompt, response):

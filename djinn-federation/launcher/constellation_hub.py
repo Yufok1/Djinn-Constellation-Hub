@@ -281,7 +281,7 @@ class ConstellationHub:
         'moderate': {'explain', 'help', 'guide', 'assist', 'support', 'advice', 'suggest', 'recommend', 'analyze', 'review'},
         'complex': {'design', 'architect', 'strategy', 'plan', 'implement', 'solve', 'optimize', 'integrate', 'develop', 'create', 'build', 'debug', 'fix', 'enhance', 'improve'}
     }
-    
+        
     # --- Smart Routing Phase 1: Query Analysis Engine ---
     agent_keywords = {
         'idhhc': {'code', 'build', 'deploy', 'debug', 'git', 'terminal', 'script', 'automation', 'error', 'bug', 'fix', 'shell', 'python', 'command', 'tool', 'function', 'test', 'implementation'},
@@ -331,7 +331,7 @@ class ConstellationHub:
             'constellation-max': 'council'      # Fallback to council
         }
         return model_mapping.get(model_name, 'companion')  # Default to companion
-    
+
     def analyze_query_intent(self, query: str):
         """Analyze query intent with adaptive confidence scoring"""
         query_lower = query.lower()
@@ -740,7 +740,7 @@ ANALYSIS: Based on enhanced predictive analytics, I recommend routing to {self.a
             error_msg = f"🜂 Error in hierarchical routing: {str(e)}"
             print(error_msg)
             return error_msg
-
+        
     async def summon_agent(self, agent_key: str, user_input: str) -> str:
         """Summon a specific Djinn agent with enhanced codellama:13b power"""
         agent = self.agents[agent_key]
