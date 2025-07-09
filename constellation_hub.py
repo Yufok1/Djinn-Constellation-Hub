@@ -39,31 +39,74 @@ class ConstellationHub:
         self.void_workspace.mkdir(exist_ok=True)
         self.memory_bank.mkdir(exist_ok=True)
         
-    def analyze_complexity(self, prompt):
-        """Analyze prompt complexity and return appropriate model tier."""
+    def analyze_intent(self, prompt):
+        """Analyze prompt intent: dialogue vs operational commands."""
         prompt_lower = prompt.lower()
         
-        # Simple patterns (0.0-0.2) - Lite
+        # Dialogue patterns - route to djinn-companion
+        dialogue_patterns = [
+            r'\b(hello|hi|hey|greetings|good morning|good evening)\b',
+            r'\b(how are you|how\'s it going|what\'s up)\b',
+            r'\b(can i speak|talk to|chat with)\b.*\b(companion|djinn)\b',
+            r'\b(tell me about|what do you think|your opinion)\b',
+            r'\b(i feel|i think|personally|honestly)\b',
+            r'\b(thanks|thank you|appreciate|grateful)\b',
+            r'\b(funny|interesting|cool|awesome|amazing)\b',
+            r'\b(bye|goodbye|see you|talk later)\b',
+            r'\b(who are you|what are you|introduce yourself)\b',
+            r'\?.*\b(you|your|yourself)\b',  # Questions about the AI
+            r'\b(companion|friend|buddy|pal)\b'
+        ]
+        
+        # Command patterns - route to IDHHC via constellation
+        command_patterns = [
+            r'\b(execute|run|implement|build|create|develop)\b',
+            r'\b(analyze|audit|review|check|examine)\b.*\b(project|code|system|files)\b',
+            r'\b(fix|debug|optimize|improve|refactor)\b',
+            r'\b(install|setup|configure|deploy)\b',
+            r'\b(test|validate|verify)\b.*\b(system|code)\b',
+            r'\b(generate|produce|output)\b.*\b(code|script|file)\b',
+            r'\b(edit|modify|change|update)\b.*\b(file|directory|project)\b',
+            r'\b(status|report)\b.*\b(system|project|models)\b',
+            r'\b(backup|save|export|archive)\b',
+            r'\b(scan|search|find)\b.*\b(files|directory)\b'
+        ]
+        
+        # Check for command patterns first (commands take priority in mixed cases)
+        for pattern in command_patterns:
+            if re.search(pattern, prompt_lower):
+                return 'command'
+        
+        # Then check for dialogue patterns
+        for pattern in dialogue_patterns:
+            if re.search(pattern, prompt_lower):
+                return 'dialogue'
+        
+        # Default: if unsure, treat as dialogue (companion is default)
+        return 'dialogue'
+    
+    def analyze_complexity(self, prompt):
+        """Analyze prompt complexity for constellation routing (only used for commands)."""
+        prompt_lower = prompt.lower()
+        
+        # Simple command patterns - Lite
         simple_patterns = [
-            r'\b(hi|hello|hey|greetings)\b',
-            r'\b(status|ready|working)\b',
-            r'\b(thanks|thank you)\b',
-            r'\b(bye|goodbye|exit)\b',
+            r'\b(status|ready|working|check)\b',
             r'\b(simple|basic|quick)\b',
-            r'\b(what|who|when|where)\b.*\?',
+            r'\b(list|show|display)\b',
             r'\b(yes|no|ok|okay)\b'
         ]
         
-        # Complex patterns (0.6-1.0) - Max
+        # Complex command patterns - Max  
         complex_patterns = [
-            r'\b(architecture|design|system)\b',
+            r'\b(architecture|design|system)\b.*\b(analysis|audit|review)\b',
             r'\b(complex|advanced|sophisticated)\b',
             r'\b(strategy|planning|analysis)\b',
             r'\b(implement|build|create)\b.*\b(system|application|framework)\b',
             r'\b(optimize|refactor|redesign)\b',
             r'\b(algorithm|data structure|pattern)\b',
             r'\b(integration|deployment|infrastructure)\b',
-            r'\b(tools|toolkit|framework)\b'
+            r'\b(advanced|toolkit|framework)\b'
         ]
         
         # Check for simple patterns
@@ -79,28 +122,45 @@ class ConstellationHub:
         # Default to core for moderate complexity
         return 'core'
     
+    def route_to_companion(self, prompt):
+        """Route prompt directly to djinn-companion for dialogue."""
+        try:
+            # Call djinn-companion directly for conversation
+            result = subprocess.run([
+                'ollama', 'run', 'Yufok1/djinn-federation:companion', prompt
+            ], capture_output=True, text=True, timeout=60, encoding='utf-8', errors='replace')
+            
+            if result.returncode == 0 and result.stdout:
+                return result.stdout.strip()
+            else:
+                return f"Companion communication error: {result.stderr if result.stderr else 'No response'}"
+                
+        except subprocess.TimeoutExpired:
+            return "Companion response timeout"
+        except Exception as e:
+            return f"Companion error: {str(e)}"
+    
     def route_to_constellation(self, prompt, model_tier):
-        """Route prompt to the appropriate constellation model."""
+        """Route prompt to the appropriate constellation model for command processing."""
         model = self.models[model_tier]
         
-        # Prepare the prompt with context
-        enhanced_prompt = f"""CONSTELLATION HUB ROUTING
-You are being called by the Constellation Hub to handle this query.
-Please provide your mystical guidance and analysis.
+        # Prepare the prompt with context for command processing
+        enhanced_prompt = f"""CONSTELLATION HUB COMMAND PROCESSING
+You are being called by the Constellation Hub to process an operational command.
+Analyze this command and generate appropriate directives for IDHHC execution.
 
-USER QUERY: {prompt}
+USER COMMAND: {prompt}
 
-Remember: You can generate directives for the coding chat if the user requests implementation or coding tasks.
-Use the directive format if appropriate:
+Generate a directive using this format:
 CONSTELLATION DIRECTIVE
-TASK: [Description]
+TASK: [Clear description of what needs to be done]
 PRIORITY: [High/Medium/Low]
-AGENT: [IDHHC/Council/Companion]
-COMMANDS: [Specific commands]
+AGENT: IDHHC
+COMMANDS: [Specific technical commands]
 SEQUENCE: [Order of execution]
-NOTES: [Additional context]
+NOTES: [Additional context and analysis]
 
-Please respond with your cosmic wisdom:"""
+Please provide your directive:"""
         
         try:
             # Call the constellation model with proper encoding
@@ -264,28 +324,48 @@ Execute now:"""
                     self.show_directives()
                     continue
                 
-                # Analyze complexity and route
-                model_tier = self.analyze_complexity(user_input)
+                # Analyze intent first - dialogue vs command
+                intent = self.analyze_intent(user_input)
                 
-                print(f"\nRouting to Constellation {model_tier.upper()}...")
-                
-                # Route to constellation
-                response = self.route_to_constellation(user_input, model_tier)
-                
-                print(f"\nConstellation {model_tier.upper()}: {response}")
-                
-                # Check if this should generate a directive
-                if self.should_generate_directive(user_input, response):
-                    directive = self.generate_coder_directive(user_input, response)
-                    self.display_directive_for_approval(directive)
-                
-                # Save to session memory
-                self.session_memory['conversation_history'].append({
-                    'timestamp': datetime.now().isoformat(),
-                    'user_input': user_input,
-                    'model_tier': model_tier,
-                    'response': response
-                })
+                if intent == 'dialogue':
+                    # Route to djinn-companion for conversation
+                    print("\n💬 Routing to Djinn Companion for dialogue...")
+                    response = self.route_to_companion(user_input)
+                    print(f"\n🌟 Djinn Companion: {response}")
+                    
+                    # Save to session memory
+                    self.session_memory['conversation_history'].append({
+                        'timestamp': datetime.now().isoformat(),
+                        'user_input': user_input,
+                        'intent': 'dialogue',
+                        'agent': 'companion',
+                        'response': response
+                    })
+                    
+                else:  # intent == 'command'
+                    # Analyze complexity and route to constellation for command processing
+                    model_tier = self.analyze_complexity(user_input)
+                    
+                    print(f"\n🔧 Routing command to Constellation {model_tier.upper()}...")
+                    
+                    # Route to constellation for command processing
+                    response = self.route_to_constellation(user_input, model_tier)
+                    
+                    print(f"\n⚙️ Constellation {model_tier.upper()}: {response}")
+                    
+                    # Check if this should generate a directive
+                    if self.should_generate_directive(user_input, response):
+                        directive = self.generate_coder_directive(user_input, response)
+                        self.display_directive_for_approval(directive)
+                    
+                    # Save to session memory
+                    self.session_memory['conversation_history'].append({
+                        'timestamp': datetime.now().isoformat(),
+                        'user_input': user_input,
+                        'intent': 'command',
+                        'model_tier': model_tier,
+                        'response': response
+                    })
                 
             except KeyboardInterrupt:
                 print("\n\nConstellation Hub interrupted. Saving session...")
