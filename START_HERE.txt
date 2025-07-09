@@ -1,4 +1,4 @@
-🜂 DJINN CONSTELLATION HUB — QUICK START GUIDE
+DJINN CONSTELLATION HUB — QUICK START GUIDE
 ==================================================
 
 Welcome to the Djinn Constellation Hub!
@@ -27,40 +27,58 @@ GETTING STARTED (ALL USERS)
      - Show next steps for launching the system
 
 4. **Launch the Constellation Hub**
-   - For the full experience, use:
-     - `launch_enhanced_council_v2_constellation.bat` (Windows)
-     - Or run the appropriate launch script for your OS
-   - You can also run individual models with:
+   - **For the complete experience:**
+     - **Windows:** Double-click `launch_constellation_complete.bat`
+     - This launches the full Constellation Hub with intelligent routing
+   - **For individual model testing:**
      ```bash
-     ollama run djinn-council-enhanced-v2:latest
-     ollama run idhhc-companion:latest
-     ollama run djinn-companion:latest
-     ollama run djinn-federation:latest
+     ollama run Yufok1/djinn-federation:constellation
+     ollama run Yufok1/djinn-federation:council
+     ollama run Yufok1/djinn-federation:idhhc
+     ollama run Yufok1/djinn-federation:companion
      ```
+
+5. **Test the System** (Optional)
+   - Run `python test_constellation_fix.py` to verify everything works
+   - This tests encoding compatibility and model availability
 
 -------------------------------------
 WHAT'S INCLUDED
 -------------------------------------
-- **Enhanced Council v2** (codellama:13b)
-- **IDHHC Companion** (qwen2.5-coder:32b)
-- **Djinn Companion** (llama3.1:8b)
-- **Federation Package** (unified model)
-- **Constellation Hub** (intelligent orchestration)
+- **Constellation Hub** (Master Coordinator - Yufok1/djinn-federation:constellation)
+- **Council Model** (Sovereign Meta-Intelligence - Yufok1/djinn-federation:council)
+- **IDHHC Model** (Operational Strategist - Yufok1/djinn-federation:idhhc)
+- **Companion Model** (Dialogue Controller - Yufok1/djinn-federation:companion)
+- **Memory Bank** (Persistent storage for conversations and state)
+- **Bridge Systems** (Communication protocols between models)
 - Full documentation (README.md, guides, API, troubleshooting)
 - Test suite, examples, and automation scripts
 
 -------------------------------------
+RECENT UPDATES (Latest Fixes)
+-------------------------------------
+- **Fixed Unicode encoding issues** - No more charmap decode errors
+- **Fixed Windows CMD compatibility** - Removed problematic special characters
+- **Added proper error handling** - Graceful fallbacks for encoding issues
+- **Created test script** - Verify system functionality before use
+- **Updated documentation** - See CONSTELLATION_FIXES.md for technical details
+
+-------------------------------------
 TROUBLESHOOTING
 -------------------------------------
-- See `docs/TROUBLESHOOTING.md` for common issues and solutions
-- For model/installation errors, ensure Ollama is installed and up to date
-- For advanced help, consult the README and docs folder
+- **If you get encoding errors:** Run `python test_constellation_fix.py` first
+- **If models aren't found:** Run `ollama list` to check installed models
+- **If launch fails:** Ensure Ollama is running (`ollama serve`)
+- **For advanced help:** See `CONSTELLATION_FIXES.md` and `docs/` folder
 
 -------------------------------------
 SUPPORT & COMMUNITY
 -------------------------------------
 - Open issues or pull requests on GitHub: https://github.com/Yufok1/Djinn-Constellation-Hub
 - Contribute improvements or new features!
+- Check the latest releases for updates and fixes
 
 -------------------------------------
-THANK YOU FOR USING THE DJINN CONSTELLATION HUB 🜂
+THANK YOU FOR USING THE DJINN CONSTELLATION HUB
+
+The Constellation Hub is the TRUE MASTER SYSTEM that orchestrates the entire Djinn ecosystem!
