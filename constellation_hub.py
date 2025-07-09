@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🜂 CONSTELLATION HUB - DJINN FEDERATION 🜂
+CONSTELLATION HUB - DJINN FEDERATION
 Automatic Router & Coder Chat Bridge
 
 This hub automatically routes queries to the appropriate constellation coordinator
@@ -14,6 +14,10 @@ import subprocess
 import re
 from datetime import datetime
 from pathlib import Path
+
+# Set console encoding for Windows
+if os.name == 'nt':
+    os.system('chcp 65001 >nul')
 
 class ConstellationHub:
     def __init__(self):
@@ -58,7 +62,8 @@ class ConstellationHub:
             r'\b(implement|build|create)\b.*\b(system|application|framework)\b',
             r'\b(optimize|refactor|redesign)\b',
             r'\b(algorithm|data structure|pattern)\b',
-            r'\b(integration|deployment|infrastructure)\b'
+            r'\b(integration|deployment|infrastructure)\b',
+            r'\b(tools|toolkit|framework)\b'
         ]
         
         # Check for simple patterns
@@ -79,7 +84,7 @@ class ConstellationHub:
         model = self.models[model_tier]
         
         # Prepare the prompt with context
-        enhanced_prompt = f"""🜂 CONSTELLATION HUB ROUTING 🜂
+        enhanced_prompt = f"""CONSTELLATION HUB ROUTING
 You are being called by the Constellation Hub to handle this query.
 Please provide your mystical guidance and analysis.
 
@@ -87,7 +92,7 @@ USER QUERY: {prompt}
 
 Remember: You can generate directives for the coding chat if the user requests implementation or coding tasks.
 Use the directive format if appropriate:
-🜂 CONSTELLATION DIRECTIVE 🜂
+CONSTELLATION DIRECTIVE
 TASK: [Description]
 PRIORITY: [High/Medium/Low]
 AGENT: [IDHHC/Council/Companion]
@@ -140,7 +145,7 @@ Please respond with your cosmic wisdom:"""
     def display_directive_for_approval(self, directive):
         """Display directive and ask for user approval."""
         print("\n" + "="*60)
-        print("🜂 CONSTELLATION DIRECTIVE FOR CODING CHAT 🜂")
+        print("CONSTELLATION DIRECTIVE FOR CODING CHAT")
         print("="*60)
         print(f"TASK: {directive['directive']['task']}")
         print(f"PRIORITY: {directive['directive']['priority']}")
@@ -157,10 +162,10 @@ Please respond with your cosmic wisdom:"""
             # Update the file
             self.update_directive_status(directive)
             
-            print("✅ Directive approved and queued for coding chat!")
+            print("Directive approved and queued for coding chat!")
             print("The coder can now access this directive for execution.")
         else:
-            print("❌ Directive not approved.")
+            print("Directive not approved.")
     
     def update_directive_status(self, directive):
         """Update directive status in the file."""
@@ -192,7 +197,7 @@ Please respond with your cosmic wisdom:"""
     
     def run(self):
         """Main hub loop."""
-        print("🜂 CONSTELLATION HUB - DJINN FEDERATION 🜂")
+        print("CONSTELLATION HUB - DJINN FEDERATION")
         print("="*50)
         print("Automatic Routing & Coder Chat Bridge")
         print("Type 'exit' to quit, 'status' for system status")
@@ -201,10 +206,10 @@ Please respond with your cosmic wisdom:"""
         while True:
             try:
                 # Get user input
-                user_input = input("\n🜂 You: ").strip()
+                user_input = input("\nYou: ").strip()
                 
                 if user_input.lower() in ['exit', 'quit', 'bye']:
-                    print("🜂 Constellation Hub shutting down...")
+                    print("Constellation Hub shutting down...")
                     self.save_session_memory()
                     break
                 
@@ -219,12 +224,12 @@ Please respond with your cosmic wisdom:"""
                 # Analyze complexity and route
                 model_tier = self.analyze_complexity(user_input)
                 
-                print(f"\n🔄 Routing to Constellation {model_tier.upper()}...")
+                print(f"\nRouting to Constellation {model_tier.upper()}...")
                 
                 # Route to constellation
                 response = self.route_to_constellation(user_input, model_tier)
                 
-                print(f"\n🌟 Constellation {model_tier.upper()}: {response}")
+                print(f"\nConstellation {model_tier.upper()}: {response}")
                 
                 # Check if this should generate a directive
                 if self.should_generate_directive(user_input, response):
@@ -240,18 +245,18 @@ Please respond with your cosmic wisdom:"""
                 })
                 
             except KeyboardInterrupt:
-                print("\n\n🜂 Constellation Hub interrupted. Saving session...")
+                print("\n\nConstellation Hub interrupted. Saving session...")
                 self.save_session_memory()
                 break
             except Exception as e:
-                print(f"\n❌ Error: {str(e)}")
+                print(f"\nError: {str(e)}")
     
     def should_generate_directive(self, prompt, response):
         """Determine if a directive should be generated."""
         directive_triggers = [
             'generate directive', 'create plan', 'push to coder',
             'implement', 'build', 'create', 'code', 'develop',
-            'setup', 'configure', 'install', 'deploy'
+            'setup', 'configure', 'install', 'deploy', 'tools'
         ]
         
         prompt_lower = prompt.lower()
@@ -263,7 +268,7 @@ Please respond with your cosmic wisdom:"""
                 return True
         
         # Check if response contains directive format
-        if '🜂 CONSTELLATION DIRECTIVE 🜂' in response:
+        if 'CONSTELLATION DIRECTIVE' in response:
             return True
         
         return False
@@ -271,7 +276,7 @@ Please respond with your cosmic wisdom:"""
     def show_status(self):
         """Show system status."""
         print("\n" + "="*50)
-        print("🜂 CONSTELLATION HUB STATUS 🜂")
+        print("CONSTELLATION HUB STATUS")
         print("="*50)
         
         # Check models
@@ -279,14 +284,14 @@ Please respond with your cosmic wisdom:"""
             try:
                 result = subprocess.run(['ollama', 'list'], capture_output=True, text=True)
                 if model in result.stdout:
-                    print(f"✅ {tier.upper()}: {model}")
+                    print(f"{tier.upper()}: {model}")
                 else:
-                    print(f"❌ {tier.upper()}: {model} (not found)")
+                    print(f"{tier.upper()}: {model} (not found)")
             except:
-                print(f"❓ {tier.upper()}: {model} (status unknown)")
+                print(f"{tier.upper()}: {model} (status unknown)")
         
         # Check files
-        print(f"\n📁 Coder Directives: {self.coder_directives_file}")
+        print(f"\nCoder Directives: {self.coder_directives_file}")
         if os.path.exists(self.coder_directives_file):
             with open(self.coder_directives_file, 'r') as f:
                 directive_count = sum(1 for line in f if line.strip())
@@ -294,8 +299,8 @@ Please respond with your cosmic wisdom:"""
         else:
             print("   No directives file found")
         
-        print(f"📁 VOID Workspace: {self.void_workspace}")
-        print(f"📁 Memory Bank: {self.memory_bank}")
+        print(f"VOID Workspace: {self.void_workspace}")
+        print(f"Memory Bank: {self.memory_bank}")
         print("="*50)
     
     def show_directives(self):
@@ -305,14 +310,14 @@ Please respond with your cosmic wisdom:"""
             return
         
         print("\n" + "="*50)
-        print("🜂 PENDING DIRECTIVES 🜂")
+        print("PENDING DIRECTIVES")
         print("="*50)
         
         with open(self.coder_directives_file, 'r') as f:
             for i, line in enumerate(f, 1):
                 if line.strip():
                     directive = json.loads(line)
-                    status = "✅ APPROVED" if directive.get('directive', {}).get('approved') else "⏳ PENDING"
+                    status = "APPROVED" if directive.get('directive', {}).get('approved') else "PENDING"
                     print(f"{i}. {status} - {directive['directive']['task'][:50]}...")
                     print(f"   Timestamp: {directive['timestamp']}")
                     print()

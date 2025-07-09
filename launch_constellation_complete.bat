@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul
 echo.
 echo ========================================
 echo   CONSTELLATION HUB COMPLETE
@@ -8,7 +9,7 @@ echo Launching the TRUE MASTER HUB system...
 echo.
 echo Constellation Components:
 echo Federation: AI Model Coordination
-echo Void Framework: Environment & Tools  
+echo Void Framework: Environment and Tools  
 echo Memory Bank: Persistent Storage
 echo Bridge Systems: Communication Protocols
 echo.
@@ -136,10 +137,10 @@ echo   - Yufok1/djinn-federation:constellation-lite (Ultra-Fast Coordinator)
 echo   - Yufok1/djinn-federation:constellation-core (Primary Coordinator)
 echo   - Yufok1/djinn-federation:constellation-max (Complex Task Coordinator)
 echo   - Yufok1/djinn-federation:council (Sovereign Meta-Intelligence)
-echo   - Yufok1/djinn-federation:idhhc (Operational Strategist & Cosmic Coder)
-echo   - Yufok1/djinn-federation:companion (Dialogue Controller & Soul Connector)
+echo   - Yufok1/djinn-federation:idhhc (Operational Strategist and Cosmic Coder)
+echo   - Yufok1/djinn-federation:companion (Dialogue Controller and Soul Connector)
 echo.
-echo Void Framework: Environment & Tools
+echo Void Framework: Environment and Tools
 echo   - File system operations
 echo   - Advanced toolkit capabilities
 echo   - Workspace management
