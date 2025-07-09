@@ -21,7 +21,7 @@ class ConstellationHub:
         self.session_id = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.memory = []
         self.federation_models = {
-            'constellation': 'neural-constellation',
+            'constellation': 'Yufok1/djinn-federation:constellation',
             'council': 'Yufok1/djinn-federation:council',
             'idhhc': 'Yufok1/djinn-federation:idhhc',
             'companion': 'Yufok1/djinn-federation:companion'
