@@ -141,7 +141,11 @@ Instructions: Decide whether to (1) answer directly, (2) route to council, idhhc
                 import re, json as pyjson
                 match = re.search(r'\{.*\}', result.stdout, re.DOTALL)
                 if match:
-                    return pyjson.loads(match.group(0))
+                    try:
+                        return pyjson.loads(match.group(0))
+                    except:
+                        # If JSON parsing fails, treat as direct response
+                        return {"action": "direct", "target": "constellation", "operator_response": result.stdout.strip(), "reasoning": "Direct response from neural constellation."}
         except Exception as e:
             print(f"Operator error: {e}")
         # Fallback: route as before
@@ -204,7 +208,7 @@ Session ID: {self.session_id}
                 entry['query'],
                 entry['model_used'],
                 entry['response'],
-                entry['routing_decision']
+                str(entry['routing_decision'])  # Convert dict to string for database storage
             ))
             
             conn.commit()
