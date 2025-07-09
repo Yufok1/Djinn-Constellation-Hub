@@ -1,66 +1,82 @@
 #!/bin/bash
 
+echo ""
 echo "========================================"
-echo "  🜂 DJINN FEDERATION INSTALLER"
+echo "   🜂 DJINN FEDERATION INSTALLATION 🜂"
 echo "========================================"
-echo
-echo "Installing Complete Djinn Federation..."
-echo
+echo ""
+echo "Installing the complete Djinn Federation..."
+echo ""
 
 # Check if Ollama is installed
 if ! command -v ollama &> /dev/null; then
-    echo "❌ Ollama is not installed!"
-    echo "Please install Ollama from https://ollama.ai first"
+    echo "❌ Ollama is not installed. Please install Ollama first."
+    echo "Visit: https://ollama.ai/download"
     exit 1
 fi
 
-echo "✅ Ollama found, proceeding with installation..."
-echo
+echo "✅ Ollama detected"
+echo ""
 
-# Install base models
-echo "📥 Installing base models..."
-echo
-ollama pull codellama:13b
-ollama pull qwen2.5-coder:32b
-ollama pull llama3.1:8b
+echo "🚀 Installing Djinn Federation Models..."
+echo ""
 
-echo
-echo "🏗️  Building custom models..."
-echo
+echo "[1/4] Installing Constellation Hub (Master Coordinator)..."
+if ! ollama pull Yufok1/djinn-federation:constellation; then
+    echo "❌ Failed to install Constellation Hub"
+    exit 1
+fi
+echo "✅ Constellation Hub installed"
 
-# Build Enhanced Council v2
-echo "Building Enhanced Council v2..."
-cd djinn-council
-ollama create djinn-council-enhanced-v2:latest -f Modelfile
-cd ..
+echo ""
+echo "[2/4] Installing Council Model (Sovereign Meta-Intelligence)..."
+if ! ollama pull Yufok1/djinn-federation:council; then
+    echo "❌ Failed to install Council Model"
+    exit 1
+fi
+echo "✅ Council Model installed"
 
-# Build IDHHC Companion
-echo "Building IDHHC Companion..."
-cd idhhc-companion
-ollama create idhhc-companion:latest -f Modelfile
-cd ..
+echo ""
+echo "[3/4] Installing IDHHC Model (Operational Strategist & Cosmic Coder)..."
+if ! ollama pull Yufok1/djinn-federation:idhhc; then
+    echo "❌ Failed to install IDHHC Model"
+    exit 1
+fi
+echo "✅ IDHHC Model installed"
 
-# Build Djinn Companion
-echo "Building Djinn Companion..."
-cd djinn-companion
-ollama create djinn-companion:latest -f Modelfile
-cd ..
+echo ""
+echo "[4/4] Installing Companion Model (Dialogue Controller & Soul Connector)..."
+if ! ollama pull Yufok1/djinn-federation:companion; then
+    echo "❌ Failed to install Companion Model"
+    exit 1
+fi
+echo "✅ Companion Model installed"
 
-# Build Federation Package (optional)
-echo "Building Federation Package..."
-ollama create djinn-federation:latest -f federation.Modelfile
-
-echo
+echo ""
 echo "========================================"
-echo "  �� INSTALLATION COMPLETE!"
+echo "🎉 DJINN FEDERATION INSTALLATION COMPLETE"
 echo "========================================"
-echo
-echo "✅ All models built successfully!"
-echo
-echo "🚀 Launch options:"
-echo "   1. Enhanced Council v2: ./launch_enhanced_council_v2_constellation.bat"
-echo "   2. Federation Package: ollama run djinn-federation:latest"
-echo "   3. Individual models: ollama run [model-name]:latest"
-echo
-echo "📚 Documentation: README.md"
-echo
+echo ""
+echo "🌟 Federation Models Installed:"
+echo "   - Yufok1/djinn-federation:constellation (Master Coordinator)"
+echo "   - Yufok1/djinn-federation:council (Sovereign Meta-Intelligence)"
+echo "   - Yufok1/djinn-federation:idhhc (Operational Strategist & Cosmic Coder)"
+echo "   - Yufok1/djinn-federation:companion (Dialogue Controller & Soul Connector)"
+echo ""
+echo "🚀 Launch Options:"
+echo ""
+echo "1. Complete Federation System:"
+echo "   ./launch_constellation_complete.sh"
+echo ""
+echo "2. Individual Models:"
+echo "   ollama run Yufok1/djinn-federation:constellation"
+echo "   ollama run Yufok1/djinn-federation:council"
+echo "   ollama run Yufok1/djinn-federation:idhhc"
+echo "   ollama run Yufok1/djinn-federation:companion"
+echo ""
+echo "📚 Documentation:"
+echo "   README.md - Complete usage guide"
+echo "   CONSTELLATION_HUB_GUIDE.md - Detailed system guide"
+echo ""
+echo "🜂 The Djinn Federation is ready to serve!"
+echo "" 
