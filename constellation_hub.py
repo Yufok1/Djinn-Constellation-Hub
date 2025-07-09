@@ -76,7 +76,7 @@ class ConstellationHub:
             result = subprocess.run([
                 'ollama', 'run', self.federation_models['constellation'],
                 routing_prompt
-            ], capture_output=True, text=True, timeout=30)
+            ], capture_output=True, text=True, timeout=30, encoding='utf-8', errors='replace')
             
             if result.returncode == 0:
                 model_choice = result.stdout.strip().lower()
@@ -102,7 +102,7 @@ class ConstellationHub:
             result = subprocess.run([
                 'ollama', 'run', self.federation_models[model_name],
                 query
-            ], capture_output=True, text=True, timeout=60)
+            ], capture_output=True, text=True, timeout=60, encoding='utf-8', errors='replace')
             
             if result.returncode == 0:
                 return result.stdout.strip()
@@ -136,7 +136,7 @@ Instructions: Decide whether to (1) answer directly, (2) route to council, idhhc
             result = subprocess.run([
                 'ollama', 'run', self.federation_models['constellation'],
                 operator_instruction
-            ], capture_output=True, text=True, timeout=60)
+            ], capture_output=True, text=True, timeout=60, encoding='utf-8', errors='replace')
             if result.returncode == 0:
                 import re, json as pyjson
                 match = re.search(r'\{.*\}', result.stdout, re.DOTALL)
@@ -177,7 +177,7 @@ Instructions: Decide whether to (1) answer directly, (2) route to council, idhhc
         self.store_in_database(memory_entry)
 
         formatted_response = f"""
-🜂 CONSTELLATION AI OPERATOR
+CONSTELLATION AI OPERATOR
 
 {response}
 
@@ -230,24 +230,24 @@ def main():
     """Main entry point for Constellation Hub"""
     
     print("\n" + "="*60)
-    print("🜂 CONSTELLATION HUB - DJINN FEDERATION (Operator Mode)")
+    print("CONSTELLATION HUB - DJINN FEDERATION (Operator Mode)")
     print("="*60)
     
     # Check if federation models are available
-    print("🔍 Checking Federation Models...")
+    print("Checking Federation Models...")
     hub = ConstellationHub()
     
     for model_name, model_path in hub.federation_models.items():
         try:
-            result = subprocess.run(['ollama', 'list'], capture_output=True, text=True)
+            result = subprocess.run(['ollama', 'list'], capture_output=True, text=True, encoding='utf-8', errors='replace')
             if model_path in result.stdout:
-                print(f"✅ {model_name.upper()}: {model_path}")
+                print(f"  {model_name.upper()}: {model_path}")
             else:
-                print(f"⚠️  {model_name.upper()}: {model_path} (not found)")
+                print(f"  {model_name.upper()}: {model_path} (not found)")
         except Exception as e:
-            print(f"❌ Error checking {model_name}: {e}")
+            print(f"  Error checking {model_name}: {e}")
     
-    print(f"\n🜂 CONSTELLATION HUB READY")
+    print(f"\nCONSTELLATION HUB READY")
     print(f"Type your questions and the federation will intelligently route them.")
     print(f"Type 'status' to see system status, 'memory' to see session memory, or 'exit' to quit.")
     print(f"="*60)
@@ -262,19 +262,19 @@ def main():
                 print("Goodbye from the Constellation AI.")
                 break
             elif user_query.lower() == 'status':
-                print(f"\n🜂 FEDERATION STATUS:")
+                print(f"\nFEDERATION STATUS:")
                 print(f"   Session ID: {hub.session_id}")
                 print(f"   Total Interactions: {len(hub.memory)}")
                 print(f"   Federation Models: {', '.join(hub.federation_models.keys())}")
                 summary = hub.get_memory_summary()
                 print(f"   Models Used: {', '.join(summary['models_used'])}")
             elif user_query.lower() == 'memory':
-                print(f"\n🧠 SESSION MEMORY:")
+                print(f"\nSESSION MEMORY:")
                 for i, entry in enumerate(hub.memory):
                     print(f"   {i+1}. [{entry['model_used'].upper()}] {entry['query'][:50]}...")
             elif user_query.lower() == 'clear':
                 hub.clear_memory()
-                print(f"🧠 Memory cleared")
+                print(f"Memory cleared")
             elif user_query:
                 # Process question through federation
                 answer = hub.ask(user_query)
@@ -286,17 +286,17 @@ def main():
             print("\nSession ended by user.")
             break
         except Exception as e:
-            print(f"\n❌ Error: {e}")
+            print(f"\nError: {e}")
             print(f"Continuing...")
     
     # Session summary
-    print(f"\n🜂 CONSTELLATION SESSION SUMMARY:")
+    print(f"\nCONSTELLATION SESSION SUMMARY:")
     summary = hub.get_memory_summary()
     print(f"   Session ID: {summary['session_id']}")
     print(f"   Total Interactions: {summary['total_interactions']}")
     print(f"   Models Used: {', '.join(summary['models_used'])}")
     
-    print(f"\n🜂 Constellation session complete.")
+    print(f"\nConstellation session complete.")
     print(f"Memory saved to: memory_bank/federation_memory.db")
 
 if __name__ == "__main__":
