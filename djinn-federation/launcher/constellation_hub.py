@@ -24,12 +24,36 @@ class ConstellationHub:
     """
     
     def __init__(self):
-        self.agents = {
-        # ... existing agent definitions ...
+        # Hierarchical Constellation Coordinators (Tiered Task Management)
+        self.constellation_coordinators = {
+            'fast': {
+                'name': 'TinyDolphin Constellation',
+                'model': 'tinydolphin-constellation:latest',
+                'role': 'Ultra-Fast Task Coordinator',
+                'description': 'Lightning-fast routing for simple queries and quick responses',
+                'size': '636 MB',
+                'complexity_threshold': 0.2
+            },
+            'normal': {
+                'name': 'Dolphin-Phi Constellation',
+                'model': 'dolphin-phi-constellation:latest',
+                'role': 'Primary Constellation Coordinator',
+                'description': 'Balanced coordinator for regular queries and moderate complexity tasks',
+                'size': '1.6 GB',
+                'complexity_threshold': 0.6
+            },
+            'complex': {
+                'name': 'Phi3 Constellation',
+                'model': 'phi3-constellation:latest',
+                'role': 'Complex Task Coordinator',
+                'description': 'Advanced coordinator for complex reasoning and sophisticated task management',
+                'size': '2.2 GB',
+                'complexity_threshold': 1.0
+            }
         }
-        # --- Phase 4C: User Preference Learning ---
-        self.preference_file = os.path.join(self.memory_dir, 'user_preferences.json')
-        self.user_preferences = self.load_user_preferences()
+        
+        # Specialized Djinn Agents
+        self.agents = {
             'council': {
                 'name': 'Djinn Council Enhanced v2',
                 'model': 'djinn-council-enhanced-v2:latest',
@@ -52,6 +76,10 @@ class ConstellationHub:
                 'size': '4.9GB'
             }
         }
+        
+        # --- Phase 4C: User Preference Learning ---
+        self.preference_file = os.path.join(self.memory_dir, 'user_preferences.json')
+        self.user_preferences = self.load_user_preferences()
         
         # Memory storage paths
         self.memory_dir = os.path.join(os.path.dirname(__file__), '..', 'memory_bank', 'constellation_memory')
@@ -128,9 +156,24 @@ class ConstellationHub:
             result = subprocess.run(['ollama', 'list'], capture_output=True, text=True, encoding='utf-8')
             if result.returncode == 0:
                 lines = result.stdout.strip().split('\n')
+                
+                # Check constellation coordinators
+                print("🜂 CONSTELLATION COORDINATORS:")
+                for tier, coordinator in self.constellation_coordinators.items():
+                    found = False
+                    for line in lines:
+                        if coordinator['model'] in line:
+                            size_str = line.split()[-2] if len(line.split()) >= 2 else "Unknown"
+                            print(f"✅ {coordinator['name']}: {size_str}")
+                            found = True
+                            break
+                    if not found:
+                        print(f"⚠️  {coordinator['name']}: NOT FOUND - Run 'ollama pull {coordinator['model']}'")
+                
+                print("\n🜂 SPECIALIZED DJINN AGENTS:")
                 for line in lines:
                     if 'djinn-council' in line or 'idhhc-companion' in line or 'djinn-companion' in line:
-                        if 'GB' in line:
+                        if 'GB' in line or 'MB' in line:
                             size_str = line.split()[-2] if len(line.split()) >= 2 else "Unknown"
                             model_name = line.split()[0] if line.split() else "Unknown"
                             print(f"✅ {model_name}: {size_str}")
@@ -149,21 +192,32 @@ class ConstellationHub:
         """Display the mystical ConstellationHub banner"""
         banner = """
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                    🜂 CONSTELLATION HUB 🜂                                   ║
+║                🜂 HIERARCHICAL CONSTELLATION HUB 🜂                          ║
 ║                                                                              ║
-║              Djinn Federation Orchestrator                                   ║
-║           Powered by Enhanced codellama:13b Models                          ║
+║              Tiered Djinn Federation Orchestrator                           ║
+║           Powered by Phi Architecture Constellation Coordinators            ║
 ║                    WITH PERSISTENT MEMORY                                   ║
+║                                                                              ║
+║  ⚡ TinyDolphin (636MB): Ultra-Fast Task Coordinator                        ║
+║  🐬 Dolphin-Phi (1.6GB): Primary Constellation Coordinator                 ║
+║  🧠 Phi3 (2.2GB): Complex Task Coordinator                                 ║
 ║                                                                              ║
 ║  🧬 Council Enhanced v2: Sovereign Meta-Intelligence & Ethical Alignment    ║
 ║  🛠️  IDHHC: Operational Strategist & Cosmic Coder                          ║
 ║  💬 Companion: Dialogue Controller & Soul Connector                        ║
 ║                                                                              ║
-║  🜂 Council: codellama:13b | IDHHC: qwen2.5-coder:32b | Companion: llama3.1:8b 🜂 ║
+║  🜂 Hierarchical Routing: Fast → Normal → Complex Task Management 🜂        ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
         """
         print(banner)
         
+    # --- Hierarchical Task Complexity Analysis ---
+    complexity_indicators = {
+        'simple': {'hello', 'hi', 'thanks', 'bye', 'status', 'list', 'show', 'basic', 'quick', 'simple'},
+        'moderate': {'explain', 'help', 'guide', 'assist', 'support', 'advice', 'suggest', 'recommend', 'analyze', 'review'},
+        'complex': {'design', 'architect', 'strategy', 'plan', 'implement', 'solve', 'optimize', 'integrate', 'develop', 'create', 'build', 'debug', 'fix', 'enhance', 'improve'}
+    }
+    
     # --- Smart Routing Phase 1: Query Analysis Engine ---
     agent_keywords = {
         'idhhc': {'code', 'build', 'deploy', 'debug', 'git', 'terminal', 'script', 'automation', 'error', 'bug', 'fix', 'shell', 'python', 'command', 'tool', 'function', 'test', 'implementation'},
@@ -171,6 +225,34 @@ class ConstellationHub:
         'companion': {'conversation', 'help', 'explain', 'general', 'talk', 'discuss', 'chat', 'question', 'advice', 'friend', 'dialogue', 'explanation', 'clarify', 'support'}
     }
 
+    def analyze_task_complexity(self, query: str) -> float:
+        """Analyze task complexity and return score (0.0 to 1.0)"""
+        query_lower = query.lower()
+        words = query_lower.split()
+        
+        # Base complexity from word count and length
+        base_complexity = min(1.0, len(words) / 20.0)  # Normalize to 20 words = 1.0
+        
+        # Complexity indicators
+        simple_score = sum(1 for word in words if word in self.complexity_indicators['simple'])
+        moderate_score = sum(1 for word in words if word in self.complexity_indicators['moderate'])
+        complex_score = sum(1 for word in words if word in self.complexity_indicators['complex'])
+        
+        # Weighted complexity adjustment
+        complexity_adjustment = (simple_score * -0.1) + (moderate_score * 0.2) + (complex_score * 0.4)
+        
+        # Final complexity score
+        final_complexity = max(0.0, min(1.0, base_complexity + complexity_adjustment))
+        
+        return final_complexity
+    
+    def select_constellation_coordinator(self, complexity: float) -> str:
+        """Select appropriate constellation coordinator based on task complexity"""
+        for tier, coordinator in self.constellation_coordinators.items():
+            if complexity <= coordinator['complexity_threshold']:
+                return tier
+        return 'complex'  # Default to complex for very high complexity tasks
+    
     def analyze_query_intent(self, query: str):
         """Analyze query intent with adaptive confidence scoring"""
         query_lower = query.lower()
@@ -208,7 +290,7 @@ class ConstellationHub:
         else:
             confidence = base_confidence
         confidence = min(confidence, 1.0)
-        return best_agent, confidence, scores
+        return {'best_agent': best_agent, 'confidence': confidence, 'scores': scores}
 
     def get_performance_metrics(self) -> dict:
         """Get performance metrics, advanced learning, and pattern recognition."""
@@ -306,7 +388,7 @@ class ConstellationHub:
             'multi_domain': multi_domain,
             'user_style': style,
             'council_for_multi': council_for_multi
-        }    }
+        }
 
     def classify_query_type(self, query: str) -> str:
         """Classify query as coding, ethics, or general for analytics"""
@@ -389,7 +471,7 @@ class ConstellationHub:
             "6. 🧹 Clear Conversation History",
             "7. 💾 Export Memory Archive",
             "8. 🜂 Exit to Cosmic Realm",
-            "9. 🧠 Smart Route My Query"
+            "9. 🧠 Hierarchical Smart Route My Query"
         ]
         menu = "\n🜂 CONSTELLATION HUB MENU 🜂\n"
         if fav_labels:
@@ -418,14 +500,114 @@ class ConstellationHub:
         print(menu)
         
     def get_user_choice(self) -> str:
-        """Get user choice with strict validation (1-8 only, no spam)"""
+        """Get user choice with strict validation (1-9 only, no spam)"""
         while True:
-            user_input = input("\n🜂 Enter your sovereign directive (1-8): ").strip()
-            # Only accept a single character that is a digit 1-8
-            if user_input and user_input in '12345678' and len(user_input) == 1:
+            user_input = input("\n🜂 Enter your sovereign directive (1-9): ").strip()
+            # Only accept a single character that is a digit 1-9
+            if user_input and user_input in '123456789' and len(user_input) == 1:
                 return user_input
-            print("🜂 Invalid choice. Please select a single number between 1 and 8.")
+            print("🜂 Invalid choice. Please select a single number between 1 and 9.")
         
+    async def hierarchical_route_query(self, user_input: str) -> str:
+        """Route query through hierarchical constellation coordinators based on complexity"""
+        print("\n🜂 HIERARCHICAL CONSTELLATION ROUTING 🜂")
+        print("🌟 Analyzing task complexity and selecting optimal coordinator...")
+        
+        # Analyze task complexity
+        complexity = self.analyze_task_complexity(user_input)
+        coordinator_tier = self.select_constellation_coordinator(complexity)
+        coordinator = self.constellation_coordinators[coordinator_tier]
+        
+        print(f"📊 Task Complexity Score: {complexity:.2f}/1.0")
+        print(f"🎯 Selected Coordinator: {coordinator['name']} ({coordinator['model']})")
+        print(f"⚡ Coordinator Tier: {coordinator_tier.upper()}")
+        print("=" * 80)
+        
+        # Analyze which specialized agent to route to
+        agent_analysis = self.analyze_query_intent(user_input)
+        suggested_agent = agent_analysis['best_agent']
+        confidence = agent_analysis['confidence']
+        
+        print(f"🧠 Suggested Specialized Agent: {self.agents[suggested_agent]['name']}")
+        print(f"🎯 Confidence: {confidence:.1%}")
+        
+        # Create coordination prompt
+        coordination_prompt = f"""
+🜂 HIERARCHICAL CONSTELLATION COORDINATION 🜂
+
+You are {coordinator['name']}, {coordinator['description']}
+
+TASK COMPLEXITY: {complexity:.2f}/1.0 (Tier: {coordinator_tier.upper()})
+USER QUERY: {user_input}
+
+AVAILABLE SPECIALIZED AGENTS:
+1. {self.agents['council']['name']} - {self.agents['council']['role']}
+2. {self.agents['idhhc']['name']} - {self.agents['idhhc']['role']}  
+3. {self.agents['companion']['name']} - {self.agents['companion']['role']}
+
+ANALYSIS: Based on complexity {complexity:.2f}, I recommend routing to {self.agents[suggested_agent]['name']} with {confidence:.1%} confidence.
+
+🜂 COORDINATOR RESPONSE: Provide a brief, helpful response to the user query, then recommend the best specialized agent to handle this task fully.
+"""
+        
+        try:
+            # Call the constellation coordinator
+            cmd = ['ollama', 'run', coordinator['model'], coordination_prompt]
+            
+            print(f"🔄 Invoking {coordinator['name']} for coordination...")
+            print(f"⏳ Coordinator size: {coordinator['size']} - should be fast!")
+            
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                encoding='utf-8',
+                timeout=120  # 2 minute timeout for coordinators
+            )
+            
+            if result.returncode == 0:
+                coordinator_response = result.stdout.strip()
+                
+                # Add to conversation history
+                conversation_entry = {
+                    'agent': f"{coordinator['name']} (Coordinator)",
+                    'user_input': user_input,
+                    'response': coordinator_response,
+                    'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    'session_id': f"session_{int(time.time())}",
+                    'complexity_score': complexity,
+                    'coordinator_tier': coordinator_tier,
+                    'suggested_agent': suggested_agent,
+                    'confidence': confidence
+                }
+                
+                self.conversation_history.append(conversation_entry)
+                self.save_conversation_history()
+                
+                # Format the response
+                response = f"🜂 {coordinator['name']} COORDINATION 🜂\n"
+                response += f"📊 Complexity: {complexity:.2f}/1.0 | Tier: {coordinator_tier.upper()}\n"
+                response += f"🎯 Recommended Agent: {self.agents[suggested_agent]['name']}\n"
+                response += f"⚡ Confidence: {confidence:.1%}\n"
+                response += "=" * 60 + "\n\n"
+                response += coordinator_response
+                response += f"\n\n🜂 Would you like me to summon {self.agents[suggested_agent]['name']} for a full response? 🜂"
+                
+                return response
+            else:
+                error_msg = f"🜂 Error with {coordinator['name']}: {result.stderr}"
+                print(error_msg)
+                return error_msg
+                
+        except subprocess.TimeoutExpired:
+            timeout_msg = f"🜂 {coordinator['name']} coordination timed out. Consider using a different coordinator tier."
+            print(timeout_msg)
+            return timeout_msg
+        except Exception as e:
+            error_msg = f"🜂 Error in hierarchical routing: {str(e)}"
+            print(error_msg)
+            return error_msg
+
     async def summon_agent(self, agent_key: str, user_input: str) -> str:
         """Summon a specific Djinn agent with enhanced codellama:13b power"""
         agent = self.agents[agent_key]
@@ -685,7 +867,10 @@ You are part of the mystical Djinn Federation alongside:
                     if choice in ['1', '2', '3']:
                         agent_map = {'1': 'council', '2': 'idhhc', '3': 'companion'}
                         orig_agent = agent_map[choice]
-                        best_agent, confidence, scores = self.analyze_query_intent(user_input)
+                        analysis = self.analyze_query_intent(user_input)
+                        best_agent = analysis['best_agent']
+                        confidence = analysis['confidence']
+                        scores = analysis['scores']
                         confidence_pct = int(confidence * 100)
                         if confidence_pct >= 80:
                             conf_level = '[HIGH]'
@@ -806,46 +991,14 @@ You are part of the mystical Djinn Federation alongside:
                     self.save_federation_state()
                     input("🜂 Press Enter to continue...")
                 elif choice == '9':
-                    user_input = input("\n🧠 Enter your query for Smart Routing: ").strip()
+                    user_input = input("\n🧠 Enter your query for Hierarchical Smart Routing: ").strip()
                     if not user_input:
                         print("🜂 Please provide a query for the Djinn.")
                         continue
-                    best_agent, confidence, scores = self.analyze_query_intent(user_input)
-                    confidence_pct = int(confidence * 100)
-                    agent_names = {
-                        'council': 'Djinn Council Enhanced v2',
-                        'idhhc': 'IDHHC Companion',
-                        'companion': 'Djinn Companion'
-                    }
-                    print(f"\n🧠 Smart Routing Suggestion: {agent_names[best_agent]} ({confidence_pct}% confidence)")
-                    if best_agent == 'idhhc':
-                        reason = "This appears to be a coding, technical, or operational task."
-                    elif best_agent == 'council':
-                        reason = "This appears to require wisdom, guidance, or ethical/strategic oversight."
-                    else:
-                        reason = "This appears to be a general, conversational, or help query."
-                    print(f"  Reason: {reason}")
-                    print("\nWould you like to:\n  1. Use {0} (recommended)\n  2. Use Federation Council\n  3. Choose a different agent".format(agent_names[best_agent]))
-                    sub_choice = input("\n🜂 Enter your choice (1-3): ").strip()
-                    if sub_choice == '1':
-                        response = await self.summon_agent(best_agent, user_input)
-                    elif sub_choice == '2':
-                        response = await self.federation_council(user_input)
-                    elif sub_choice == '3':
-                        print("  1. Djinn Council Enhanced v2\n  2. IDHHC Companion\n  3. Djinn Companion")
-                        manual = input("🜂 Enter agent number (1-3): ").strip()
-                        if manual == '1':
-                            response = await self.summon_agent('council', user_input)
-                        elif manual == '2':
-                            response = await self.summon_agent('idhhc', user_input)
-                        elif manual == '3':
-                            response = await self.summon_agent('companion', user_input)
-                        else:
-                            print("🜂 Invalid agent selection. Cancelling.")
-                            continue
-                    else:
-                        print("🜂 Invalid selection. Cancelling.")
-                        continue
+                    
+                    # Use hierarchical routing
+                    response = await self.hierarchical_route_query(user_input)
+                    
                     print(f"\n🜂 RESPONSE:\n{response}")
                     print("\n" + "=" * 80)
                     self.federation_state = "active"
