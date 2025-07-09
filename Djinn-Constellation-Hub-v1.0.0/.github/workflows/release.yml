@@ -1,0 +1,19 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build and Package
+      run: |
+        zip -r Djinn-Constellation-Hub-${GITHUB_REF##*/}.zip ./
+    - name: Upload Release Asset
+      uses: softprops/action-gh-release@v1
+      with:
+        files: Djinn-Constellation-Hub-*.zip

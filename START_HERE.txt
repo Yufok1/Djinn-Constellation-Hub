@@ -1,0 +1,66 @@
+🜂 DJINN CONSTELLATION HUB — QUICK START GUIDE
+==================================================
+
+Welcome to the Djinn Constellation Hub!
+This package gives you a complete, professional AI constellation system with smart routing, learning, and multi-agent orchestration — all in one easy-to-use bundle.
+
+-------------------------------------
+GETTING STARTED (ALL USERS)
+-------------------------------------
+
+1. **Unzip this package** to a folder on your computer.
+
+2. **Install Ollama** (required for running models)
+   - Download and install from https://ollama.ai
+   - Make sure `ollama` is in your PATH (run `ollama --version` to check)
+
+3. **Run the One-Click Installer**
+   - **Windows:** Double-click `install_djinn_federation.bat`
+   - **Linux/Mac:**
+     ```bash
+     chmod +x install_djinn_federation.sh
+     ./install_djinn_federation.sh
+     ```
+   - This will:
+     - Pull all required base models
+     - Build all custom Djinn models (Council, IDHHC, Companion, Federation)
+     - Show next steps for launching the system
+
+4. **Launch the Constellation Hub**
+   - For the full experience, use:
+     - `launch_enhanced_council_v2_constellation.bat` (Windows)
+     - Or run the appropriate launch script for your OS
+   - You can also run individual models with:
+     ```bash
+     ollama run djinn-council-enhanced-v2:latest
+     ollama run idhhc-companion:latest
+     ollama run djinn-companion:latest
+     ollama run djinn-federation:latest
+     ```
+
+-------------------------------------
+WHAT'S INCLUDED
+-------------------------------------
+- **Enhanced Council v2** (codellama:13b)
+- **IDHHC Companion** (qwen2.5-coder:32b)
+- **Djinn Companion** (llama3.1:8b)
+- **Federation Package** (unified model)
+- **Constellation Hub** (intelligent orchestration)
+- Full documentation (README.md, guides, API, troubleshooting)
+- Test suite, examples, and automation scripts
+
+-------------------------------------
+TROUBLESHOOTING
+-------------------------------------
+- See `docs/TROUBLESHOOTING.md` for common issues and solutions
+- For model/installation errors, ensure Ollama is installed and up to date
+- For advanced help, consult the README and docs folder
+
+-------------------------------------
+SUPPORT & COMMUNITY
+-------------------------------------
+- Open issues or pull requests on GitHub: https://github.com/Yufok1/Djinn-Constellation-Hub
+- Contribute improvements or new features!
+
+-------------------------------------
+THANK YOU FOR USING THE DJINN CONSTELLATION HUB 🜂
