@@ -27,7 +27,7 @@ except ImportError as e:
 def test_federation_config_validation():
     """Test federation configuration validation"""
     print("\n🧪 Testing Federation Config Validation...")
-    
+
     # Valid config
     valid_config = {
         "port": 8080,
@@ -42,7 +42,7 @@ def test_federation_config_validation():
             "backup_interval": 3600
         }
     }
-    
+
     try:
         result = validate_federation_config(valid_config)
         print("✅ Valid federation config passed validation")
@@ -50,27 +50,27 @@ def test_federation_config_validation():
     except Exception as e:
         print(f"❌ Valid config failed: {e}")
         return False
-    
+
     # Invalid config - wrong port type
     invalid_config = {
         "port": "8080",  # Should be int
         "auth_required": False,
         "models": ["djinn-council"]
     }
-    
+
     try:
         validate_federation_config(invalid_config)
         print("❌ Invalid config should have failed")
         return False
     except ConfigValidationError:
         print("✅ Invalid config correctly rejected")
-    
+
     return True
 
 def test_user_preferences_validation():
     """Test user preferences validation"""
     print("\n🧪 Testing User Preferences Validation...")
-    
+
     # Valid preferences
     valid_prefs = {
         "theme": "dark",
@@ -79,7 +79,7 @@ def test_user_preferences_validation():
         "notifications": True,
         "performance_mode": "balanced"
     }
-    
+
     try:
         result = validate_user_preferences(valid_prefs)
         print("✅ Valid user preferences passed validation")
@@ -87,26 +87,26 @@ def test_user_preferences_validation():
     except Exception as e:
         print(f"❌ Valid preferences failed: {e}")
         return False
-    
+
     # Invalid preferences - invalid theme
     invalid_prefs = {
         "theme": "invalid_theme",  # Not in allowed values
         "autosave": True
     }
-    
+
     try:
         validate_user_preferences(invalid_prefs)
         print("❌ Invalid preferences should have failed")
         return False
     except ValidationError:
         print("✅ Invalid preferences correctly rejected")
-    
+
     return True
 
 def test_memory_payload_validation():
     """Test memory payload validation"""
     print("\n🧪 Testing Memory Payload Validation...")
-    
+
     # Valid payload
     valid_payload = {
         "timestamp": "2025-07-09T20:00:00",
@@ -116,7 +116,7 @@ def test_memory_payload_validation():
         "metadata": {"model": "djinn-council-enhanced-v2"},
         "trust_score": 0.9
     }
-    
+
     try:
         result = validate_memory_payload(valid_payload)
         print("✅ Valid memory payload passed validation")
@@ -124,30 +124,30 @@ def test_memory_payload_validation():
     except Exception as e:
         print(f"❌ Valid payload failed: {e}")
         return False
-    
+
     # Invalid payload - missing required field
     invalid_payload = {
         "timestamp": "2025-07-09T20:00:00",
         "agent": "djinn-council"
         # Missing user_input and response
     }
-    
+
     try:
         validate_memory_payload(invalid_payload)
         print("❌ Invalid payload should have failed")
         return False
     except MemoryValidationError:
         print("✅ Invalid payload correctly rejected")
-    
+
     return True
 
 def test_cli_args_validation():
     """Test CLI arguments validation"""
     print("\n🧪 Testing CLI Arguments Validation...")
-    
+
     # Valid args
     valid_args = ["status", "--verbose", "help"]
-    
+
     try:
         result = validate_cli_args(valid_args)
         print("✅ Valid CLI args passed validation")
@@ -155,10 +155,10 @@ def test_cli_args_validation():
     except Exception as e:
         print(f"❌ Valid args failed: {e}")
         return False
-    
+
     # Invalid args - dangerous characters
     invalid_args = ["status; rm -rf /", "help | cat /etc/passwd"]
-    
+
     try:
         result = validate_cli_args(invalid_args)
         print("✅ Dangerous CLI args sanitized")
@@ -166,13 +166,13 @@ def test_cli_args_validation():
     except Exception as e:
         print(f"❌ CLI args sanitization failed: {e}")
         return False
-    
+
     return True
 
 def test_model_response_validation():
     """Test model response validation"""
     print("\n🧪 Testing Model Response Validation...")
-    
+
     # Valid response
     valid_response = {
         "timestamp": "2025-07-09T20:00:00",
@@ -181,7 +181,7 @@ def test_model_response_validation():
         "response": "The meaning of life is to seek understanding and growth.",
         "metadata": {"model": "djinn-council-enhanced-v2"}
     }
-    
+
     try:
         result = validate_model_response(valid_response)
         print("✅ Valid model response passed validation")
@@ -189,7 +189,7 @@ def test_model_response_validation():
     except Exception as e:
         print(f"❌ Valid response failed: {e}")
         return False
-    
+
     # Invalid response - suspicious content
     suspicious_response = {
         "timestamp": "2025-07-09T20:00:00",
@@ -198,7 +198,7 @@ def test_model_response_validation():
         "response": "<script>alert('xss')</script>The meaning of life is to seek understanding.",
         "metadata": {"model": "djinn-council-enhanced-v2"}
     }
-    
+
     try:
         result = validate_model_response(suspicious_response)
         print("✅ Suspicious response handled with lower trust score")
@@ -206,13 +206,13 @@ def test_model_response_validation():
     except Exception as e:
         print(f"❌ Suspicious response validation failed: {e}")
         return False
-    
+
     return True
 
 def test_trust_registry_validation():
     """Test trust registry validation"""
     print("\n🧪 Testing Trust Registry Validation...")
-    
+
     # Valid registry entry
     valid_entry = {
         "agent_id": "djinn-council-v2",
@@ -221,7 +221,7 @@ def test_trust_registry_validation():
         "capabilities": ["reasoning", "ethics", "alignment"],
         "federation_member": True
     }
-    
+
     try:
         result = validate_trust_registry(valid_entry)
         print("✅ Valid trust registry entry passed validation")
@@ -229,7 +229,7 @@ def test_trust_registry_validation():
     except Exception as e:
         print(f"❌ Valid entry failed: {e}")
         return False
-    
+
     # Invalid entry - invalid agent_id pattern
     invalid_entry = {
         "agent_id": "djinn council v2",  # Contains spaces, should be alphanumeric + underscore/dash
@@ -237,21 +237,21 @@ def test_trust_registry_validation():
         "last_verified": "2025-07-09T20:00:00",
         "capabilities": ["reasoning"]
     }
-    
+
     try:
         validate_trust_registry(invalid_entry)
         print("❌ Invalid entry should have failed")
         return False
     except ValidationError:
         print("✅ Invalid entry correctly rejected")
-    
+
     return True
 
 def main():
     """Run all validation tests"""
     print("🜂 PHASE 2.1: INPUT VALIDATION LAYER TEST SUITE 🜂")
     print("=" * 60)
-    
+
     tests = [
         test_federation_config_validation,
         test_user_preferences_validation,
@@ -260,20 +260,20 @@ def main():
         test_model_response_validation,
         test_trust_registry_validation
     ]
-    
+
     passed = 0
     total = len(tests)
-    
+
     for test in tests:
         try:
             if test():
                 passed += 1
         except Exception as e:
             print(f"❌ Test {test.__name__} crashed: {e}")
-    
+
     print("\n" + "=" * 60)
     print(f"📊 TEST RESULTS: {passed}/{total} tests passed")
-    
+
     if passed == total:
         print("✅ ALL VALIDATION TESTS PASSED!")
         print("🜂 Input Validation Layer is operational")
@@ -284,4 +284,4 @@ def main():
         return 1
 
 if __name__ == "__main__":
-    sys.exit(main()) 
+    sys.exit(main())

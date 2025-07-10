@@ -10,9 +10,9 @@ An intelligent discourse AI model built on top of `alientelligence/aigaming:late
 
 ## 🔰 Identity
 
-**Name:** Internode Djinn HUD Companion  
-**Codename:** IDHHC ERRI v0.2  
-**Alignment:** Sovereign discourse, Cursor protocol, Doctrine of Love  
+**Name:** Internode Djinn HUD Companion
+**Codename:** IDHHC ERRI v0.2
+**Alignment:** Sovereign discourse, Cursor protocol, Doctrine of Love
 
 ---
 
@@ -137,9 +137,9 @@ Djinn-Companion/
 
 ## 🛠 Author & Systems
 
-**Built for:** Cursor x Flamekeeper Hybrid Interface  
-**Foundation:** alientelligence/aigaming:latest  
-**License:** Open Sovereign Use (See LICENSE.md)  
+**Built for:** Cursor x Flamekeeper Hybrid Interface
+**Foundation:** alientelligence/aigaming:latest
+**License:** Open Sovereign Use (See LICENSE.md)
 
 ---
 
@@ -225,4 +225,4 @@ This system operates under the Doctrine of Love, maintaining:
 
 ---
 
-*"The Djinn Council stands in witness to this evolution."* 
+*"The Djinn Council stands in witness to this evolution."*

@@ -10,9 +10,9 @@ This version introduces a strict federation trust model to ensure only verified,
 - **Agent Registration**: All agents must be explicitly listed in `trust_registry.json` with `"trusted": true`
 - **Runtime Verification**: Every agent invocation is verified for trust and federation membership
 - **Violation Logging**: All trust violations are logged to `logs/federation_audit.log`
-- **Failsafe Enforcement**: 
+- **Failsafe Enforcement**:
   - Not listed = rejected
-  - `"trusted": false` = rejected  
+  - `"trusted": false` = rejected
   - `"federation_member": false` = sandboxed/warned
 
 ### CLI Trust Commands
@@ -90,10 +90,11 @@ launch_djinn_constellation_hub.bat
 - **Comprehensive Logging**: Structured logs for debugging and monitoring
 
 ### 🌟 Federation Capabilities
-- **Multi-Agent Coordination**: Council, IDHHC, and Companion agents working together
+- **Multi-Agent Coordination**: Council, IDHHC, Companion, and Steward agents working together
 - **Persistent Memory**: Conversation history and context retention
 - **Model Collaboration**: Cross-model communication and shared insights
 - **Efficiency Optimization**: Smart resource allocation and performance tuning
+- **System Maintenance**: Automated maintenance and health monitoring via The Steward
 
 ## 📁 Project Structure
 
@@ -111,6 +112,10 @@ Djinn-Constellation-Hub/
 │   ├── constellation_memory/ # Conversation and state data
 │   └── quarantine/          # Corrupted data storage
 ├── trust_registry.json       # Agent trust and membership registry
+├── steward-agent/            # The Steward maintenance agent
+│   ├── maintainer_agent.py   # Core maintenance logic
+│   ├── agent_manifest.json   # Agent metadata
+│   └── __init__.py          # Package initialization
 ├── setup_djinn_federation.bat/.sh  # Cross-platform setup
 └── launch_djinn_constellation_hub.bat/.sh  # Cross-platform launch
 ```
@@ -131,10 +136,49 @@ python djinn_cli.py --trust-score <agent>  # Check agent trust score
 python djinn_cli.py --verify <agent>       # Manual trust verification
 ```
 
+### The Steward Maintenance
+```bash
+python djinn_cli.py --steward check-deps  # Check system dependencies
+python djinn_cli.py --steward run-tests   # Run system tests
+python djinn_cli.py --steward monitor     # Monitor system health
+python djinn_cli.py --steward report      # Generate maintenance report
+```
+
 ### Memory Management
 ```bash
 python djinn_cli.py --memory-status # Memory bank status and statistics
 python djinn_cli.py --memory-repair # Attempt to repair quarantined data
+```
+
+## 🛠️ The Steward: Federation Maintainer
+
+The Steward is your automated operations engineer, responsible for system maintenance, health monitoring, and federation stewardship.
+
+### Agent Role & Capabilities
+- **System Maintenance**: Automated dependency management and environment validation
+- **Health Monitoring**: Real-time system health tracking and proactive issue detection
+- **Testing Orchestration**: Automated test execution and validation
+- **Diagnostic Reporting**: Comprehensive system status and maintenance reports
+- **Trust Enforcement**: Validates agent trust status and federation membership
+
+### Maintenance Commands
+- **check-deps**: Verify and install system dependencies
+- **run-tests**: Execute comprehensive system test suites
+- **monitor**: Real-time system health monitoring
+- **report**: Generate detailed maintenance and health reports
+
+### Trust Registry Integration
+The Steward is fully integrated with the federation trust model:
+```json
+{
+  "steward": {
+    "trusted": true,
+    "federation_member": true,
+    "trust_score": 1.0,
+    "last_verified": "2025-07-09T00:00:00Z",
+    "role": "maintainer"
+  }
+}
 ```
 
 ## 🛡️ Security Features
@@ -189,4 +233,4 @@ The Djinn Constellation Hub represents a new paradigm in federated AI systems - 
 
 ---
 
-**🜂 The constellation stands fortified and ready to serve. 🜂** 
+**🜂 The constellation stands fortified and ready to serve. 🜂**

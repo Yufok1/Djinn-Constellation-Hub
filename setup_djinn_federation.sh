@@ -104,7 +104,7 @@ while IFS=, read -r name method url hash script _; do
     script=$(echo "$script" | xargs)
     status="NotChecked"
     echo "=== Processing $name with method $method" >> "$LOGFILE"
-    
+
     if [[ "$method" == "ollama" ]]; then
         echo "Checking for $name:latest ..."
         if ! ollama list | grep -q "$name"; then
@@ -180,19 +180,19 @@ while IFS=, read -r name method url hash script _; do
             modelfile_root="$modelfile_name"
             modelfile_mods="djinn-federation/modelfiles/$modelfile_name"
             modelfile_found=""
-            
+
             if [ -f "$modelfile_root" ]; then
                 modelfile_found="$modelfile_root"
             fi
             if [ -f "$modelfile_mods" ]; then
                 modelfile_found="$modelfile_mods"
             fi
-            
+
             # Warn if both exist
             if [ -f "$modelfile_root" ] && [ -f "$modelfile_mods" ]; then
                 echo "⚠️ Multiple .Modelfile files found for $name. Using $modelfile_found." >> "$LOGFILE"
             fi
-            
+
             if [ -n "$modelfile_found" ]; then
                 echo "📝 Found .Modelfile for $name: $modelfile_found" >> "$LOGFILE"
                 echo "Attempting to create Ollama model $name from $modelfile_found..." >> "$LOGFILE"

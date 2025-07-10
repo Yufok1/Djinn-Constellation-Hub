@@ -133,4 +133,4 @@ echo 2. Launch: .\launch_djinn_constellation_hub.bat
 echo 3. Test cross-model communication
 echo.
 
-pause 
+pause

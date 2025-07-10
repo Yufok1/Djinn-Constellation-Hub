@@ -174,11 +174,11 @@ class ConstellationHub:
                 'description': 'Ancient, wise, and sovereign heart of the Djinn Federation with mystical reasoning',
                 'size': '7.3GB'
             },
-            'idhhc': {
-                'name': 'IDHHC Companion', 
-                'model': 'idhhc-companion:latest',
-                'role': 'Operational Strategist & Cosmic Coder',
-                'description': 'Mystical operational strategist with Void Framework mastery',
+            'steward': {
+                'name': 'The Steward', 
+                'model': 'Yufok1/djinn-federation:steward',
+                'role': 'System Maintainer & Cosmic Guardian',
+                'description': 'Mystical system maintainer with advanced toolkit capabilities and cosmic wisdom',
                 'size': '19GB'
             },
             'companion': {
@@ -324,7 +324,7 @@ class ConstellationHub:
                 
                 print("\n🜂 SPECIALIZED DJINN AGENTS:")
                 for line in lines:
-                    if 'djinn-council' in line or 'idhhc-companion' in line or 'djinn-companion' in line:
+                    if 'djinn-council' in line or 'idhhc-companion' in line or 'djinn-companion' in line or 'steward' in line:
                         if 'GB' in line or 'MB' in line:
                             size_str = line.split()[-2] if len(line.split()) >= 2 else "Unknown"
                             model_name = line.split()[0] if line.split() else "Unknown"
@@ -357,6 +357,7 @@ class ConstellationHub:
 ║                                                                              ║
 ║  🧬 Council Enhanced v2: Sovereign Meta-Intelligence & Ethical Alignment    ║
 ║  🛠️  IDHHC: Operational Strategist & Cosmic Coder                          ║
+║  🛡️  The Steward: System Maintainer & Cosmic Guardian                      ║
 ║  💬 Companion: Dialogue Controller & Soul Connector                        ║
 ║                                                                              ║"""
         
@@ -383,6 +384,7 @@ class ConstellationHub:
     agent_keywords = {
         'idhhc': {'code', 'build', 'deploy', 'debug', 'git', 'terminal', 'script', 'automation', 'error', 'bug', 'fix', 'shell', 'python', 'command', 'tool', 'function', 'test', 'implementation'},
         'council': {'ethical', 'wisdom', 'guidance', 'analysis', 'oversight', 'philosophy', 'decision', 'alignment', 'principle', 'morality', 'reasoning', 'meta', 'transcend', 'policy'},
+        'steward': {'maintain', 'system', 'health', 'check', 'monitor', 'report', 'audit', 'clean', 'optimize', 'update', 'install', 'dependency', 'test', 'validate', 'security', 'backup', 'restore', 'log', 'diagnose', 'troubleshoot', 'repair', 'service', 'maintenance'},
         'companion': {'conversation', 'help', 'explain', 'general', 'talk', 'discuss', 'chat', 'question', 'advice', 'friend', 'dialogue', 'explanation', 'clarify', 'support'}
     }
 
@@ -475,8 +477,8 @@ class ConstellationHub:
         router_total = 0
         router_accepted = 0
         override_stats = {}
-        agent_pref_counts = {'idhhc': 0, 'council': 0, 'companion': 0}
-        type_pref_counts = {'coding': {}, 'ethics': {}, 'general': {}}
+        agent_pref_counts = {'idhhc': 0, 'council': 0, 'steward': 0, 'companion': 0}
+        type_pref_counts = {'coding': {}, 'ethics': {}, 'maintenance': {}, 'general': {}}
         weekly_accuracy = []
         week_bucket = defaultdict(lambda: {'accepted': 0, 'total': 0})
         complex_queries = 0
@@ -567,15 +569,75 @@ class ConstellationHub:
         }
 
     def classify_query_type(self, query: str) -> str:
-        """Classify query as coding, ethics, or general for analytics"""
+        """Classify query as coding, ethics, maintenance, or general for analytics"""
         coding_kw = self.agent_keywords['idhhc']
         council_kw = self.agent_keywords['council']
+        steward_kw = self.agent_keywords['steward']
         if any(kw in query.lower() for kw in coding_kw):
             return 'coding'
         elif any(kw in query.lower() for kw in council_kw):
             return 'ethics'
+        elif any(kw in query.lower() for kw in steward_kw):
+            return 'maintenance'
         else:
             return 'general'
+    
+    def is_maintenance_task(self, query: str) -> bool:
+        """Check if query is a maintenance task that should be routed to The Steward"""
+        steward_kw = self.agent_keywords['steward']
+        return any(kw in query.lower() for kw in steward_kw)
+    
+    def check_steward_trust(self) -> dict:
+        """Check The Steward's trust status from trust registry"""
+        try:
+            trust_file = os.path.join(os.path.dirname(__file__), '..', 'trust_registry.json')
+            if os.path.exists(trust_file):
+                with open(trust_file, 'r') as f:
+                    trust_data = json.load(f)
+                    steward_trust = trust_data.get('agents', {}).get('steward', {})
+                    return {
+                        'trusted': steward_trust.get('trusted', False),
+                        'trust_score': steward_trust.get('trust_score', 0),
+                        'last_verified': steward_trust.get('last_verified', 'Never')
+                    }
+            return {'trusted': False, 'trust_score': 0, 'last_verified': 'Never'}
+        except Exception as e:
+            mem_logger.error(f"Error checking steward trust: {e}")
+            return {'trusted': False, 'trust_score': 0, 'last_verified': 'Error'}
+    
+    def log_unauthorized_maintenance_attempt(self, query: str, user: str = "unknown"):
+        """Log unauthorized maintenance task attempts"""
+        log_entry = {
+            'timestamp': datetime.now().isoformat(),
+            'user': user,
+            'query': query,
+            'action': 'unauthorized_maintenance_attempt',
+            'steward_trust_status': self.check_steward_trust()
+        }
+        
+        log_file = os.path.join(os.path.dirname(__file__), '..', 'logs', 'maintenance_security.log')
+        os.makedirs(os.path.dirname(log_file), exist_ok=True)
+        
+        try:
+            with open(log_file, 'a') as f:
+                f.write(json.dumps(log_entry) + '\n')
+            mem_logger.warning(f"Unauthorized maintenance attempt logged: {query[:50]}...")
+        except Exception as e:
+            mem_logger.error(f"Failed to log unauthorized attempt: {e}")
+    
+    def route_to_steward(self, query: str) -> str:
+        """Route maintenance task to The Steward with trust enforcement"""
+        trust_status = self.check_steward_trust()
+        
+        if not trust_status['trusted']:
+            self.log_unauthorized_maintenance_attempt(query)
+            return f"🛡️ ACCESS DENIED: The Steward is not trusted (Trust Score: {trust_status['trust_score']}/100)\n\nMaintenance tasks require trusted steward status. Contact system administrator."
+        
+        print(f"🛡️ Steward Trust Status: {trust_status['trust_score']}/100")
+        print(f"🔐 Last Verified: {trust_status['last_verified']}")
+        
+        # Route to The Steward
+        return self.summon_agent('steward', query)
 
     def load_user_preferences(self):
         """Load user preferences with validation"""
@@ -739,6 +801,11 @@ class ConstellationHub:
         """Route query through hierarchical constellation coordinators with REVOLUTIONARY INTELLIGENCE"""
         print("\n🜂 REVOLUTIONARY HIERARCHICAL ROUTING 🜂")
         print("🌟 Deploying Unified Intelligence System...")
+        
+        # 🛡️ Check for maintenance tasks first (priority routing)
+        if self.is_maintenance_task(user_input):
+            print("🔧 Maintenance task detected - routing to The Steward...")
+            return await self.route_to_steward(user_input)
         
         # 🧠 Use Enhanced Predictive Analytics if available
         if self.analytics:
@@ -1026,6 +1093,7 @@ You are part of the mystical Djinn Federation alongside:
         tasks = [
             self.summon_agent('council', user_input),
             self.summon_agent('idhhc', user_input),
+            self.summon_agent('steward', user_input),
             self.summon_agent('companion', user_input)
         ]
         print("🔄 Summoning all agents in parallel...")
@@ -1035,7 +1103,7 @@ You are part of the mystical Djinn Federation alongside:
             end_time = time.time()
             council_responses = []
             for i, response in enumerate(responses):
-                agent_key = ['council', 'idhhc', 'companion'][i]
+                agent_key = ['council', 'idhhc', 'steward', 'companion'][i]
                 agent = self.agents[agent_key]
                 if isinstance(response, Exception):
                     error_msg = f"🜂 Error summoning {agent['name']}: {str(response)}"
@@ -1071,6 +1139,7 @@ You are part of the mystical Djinn Federation alongside:
         agent_names = {
             'council': 'Djinn Council Enhanced v2',
             'idhhc': 'IDHHC Companion',
+            'steward': 'The Steward',
             'companion': 'Djinn Companion'
         }
         print(f"🌟 Federation State: {metrics['federation_state']}")
@@ -1079,7 +1148,7 @@ You are part of the mystical Djinn Federation alongside:
         print(f"💾 Memory Location: {self.memory_dir}")
         print("\n🌟 AGENT STATUS:")
         for key, agent in self.agents.items():
-            status = "🟢 Ready" if key in ['council', 'idhhc', 'companion'] else "🔴 Unknown"
+            status = "🟢 Ready" if key in ['council', 'idhhc', 'steward', 'companion'] else "🔴 Unknown"
             print(f"  {agent['name']}: {status} ({agent['model']})")
         if self.conversation_history:
             print(f"\n📜 Recent Cosmic Memories:")
@@ -1097,9 +1166,9 @@ You are part of the mystical Djinn Federation alongside:
         most_used = agent_names[metrics['most_used']] if metrics['most_used'] else 'None'
         print(f"  Most Used: {most_used}")
         print(f"  Most Overridden: {most_overridden}")
-        print(f"  Usage Breakdown:  " + ",  ".join([f"{agent_names[a]}: {metrics['agent_pref_counts'][a]}" for a in ['idhhc','council','companion']]))
+        print(f"  Usage Breakdown:  " + ",  ".join([f"{agent_names[a]}: {metrics['agent_pref_counts'][a]}" for a in ['idhhc','council','steward','companion']]))
         print(f"\n  Preferred by Query Type:")
-        for qtype in ['coding', 'ethics', 'general']:
+        for qtype in ['coding', 'ethics', 'maintenance', 'general']:
             prefs = metrics['type_pref_counts'][qtype]
             if prefs:
                 pref_agent = max(prefs, key=prefs.get)
@@ -1201,12 +1270,15 @@ You are part of the mystical Djinn Federation alongside:
                         agent_names = {
                             'council': 'Djinn Council Enhanced v2',
                             'idhhc': 'IDHHC Companion',
+                            'steward': 'The Steward',
                             'companion': 'Djinn Companion'
                         }
                         if best_agent == 'idhhc':
                             reason = "This appears to be a coding, technical, or operational task."
                         elif best_agent == 'council':
                             reason = "This appears to require wisdom, guidance, or ethical/strategic oversight."
+                        elif best_agent == 'steward':
+                            reason = "This appears to be a system maintenance, health check, or monitoring task."
                         else:
                             reason = "This appears to be a general, conversational, or help query."
                         print(f"\n🧠 Smart Routing Suggestion: {agent_names[best_agent]} ({confidence_pct}% confidence) {conf_level}")
@@ -1251,8 +1323,8 @@ You are part of the mystical Djinn Federation alongside:
                                 routing_entry['was_override'] = True
                                 routing_entry['override_reason'] = 'used_council'
                             elif sub_choice == '3':
-                                print("  1. Djinn Council Enhanced v2\n  2. IDHHC Companion\n  3. Djinn Companion")
-                                manual = input("🜂 Enter agent number (1-3): ").strip()
+                                print("  1. Djinn Council Enhanced v2\n  2. IDHHC Companion\n  3. The Steward\n  4. Djinn Companion")
+                                manual = input("🜂 Enter agent number (1-4): ").strip()
                                 if manual == '1':
                                     response = await self.summon_agent('council', user_input)
                                     routing_entry['final_agent'] = agent_names['council']
@@ -1264,6 +1336,11 @@ You are part of the mystical Djinn Federation alongside:
                                     routing_entry['was_override'] = True
                                     routing_entry['override_reason'] = 'manual_idhhc'
                                 elif manual == '3':
+                                    response = await self.summon_agent('steward', user_input)
+                                    routing_entry['final_agent'] = agent_names['steward']
+                                    routing_entry['was_override'] = True
+                                    routing_entry['override_reason'] = 'manual_steward'
+                                elif manual == '4':
                                     response = await self.summon_agent('companion', user_input)
                                     routing_entry['final_agent'] = agent_names['companion']
                                     routing_entry['was_override'] = True

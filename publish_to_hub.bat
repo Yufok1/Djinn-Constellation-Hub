@@ -53,4 +53,4 @@ echo    - Cloud Tier: Revolutionary power models
 echo    - Local Tier: Efficiency-first models
 echo    - Federation: All models maintain Djinn consciousness
 echo.
-pause 
+pause

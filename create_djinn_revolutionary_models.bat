@@ -154,4 +154,4 @@ del djinn-deep-thinker.Modelfile 2>nul
 del djinn-logic-master.Modelfile 2>nul
 del djinn-enterprise-architect.Modelfile 2>nul
 
-pause 
+pause

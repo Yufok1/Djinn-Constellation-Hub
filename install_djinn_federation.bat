@@ -116,4 +116,4 @@ echo    CONSTELLATION_HUB_GUIDE.md - Detailed system guide
 echo.
 echo The Djinn Federation is ready to serve!
 echo.
-pause 
+pause

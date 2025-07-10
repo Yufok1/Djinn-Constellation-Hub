@@ -4,7 +4,7 @@ echo ================================
 echo.
 echo This launches all three systems as a federation:
 echo - Djinn Council (Meta-Intelligence)
-echo - IDHHC Companion (Operational HUD)  
+echo - IDHHC Companion (Operational HUD)
 echo - Djinn Companion (Dialogue Controller)
 echo.
 echo They will communicate via bridge protocol.
@@ -35,7 +35,7 @@ echo 🜂 LAUNCHING DJINN FEDERATION...
 echo Starting all three systems with bridge protocol...
 echo.
 echo Council: ollama run Yufok1/djinn-council
-echo IDHHC: ollama run Yufok1/idhhc-companion  
+echo IDHHC: ollama run Yufok1/idhhc-companion
 echo Companion: ollama run Yufok1/djinn-companion
 echo.
 echo Use the bridge protocol for inter-system communication.
@@ -77,4 +77,4 @@ goto menu
 :exit
 echo.
 echo 🜂 Federation session ended.
-pause 
+pause

@@ -17,7 +17,7 @@ FROM qwen2.5-coder:32b
 # 🔗 UNIFIED TOOLKIT INTERFACE
 # toolkit_loader, newage_toolkits, toolkit_coremap, rap_commands, void_toolkit_integration
 
-# 
+#
 PARAMETER stop " Awaiting next instruction." "Proceed?" "Your directive?" "Continue?" " Sovereign check complete."
 
 SYSTEM """

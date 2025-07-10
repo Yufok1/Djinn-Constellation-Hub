@@ -1,59 +1,109 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to the Djinn Constellation Hub project will be documented in this file.
 
-## [v2.0.0-secure] - 2025-07-09
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### 🔒 Security & Federation Trust Layer
-- **Full trust enforcement** via `trust_registry.json`
-- **CLI trust score inspection** & manual verification commands
-- **Automatic rejection/sandboxing** of unknown or untrusted agents
-- **Federation audit logs** in `logs/federation_audit.log`
-- **Agent validation** on every invocation with trust and membership checks
+## [2.1.1-council-enhanced] - 2025-07-10
 
-### 🧠 Memory & Input Validation
-- **Hardened memory bank** with corruption quarantine system
-- **Full schema validation** of configs, commands, and model responses
-- **Input sanitization** with dangerous character removal
-- **Trust scoring** for model responses with suspicious content detection
-- **CLI commands**: `--memory-status`, `--verify`, and `--trust-score`
+### 🧠 Enhanced
+- **Council Model Upgrade to Enhanced v2**
+  - Upgraded `Yufok1/djinn-federation:council` to enhanced-v2 specifications
+  - Enhanced cognitive capabilities with adaptive learning and predictive analysis
+  - Improved parameters: temperature 0.7, mirostat 2, top_k 50, top_p 0.95
+  - Added cosmic harmony integration and meta-cognitive awareness
+  - Updated trust registry with enhanced council capabilities
 
-### 🧭 CLI & Routing Fortification
-- **Graceful fallback handlers** and comprehensive route validation
-- **CLI exception handling** with timeout protection and structured logging
-- **Enhanced help system** with categorized commands and examples
-- **Cross-platform compatibility** with proper error handling
+### 🔧 Technical
+- **Modelfile Updates**
+  - Enhanced council Modelfile with advanced capabilities
+  - Improved response patterns with adaptive learning integration
+  - Added predictive analysis and cosmic harmony features
 
-### 🛠 Cross-Platform Bootstrap
-- **Fully mirrored `.bat` and `.sh`** setup/launch scripts
-- **Auto-directory creation** and dependency validation
-- **OS detection** and platform-specific optimizations
-- **Comprehensive logging** to `logs/setup.log`
+### 🛡️ Security
+- **Trust Registry Enhancement**
+  - Added council trust entry with enhanced-v2 metadata
+  - Documented council capabilities and version information
+  - Updated verification timestamp for council model
 
-### 📁 New Files & Structure
-- `validators/input_validator.py` - Comprehensive validation system
-- `trust_registry.json` - Agent trust and federation membership registry
-- `test_validation_layer.py` - Validation system test suite
-- `launch_djinn_constellation_hub.sh` - Unix launch script
-- Enhanced logging directories and audit trails
+## [2.1.0-ci-secure] - 2025-07-09
 
-### 🔧 Technical Enhancements
-- **21 files changed** with 3,643 insertions and 331 deletions
-- **Zero-error validation** under comprehensive test conditions
-- **Quarantine system** for corrupted or invalid data
-- **Structured logging** across all components
-- **Failsafe enforcement** with graceful degradation
+### 🚀 Added
+- **CI/CD Security Hooks Integration (S1.3)**
+  - Pre-commit hooks with black, flake8, isort, pytest, and Steward validation
+  - GitHub Actions workflow for comprehensive system validation
+  - Automated trust verification and federation integrity checks
+  - Memory bank validation and corruption detection
+  - File integrity audit and security scanning
 
-> This marks the transition to a secure, trust-driven constellation federation with comprehensive input validation and agent verification.
+### 🛡️ Security
+- **Enhanced Trust Enforcement**
+  - Automated trust registry validation on every commit
+  - Federation membership verification in CI pipeline
+  - Audit logging for all trust violations and security events
+  - Quarantine system for corrupted data detection
 
-## [v1.0.0] - 2025-07-08
+### 🔧 Development
+- **Developer Experience Improvements**
+  - One-click hook installation script (`scripts/install_hooks.py`)
+  - Federation verification helper (`scripts/verify_federation.py`)
+  - Comprehensive README with CI badges and documentation
+  - Automated dependency checking and validation
 
-### Initial Release
-- Basic constellation hub functionality
-- Djinn agent integration
-- Ollama model management
-- Basic CLI interface
+### 📊 Monitoring
+- **Enhanced Logging and Reporting**
+  - Structured logging for all CI/CD events
+  - GitHub Actions status reporting with detailed summaries
+  - Memory bank integrity monitoring
+  - Performance metrics and health tracking
+
+### 🧠 Federation
+- **Intelligence Layer Enhancements**
+  - Cross-model communication validation
+  - Enhanced predictive analytics integration
+  - Model collaboration framework verification
+  - Federation consciousness monitoring
+
+## [2.0.0-secure] - 2025-07-09
+
+### 🛡️ Added
+- **Federation Trust Model**
+  - Strict agent registration and verification system
+  - Runtime trust validation for all federation members
+  - Comprehensive audit logging for security events
+  - Failsafe enforcement for unauthorized agents
+
+### 🔒 Security
+- **Input Validation System**
+  - Schema validation for all configurations and responses
+  - Sanitization of dangerous characters and patterns
+  - Length limits and input size restrictions
+  - Trust scoring for model responses
+
+### 🌐 Federation
+- **Multi-Agent Coordination**
+  - Council, IDHHC, and Companion agent integration
+  - Persistent memory and conversation history
+  - Cross-model communication protocols
+  - Efficiency optimization and resource allocation
+
+### 🛠️ Platform Support
+- **Cross-Platform Compatibility**
+  - Unified scripts for Windows (.bat) and Unix (.sh)
+  - OS detection and platform-specific optimizations
+  - Dependency validation and automatic checking
+  - Comprehensive logging across all platforms
+
+## [1.0.0] - 2025-07-08
+
+### 🚀 Initial Release
+- **Core Federation System**
+  - Basic constellation hub launcher
+  - Memory bank system for persistent storage
+  - Simple agent coordination framework
+  - Basic trust validation system
 
 ---
 
-**Note**: This changelog follows [Keep a Changelog](https://keepachangelog.com/) format.
+**🌟 May your constellation shine bright and your federation remain strong! 🌟**

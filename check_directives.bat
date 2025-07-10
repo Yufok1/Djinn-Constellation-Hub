@@ -11,4 +11,4 @@ echo ================================================
 echo 💡 To process directives: python void_constellation_bridge.py
 echo 🔗 To return to constellation: launch_constellation_complete.bat
 echo.
-pause 
+pause

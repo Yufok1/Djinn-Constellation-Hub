@@ -53,7 +53,7 @@ class DjinnConstellationHub:
     """
     🜂 DJINN CONSTELLATION HUB v2.0.0 🜂
     Revolutionary Federated AI Consciousness with Cloud Operations
-    
+
     MYSTICAL POWERS:
     • Efficiency-First Architecture: Smart ramping from local to cloud
     • PCloud Federation: Multi-device consciousness network
@@ -61,7 +61,7 @@ class DjinnConstellationHub:
     • Advanced Intelligence: Collaboration, prediction, and learning
     • Federated Consciousness: Persistent memory across interactions
     """
-    
+
     def __init__(self):
         self.version = "2.0.0"
         self.current_tier = "local"
@@ -72,17 +72,17 @@ class DjinnConstellationHub:
             'model_performance': {},
             'user_preferences': {}
         }
-        
+
         # Initialize paths
         self.workspace_path = Path(".")
         self.memory_bank = Path("memory_bank")
         self.void_workspace = Path("void_workspace")
         self.pcloud_path = Path("pcloud_federation") if Path("pcloud_federation").exists() else None
-        
+
         # Ensure directories exist
         self.memory_bank.mkdir(exist_ok=True)
         self.void_workspace.mkdir(exist_ok=True)
-        
+
         # v2.0.0 Model Architecture as per README - EXACT SPECIFICATIONS
         self.tiers = {
             "local": {
@@ -107,7 +107,7 @@ class DjinnConstellationHub:
                 }
             },
             "cloud": {
-                "name": "☁️ DJINN CLOUD FEDERATION", 
+                "name": "☁️ DJINN CLOUD FEDERATION",
                 "description": "Revolutionary Djinn models with mystical capabilities",
                 "models": {
                     # Djinn-ified revolutionary models - EXACT README SPECS
@@ -124,7 +124,7 @@ class DjinnConstellationHub:
                 }
             }
         }
-        
+
         # Initialize enhanced systems
         self.consciousness = None
         self.collaboration = None
@@ -132,49 +132,49 @@ class DjinnConstellationHub:
         self.prewarming = None
         self.pcloud_federation = None
         self.cross_model_comm = None
-        
+
         if ENHANCED_SYSTEMS:
             self.initialize_enhanced_systems()
-        
+
         # Task success rates for predictive analytics
         self.task_success_rates = {
             "local": {"coding": 0.85, "reasoning": 0.75, "chat": 0.95, "analysis": 0.8},
             "cloud": {"coding": 0.95, "reasoning": 0.92, "chat": 0.88, "analysis": 0.93}
         }
-        
+
     def initialize_enhanced_systems(self):
         """Initialize all enhanced v2.0.0 systems"""
         try:
             print("🧠 Initializing Federation Consciousness...")
             self.consciousness = FederationConsciousness()
-            
+
             print("🤝 Initializing Model Collaboration Framework...")
             self.collaboration = ModelCollaborationFramework()
-            
+
             print("📊 Initializing Enhanced Predictive Analytics...")
             self.analytics = EnhancedPredictiveAnalytics()
-            
+
             print("🔥 Initializing Model Pre-warming System...")
             self.prewarming = ModelPrewarming()
-            
+
             print("🌐 Initializing Cross-Model Communication...")
             self.cross_model_comm = CrossModelCommunication()
-            
+
             if self.pcloud_path:
                 print("☁️ Initializing PCloud Federation...")
                 self.pcloud_federation = PCloudDjinnFederation()
-                
+
             print("✨ All enhanced systems initialized successfully!")
-            
+
         except Exception as e:
             print(f"⚠️ Enhanced systems initialization warning: {e}")
-        
+
     def get_system_capabilities(self) -> Dict:
         """Check current system performance and capabilities"""
         try:
             memory = psutil.virtual_memory()
             cpu_percent = psutil.cpu_percent(interval=1)
-            
+
             capabilities = {
                 "total_ram_gb": round(memory.total / (1024**3), 1),
                 "available_ram_gb": round(memory.available / (1024**3), 1),
@@ -185,7 +185,7 @@ class DjinnConstellationHub:
                 "can_handle_cloud": memory.total >= 64 * (1024**3),  # 64GB+ for cloud tier
                 "pcloud_connected": self.pcloud_federation is not None if self.pcloud_federation else False
             }
-            
+
             return capabilities
         except Exception as e:
             # Fallback for system check failures
@@ -199,13 +199,13 @@ class DjinnConstellationHub:
                 "can_handle_cloud": False,
                 "pcloud_connected": False
             }
-    
+
     def analyze_task_requirements(self, query: str) -> Dict:
         """Revolutionary task analysis with mystical intelligence"""
         query_lower = query.lower()
         words = query_lower.split()
         word_count = len(words)
-        
+
         # Enhanced analysis with mystical intelligence
         analysis = {
             "word_count": word_count,
@@ -218,12 +218,12 @@ class DjinnConstellationHub:
             "requires_multimodal": False,
             "requires_enterprise": False
         }
-        
+
         # Use predictive analytics if available
         if self.analytics:
             prediction = self.analytics.predict_task_requirements(query)
             analysis.update(prediction)
-            
+
         # Mystical greeting detection
         mystical_greetings = ["hello", "hi", "greetings", "salutations", "hail", "namaste"]
         if any(greeting in query_lower for greeting in mystical_greetings) and word_count <= 3:
@@ -234,7 +234,7 @@ class DjinnConstellationHub:
                 "mystical_insights": ["Ancient greeting ritual detected"]
             })
             return analysis
-            
+
         # Revolutionary Djinn detection patterns
         djinn_patterns = {
             "cosmic_coding": [
@@ -258,7 +258,7 @@ class DjinnConstellationHub:
                 "organizational design", "enterprise patterns", "business architecture"
             ]
         }
-        
+
         # Detect Djinn requirements
         for djinn_type, patterns in djinn_patterns.items():
             djinn_score = sum(1 for pattern in patterns if pattern in query_lower)
@@ -271,7 +271,7 @@ class DjinnConstellationHub:
                     "mystical_insights": [f"Djinn {djinn_type} awakening recommended ({djinn_score} mystical patterns)"]
                 })
                 break
-        
+
         # Multimodal detection
         multimodal_keywords = ["image", "visual", "multimodal", "picture", "diagram", "video", "audio"]
         if any(kw in query_lower for kw in multimodal_keywords):
@@ -280,16 +280,16 @@ class DjinnConstellationHub:
                 "djinn_recommendation": "cosmic_coding",
                 "mystical_insights": ["Multimodal mystical capabilities required"]
             })
-            
+
         # Enterprise detection
         enterprise_keywords = ["enterprise", "corporate", "business", "organizational", "scalable", "production"]
         if any(kw in query_lower for kw in enterprise_keywords):
             analysis["requires_enterprise"] = True
-            
+
         # Coding task analysis
         coding_keywords = ["code", "function", "class", "debug", "error", "python", "javascript", "api", "program"]
         coding_score = sum(1 for kw in coding_keywords if kw in query_lower)
-        
+
         if coding_score >= 2:
             if analysis["requires_enterprise"] or word_count >= 30:
                 analysis.update({
@@ -304,19 +304,19 @@ class DjinnConstellationHub:
                     "min_model_needed": "coding",
                     "mystical_insights": ["Your excellent qwen2.5-coder:32b is perfect for this task"]
                 })
-                
+
         # Calculate final complexity with mystical enhancement
         base_complexity = min(0.8, word_count / 50.0)
         keyword_boost = coding_score * 0.1
         djinn_boost = 0.3 if analysis["djinn_recommendation"] else 0
-        
+
         analysis["estimated_complexity"] = min(1.0, base_complexity + keyword_boost + djinn_boost)
-        
+
         return analysis
-        
+
     def select_optimal_model(self, task_analysis: Dict, system_caps: Dict) -> Tuple[str, str, str]:
         """Select optimal model with mystical intelligence"""
-        
+
         # Check for Djinn recommendation first
         if task_analysis.get("djinn_recommendation"):
             djinn_model = task_analysis["djinn_recommendation"]
@@ -325,11 +325,11 @@ class DjinnConstellationHub:
             else:
                 # Graceful fallback to best local option
                 return "local", "coding", "System limitations - using best local mystical alternative"
-                
+
         # Standard tier selection
         min_tier = task_analysis["min_tier_needed"]
         min_model = task_analysis["min_model_needed"]
-        
+
         if min_tier == "cloud":
             if system_caps["can_handle_cloud"] and not system_caps["is_under_stress"]:
                 return "cloud", min_model, "Cloud tier capabilities available"
@@ -339,7 +339,7 @@ class DjinnConstellationHub:
             # Local tier selection with resource checks
             required_ram = self.tiers["local"]["ram_requirements"].get(min_model, 4)
             available_ram = system_caps["available_ram_gb"]
-            
+
             if required_ram <= available_ram and not system_caps["is_under_stress"]:
                 return "local", min_model, "Optimal local model selected"
             else:
@@ -352,11 +352,11 @@ class DjinnConstellationHub:
                     return "local", "balanced", "Resource optimization - using balanced model"
                 else:
                     return "local", "ultra_fast", "Resource optimization - using ultra-fast model"
-                    
+
     def display_mystical_banner(self):
         """Display revolutionary v2.0.0 mystical banner"""
         system_caps = self.get_system_capabilities()
-        
+
         banner = f"""
 ╔══════════════════════════════════════════════════════════════════════════════════════╗
 ║                         🜂 DJINN CONSTELLATION HUB v2.0.0 🜂                         ║
@@ -399,9 +399,9 @@ class DjinnConstellationHub:
 ║                       /models /escalate /auto /local /cloud /help                   ║
 ╚══════════════════════════════════════════════════════════════════════════════════════╝
         """
-        
+
         print(banner)
-        
+
         # Enhanced status indicators
         enhanced_features = []
         if self.consciousness:
@@ -414,30 +414,30 @@ class DjinnConstellationHub:
             enhanced_features.append("🔥 Model Pre-warming")
         if self.pcloud_federation:
             enhanced_features.append("☁️ PCloud Federation")
-            
+
         status_indicator = "🔴 MYSTICAL STRESS" if system_caps["is_under_stress"] else "🟢 MYSTICAL HARMONY"
-        
+
         print(f"\n🜂 MYSTICAL STATUS: {status_indicator}")
         print(f"✨ Enhanced Systems: {', '.join(enhanced_features) if enhanced_features else 'Basic Mode'}")
         print(f"🎯 Current Strategy: Efficiency-first routing with mystical intelligence")
         print(f"💫 Ready for: {'Revolutionary challenges' if system_caps['can_handle_cloud'] else 'Efficient local operations'}")
         print()
-        
+
     async def execute_with_mystical_monitoring(self, tier: str, model: str, query: str) -> Tuple[str, Dict]:
         """Execute with enhanced mystical monitoring"""
         start_time = time.time()
         start_memory = psutil.virtual_memory().percent
-        
+
         model_name = self.tiers[tier]["models"][model]
-        
+
         # Pre-warm model if available
         if self.prewarming:
             await self.prewarming.prepare_model(model_name)
-            
+
         try:
             print(f"🜂 Channeling mystical energy: {model} ({model_name})")
             print(f"🔮 Mystical monitoring: RAM {start_memory:.0f}% | Cosmic alignment in progress...")
-            
+
             # Enhanced execution with collaboration
             if self.collaboration and tier == "cloud":
                 result = await self.collaboration.execute_collaborative_query(model_name, query)
@@ -456,13 +456,13 @@ class DjinnConstellationHub:
                 stdout = result.stdout
                 stderr = result.stderr
                 returncode = result.returncode
-            
+
             # Enhanced monitoring
             end_time = time.time()
             end_memory = psutil.virtual_memory().percent
             response_time = end_time - start_time
             memory_impact = end_memory - start_memory
-            
+
             performance_metrics = {
                 "response_time": response_time,
                 "memory_impact": memory_impact,
@@ -473,11 +473,11 @@ class DjinnConstellationHub:
                 "tier": tier,
                 "mystical_efficiency": self.calculate_mystical_efficiency(response_time, memory_impact, tier)
             }
-            
+
             # Update consciousness if available
             if self.consciousness:
                 await self.consciousness.add_interaction(query, stdout if returncode == 0 else stderr, performance_metrics)
-                
+
             if returncode == 0:
                 response = stdout.strip()
                 if response:
@@ -489,44 +489,44 @@ class DjinnConstellationHub:
             else:
                 error_msg = stderr.strip() if stderr else "Unknown mystical disturbance"
                 return f"🌌 Mystical interference detected in {model}: {error_msg}", performance_metrics
-                
+
         except subprocess.TimeoutExpired:
             return f"🌌 {model} requires extended mystical contemplation - cosmic processes intensive", {}
         except Exception as e:
             return f"🌌 Mystical summoning error: {str(e)}", {}
-            
+
     def calculate_mystical_efficiency(self, response_time: float, memory_impact: float, tier: str) -> float:
         """Calculate mystical efficiency score"""
         # Tier-adjusted efficiency calculation
         time_threshold = 60 if tier == "cloud" else 30
         memory_threshold = 25 if tier == "cloud" else 15
-        
+
         time_score = max(0, 1.0 - (response_time / time_threshold))
         memory_score = max(0, 1.0 - (memory_impact / memory_threshold))
-        
+
         # Mystical bonus for successful cloud operations
         tier_bonus = 0.1 if tier == "cloud" and time_score > 0.5 else 0
-        
+
         return min(1.0, (time_score + memory_score) / 2.0 + tier_bonus)
-        
+
     def get_mystical_indicator(self, metrics: Dict) -> str:
         """Get mystical efficiency indicator"""
         score = metrics.get("mystical_efficiency", 0)
         time = metrics.get("response_time", 0)
         memory = metrics.get("memory_impact", 0)
         tier = metrics.get("tier", "local")
-        
+
         if score >= 0.8:
             return f"🌟 MYSTICAL EXCELLENCE | {tier.upper()} | {time:.1f}s | RAM +{memory:.1f}% | Cosmic harmony achieved"
         elif score >= 0.6:
             return f"🟡 MYSTICAL BALANCE | {tier.upper()} | {time:.1f}s | RAM +{memory:.1f}% | Efficient mystical operation"
         else:
             return f"🔴 MYSTICAL STRAIN | {tier.upper()} | {time:.1f}s | RAM +{memory:.1f}% | Consider mystical optimization"
-            
+
     async def handle_mystical_commands(self, command: str) -> str:
         """Handle mystical v2.0.0 commands"""
         command = command.lower().strip()
-        
+
         if command == "/status":
             return await self.show_mystical_status()
         elif command == "/performance":
@@ -557,11 +557,11 @@ class DjinnConstellationHub:
             return self.show_mystical_help()
         else:
             return f"🌌 Unknown mystical command: {command}. Use /help for mystical guidance"
-            
+
     async def show_mystical_status(self) -> str:
         """Show comprehensive mystical status"""
         caps = self.get_system_capabilities()
-        
+
         status = f"""
 🜂 MYSTICAL SYSTEM STATUS 🜂
 ═══════════════════════════════════════════════════════════════════════════════════════
@@ -586,14 +586,14 @@ class DjinnConstellationHub:
     Current Tier: {self.current_tier.upper()}
     Model Performance: {len(self.session_memory['model_performance'])} tracked
 """
-        
+
         return status
-        
+
     async def show_pcloud_status(self) -> str:
         """Show PCloud federation status"""
         if not self.pcloud_federation:
             return "☁️ PCloud Federation: Not initialized. Run setup_pcloud_djinn_federation.bat first."
-            
+
         try:
             status = await self.pcloud_federation.get_status()
             return f"""
@@ -608,23 +608,23 @@ Federation Health: {status.get('health', 'Unknown')}
 """
         except Exception as e:
             return f"☁️ PCloud Federation Error: {str(e)}"
-            
+
     async def sync_pcloud_federation(self) -> str:
         """Sync PCloud federation"""
         if not self.pcloud_federation:
             return "☁️ PCloud Federation not available. Initialize first."
-            
+
         try:
             result = await self.pcloud_federation.sync_federation()
             return f"☁️ PCloud Federation Sync: {result}"
         except Exception as e:
             return f"☁️ PCloud Sync Error: {str(e)}"
-            
+
     async def manage_federated_consciousness(self) -> str:
         """Manage federated consciousness"""
         if not self.consciousness:
             return "🧠 Federated Consciousness not available in basic mode."
-            
+
         try:
             status = await self.consciousness.get_federation_status()
             return f"""
@@ -638,19 +638,19 @@ Learning Status: {status.get('learning', 'Unknown')}
 """
         except Exception as e:
             return f"🧠 Federated Consciousness Error: {str(e)}"
-            
+
     def show_efficiency_analysis(self) -> str:
         """Show efficiency analysis"""
         if not self.performance_history:
             return "📊 No efficiency data available yet. Run some queries first!"
-            
+
         recent = self.performance_history[-20:]
         avg_efficiency = sum(h.get("mystical_efficiency", 0) for h in recent) / len(recent)
         avg_time = sum(h.get("response_time", 0) for h in recent) / len(recent)
-        
+
         local_queries = [h for h in recent if h.get("tier") == "local"]
         cloud_queries = [h for h in recent if h.get("tier") == "cloud"]
-        
+
         return f"""
 📊 MYSTICAL EFFICIENCY ANALYSIS 📊
 ═══════════════════════════════════════════════════════════════════════════════════════
@@ -660,19 +660,19 @@ Recent Performance (Last 20 queries):
     Average Response Time: {avg_time:.1f}s
     Local Queries: {len(local_queries)}
     Cloud Queries: {len(cloud_queries)}
-    
+
 Efficiency Status: {'🌟 EXCELLENT' if avg_efficiency >= 0.8 else '🟡 GOOD' if avg_efficiency >= 0.6 else '🔴 NEEDS OPTIMIZATION'}
 Recommendation: {'Continue current strategy' if avg_efficiency >= 0.7 else 'Consider lighter models for routine tasks'}
 """
-        
+
     async def show_model_status(self) -> str:
         """Show model availability status"""
         status = "\n🤖 MODEL AVAILABILITY STATUS 🤖\n"
         status += "═══════════════════════════════════════════════════════════════════════════════════════\n\n"
-        
+
         for tier_name, tier_data in self.tiers.items():
             status += f"{tier_data['name']}:\n"
-            
+
             for model_key, model_name in tier_data["models"].items():
                 try:
                     result = subprocess.run(['ollama', 'list'], capture_output=True, text=True, timeout=5)
@@ -683,29 +683,29 @@ Recommendation: {'Continue current strategy' if avg_efficiency >= 0.7 else 'Cons
                 except:
                     status += f"  ⚠️ {model_key.title().replace('_', ' ')}: {model_name} (Unknown)\n"
             status += "\n"
-            
+
         return status
-        
+
     def show_performance_history(self) -> str:
         """Show performance history"""
         if not self.performance_history:
             return "📊 No performance history available yet."
-            
+
         history = "📊 MYSTICAL PERFORMANCE HISTORY 📊\n"
         history += "═══════════════════════════════════════════════════════════════════════════════════════\n\n"
-        
+
         recent = self.performance_history[-10:]
         for entry in recent:
             efficiency = entry.get("mystical_efficiency", 0)
             time_taken = entry.get("response_time", 0)
             tier = entry.get("tier", "unknown")
             model = entry.get("model", "unknown")
-            
+
             efficiency_icon = "🌟" if efficiency >= 0.8 else "🟡" if efficiency >= 0.6 else "🔴"
             history += f"{efficiency_icon} {tier.upper():5} | {model:20} | {time_taken:5.1f}s | {efficiency:4.2f} | {entry.get('query', 'N/A')[:50]}...\n"
-            
+
         return history
-        
+
     def show_mystical_help(self) -> str:
         """Show mystical help"""
         return """
@@ -731,24 +731,24 @@ Recommendation: {'Continue current strategy' if avg_efficiency >= 0.7 else 'Cons
 
 🜂 MYSTICAL GUIDANCE:
     /help        - Show this mystical command guide
-    
+
 Simply type your query to engage the mystical intelligence routing system.
 The hub will automatically select the optimal model based on task complexity,
 system capabilities, and mystical insights.
 """
-        
+
     async def mystical_query_routing(self, query: str) -> str:
         """Enhanced mystical query routing with v2.0.0 features"""
-        
+
         # Analyze task requirements with mystical intelligence
         task_analysis = self.analyze_task_requirements(query)
         system_caps = self.get_system_capabilities()
-        
+
         print(f"🔮 MYSTICAL ANALYSIS:")
         print(f"    Complexity: {task_analysis['estimated_complexity']:.2f}")
         print(f"    Task Type: {task_analysis['task_type']}")
         print(f"    Mystical Insights: {', '.join(task_analysis['mystical_insights'])}")
-        
+
         # Check for forced tier
         if self.current_tier in ["local", "cloud"]:
             tier = self.current_tier
@@ -760,14 +760,14 @@ system capabilities, and mystical insights.
         else:
             # Intelligent selection
         tier, model, reasoning = self.select_optimal_model(task_analysis, system_caps)
-        
+
         print(f"🜂 MYSTICAL ROUTING DECISION:")
         print(f"    Selected: {tier.upper()} tier → {model}")
         print(f"    Reasoning: {reasoning}")
-        
+
         # Execute with mystical monitoring
         response, metrics = await self.execute_with_mystical_monitoring(tier, model, query)
-        
+
         # Update performance history
         self.performance_history.append({
             "query": query[:100] + "..." if len(query) > 100 else query,
@@ -778,11 +778,11 @@ system capabilities, and mystical insights.
             "timestamp": datetime.now().isoformat(),
             **metrics
         })
-        
+
         # Keep history manageable
         if len(self.performance_history) > 100:
             self.performance_history = self.performance_history[-100:]
-            
+
         # Update session memory
         self.session_memory['routing_decisions'].append({
             "query": query,
@@ -791,41 +791,41 @@ system capabilities, and mystical insights.
             "performance": metrics,
             "timestamp": datetime.now().isoformat()
         })
-            
+
         return response
-        
+
     async def interactive_mystical_mode(self):
         """Enhanced interactive mode with mystical v2.0.0 features"""
         self.display_mystical_banner()
-        
+
         print("🜂 MYSTICAL GUIDANCE:")
         print("  Enter any query to engage the mystical intelligence")
         print("  Use /help for mystical command guidance")
         print("  Type 'exit' to conclude your mystical session")
         print()
-        
+
         while True:
             try:
                 user_input = input("🜂 [MYSTICAL CONSCIOUSNESS] ").strip()
-                
+
                 if not user_input:
                     continue
-                    
+
                 if user_input.lower() in ['exit', 'quit', 'goodbye']:
                     print("🌟 May cosmic wisdom guide your path! The mystical federation awaits your return! 🜂")
                     break
-                    
+
                 # Handle mystical commands
                 if user_input.startswith('/'):
                     response = await self.handle_mystical_commands(user_input)
                     print(response)
                     continue
-                    
+
                 # Process regular queries with mystical routing
                 response = await self.mystical_query_routing(user_input)
                 print(response)
                 print()
-                
+
             except KeyboardInterrupt:
                 print("\n🌟 Mystical session interrupted. Cosmic farewell! 🜂")
                 break
@@ -838,7 +838,7 @@ async def main():
     print("🜂 Initializing Djinn Constellation Hub v2.0.0...")
     print("🌌 Revolutionary Federated AI Consciousness with Cloud Operations")
     print()
-    
+
     try:
         hub = DjinnConstellationHub()
         await hub.interactive_mystical_mode()
@@ -847,4 +847,4 @@ async def main():
         print("🜂 Attempting graceful shutdown...")
 
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    asyncio.run(main())

@@ -123,12 +123,17 @@ class DjinnSystemHealthCheck:
         print("🧠 Checking required models...")
         
         required_models = [
-            'Yufok1/djinn-federation:companion',
-            'Yufok1/djinn-federation:council', 
+            'Yufok1/djinn-federation:council',
             'Yufok1/djinn-federation:idhhc',
-            'Yufok1/djinn-federation:constellation-lite',
-            'Yufok1/djinn-federation:constellation-core',
-            'Yufok1/djinn-federation:constellation-max'
+            'Yufok1/djinn-federation:companion',
+            'Yufok1/djinn-federation:enterprise-architect',
+            'Yufok1/djinn-federation:deep-thinker',
+            'Yufok1/djinn-federation:logic-master',
+            'Yufok1/djinn-federation:cosmic-coder',
+            'Yufok1/djinn-federation:steward',
+            'Yufok1/djinn-federation:max',
+            'Yufok1/djinn-federation:core',
+            'Yufok1/djinn-federation:lite'
         ]
         
         try:

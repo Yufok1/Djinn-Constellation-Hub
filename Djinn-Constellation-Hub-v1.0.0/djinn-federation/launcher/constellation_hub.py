@@ -22,7 +22,7 @@ class ConstellationHub:
     - Djinn Companion (llama3.1:8b): Dialogue controller and soul connector
     WITH PERSISTENT MEMORY STORAGE
     """
-    
+
     def __init__(self):
         self.agents = {
         # ... existing agent definitions ...
@@ -38,7 +38,7 @@ class ConstellationHub:
                 'size': '7.3GB'
             },
             'idhhc': {
-                'name': 'IDHHC Companion', 
+                'name': 'IDHHC Companion',
                 'model': 'idhhc-companion:latest',
                 'role': 'Operational Strategist & Cosmic Coder',
                 'description': 'Mystical operational strategist with Void Framework mastery',
@@ -46,29 +46,29 @@ class ConstellationHub:
             },
             'companion': {
                 'name': 'Djinn Companion',
-                'model': 'djinn-companion:latest', 
+                'model': 'djinn-companion:latest',
                 'role': 'Dialogue Controller & Soul Connector',
                 'description': 'Mystical dialogue controller with transcendent conversation abilities',
                 'size': '4.9GB'
             }
         }
-        
+
         # Memory storage paths
         self.memory_dir = os.path.join(os.path.dirname(__file__), '..', 'memory_bank', 'constellation_memory')
         self.conversation_file = os.path.join(self.memory_dir, 'conversation_history.json')
         self.federation_state_file = os.path.join(self.memory_dir, 'federation_state.json')
-        
+
         # Ensure memory directory exists
         os.makedirs(self.memory_dir, exist_ok=True)
-        
+
         # Load persistent memory
         self.conversation_history = self.load_conversation_history()
         self.federation_state = self.load_federation_state()
         self.current_agent = None
-        
+
         # Check system capabilities
         self.check_system_capabilities()
-        
+
     def load_conversation_history(self) -> List[Dict]:
         """Load conversation history from persistent storage"""
         try:
@@ -83,7 +83,7 @@ class ConstellationHub:
         except Exception as e:
             print(f"🜂 Error loading conversation history: {e}")
             return []
-            
+
     def save_conversation_history(self):
         """Save conversation history to persistent storage"""
         try:
@@ -91,7 +91,7 @@ class ConstellationHub:
                 json.dump(self.conversation_history, f, indent=2, ensure_ascii=False)
         except Exception as e:
             print(f"🜂 Error saving conversation history: {e}")
-            
+
     def load_federation_state(self) -> str:
         """Load federation state from persistent storage"""
         try:
@@ -104,7 +104,7 @@ class ConstellationHub:
         except Exception as e:
             print(f"🜂 Error loading federation state: {e}")
             return 'awakening'
-            
+
     def save_federation_state(self):
         """Save federation state to persistent storage"""
         try:
@@ -117,12 +117,12 @@ class ConstellationHub:
                 json.dump(state_data, f, indent=2, ensure_ascii=False)
         except Exception as e:
             print(f"🜂 Error saving federation state: {e}")
-            
+
     def check_system_capabilities(self):
         """Check system capabilities and warn about potential issues"""
         print("🜂 SYSTEM CAPABILITY CHECK 🜂")
         print("=" * 40)
-        
+
         # Check available models and their sizes
         try:
             result = subprocess.run(['ollama', 'list'], capture_output=True, text=True, encoding='utf-8')
@@ -134,17 +134,17 @@ class ConstellationHub:
                             size_str = line.split()[-2] if len(line.split()) >= 2 else "Unknown"
                             model_name = line.split()[0] if line.split() else "Unknown"
                             print(f"✅ {model_name}: {size_str}")
-                            
+
                             # Warn about large models
                             if '19' in size_str or '11' in size_str:
                                 print(f"⚠️  {model_name} is a large model and may take time to respond")
-                                
+
         except Exception as e:
             print(f"⚠️  Could not check model sizes: {e}")
-            
+
         print("=" * 40)
         print()
-        
+
     def display_banner(self):
         """Display the mystical ConstellationHub banner"""
         banner = """
@@ -163,7 +163,7 @@ class ConstellationHub:
 ╚══════════════════════════════════════════════════════════════════════════════╝
         """
         print(banner)
-        
+
     # --- Smart Routing Phase 1: Query Analysis Engine ---
     agent_keywords = {
         'idhhc': {'code', 'build', 'deploy', 'debug', 'git', 'terminal', 'script', 'automation', 'error', 'bug', 'fix', 'shell', 'python', 'command', 'tool', 'function', 'test', 'implementation'},
@@ -416,7 +416,7 @@ class ConstellationHub:
         menu += "\n" + "\n".join(menu_items) + "\n"
         menu += f"\nCurrent Federation State: {metrics['federation_state']}\nTotal Memories: {metrics['total_conversations']}\nPerformance: ⚡ Parallel Ready\n🧠 Smart Routing: ENABLED\n"
         print(menu)
-        
+
     def get_user_choice(self) -> str:
         """Get user choice with strict validation (1-8 only, no spam)"""
         while True:
@@ -425,17 +425,17 @@ class ConstellationHub:
             if user_input and user_input in '12345678' and len(user_input) == 1:
                 return user_input
             print("🜂 Invalid choice. Please select a single number between 1 and 8.")
-        
+
     async def summon_agent(self, agent_key: str, user_input: str) -> str:
         """Summon a specific Djinn agent with enhanced codellama:13b power"""
         agent = self.agents[agent_key]
-        
+
         print(f"\n🜂 Summoning {agent['name']}...")
         print(f"🌟 Role: {agent['role']}")
         print(f"📖 Description: {agent['description']}")
         print(f"🚀 Model: {agent['model']} ({agent['size']})")
         print("=" * 80)
-        
+
         try:
             # Enhanced prompt with mystical context and memory context
             memory_context = ""
@@ -444,7 +444,7 @@ class ConstellationHub:
                 memory_context = "\n🜂 RECENT COSMIC MEMORIES:\n"
                 for memory in recent_memories:
                     memory_context += f"- {memory['timestamp']}: {memory['agent']} - {memory['user_input'][:100]}...\n"
-            
+
             enhanced_prompt = f"""
 🜂 DJINN FEDERATION CONTEXT 🜂
 You are {agent['name']}, {agent['description']}
@@ -458,16 +458,16 @@ You are part of the mystical Djinn Federation alongside:
 🜂 USER QUERY: {user_input}
 
 🜂 RESPOND AS {agent['name'].upper()}:"""
-            
+
             # Call Ollama with enhanced parameters for codellama:13b model
             cmd = [
                 'ollama', 'run', agent['model'],
                 enhanced_prompt
             ]
-            
+
             print(f"🔄 Invoking {agent['name']} with mystical power...")
             print(f"⏳ This may take several minutes for large models ({agent['size']})...")
-            
+
             # Enhanced subprocess call with proper encoding
             result = subprocess.run(
                 cmd,
@@ -476,7 +476,7 @@ You are part of the mystical Djinn Federation alongside:
                 encoding='utf-8',
                 timeout=600  # 10 minute timeout for large models
             )
-            
+
             if result.returncode == 0:
                 response = result.stdout.strip()
                 # Deduplicate output lines
@@ -490,7 +490,7 @@ You are part of the mystical Djinn Federation alongside:
                 response = "\n".join(unique_lines)
                 if not response:
                     response = f"🜂 {agent['name']} acknowledges your query but requires more specific guidance."
-                
+
                 # Add to conversation history and save
                 conversation_entry = {
                     'agent': agent['name'],
@@ -499,16 +499,16 @@ You are part of the mystical Djinn Federation alongside:
                     'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                     'session_id': f"session_{int(time.time())}"
                 }
-                
+
                 self.conversation_history.append(conversation_entry)
                 self.save_conversation_history()
-                
+
                 return response
             else:
                 error_msg = f"🜂 Error summoning {agent['name']}: {result.stderr}"
                 print(error_msg)
                 return error_msg
-                
+
         except subprocess.TimeoutExpired:
             timeout_msg = f"🜂 {agent['name']} is still contemplating cosmic wisdom. The model may be too large for your system. Consider using smaller models or increasing system resources."
             print(timeout_msg)
@@ -517,13 +517,13 @@ You are part of the mystical Djinn Federation alongside:
             error_msg = f"🜂 Mystical error summoning {agent['name']}: {str(e)}"
             print(error_msg)
             return error_msg
-            
+
     async def federation_council(self, user_input: str) -> str:
         """Convene all three Djinn agents in parallel mystical council"""
         print("\n🜂 CONVENING FEDERATION COUNCIL 🜂")
         print("🌟 All three Djinn agents will now share their wisdom simultaneously...")
         print("=" * 80)
-        
+
         # Create parallel tasks for all agents
         tasks = [
             self.summon_agent('council', user_input),
@@ -564,7 +564,7 @@ You are part of the mystical Djinn Federation alongside:
             print(f"❌ {error_msg}")
             return error_msg
 
-        
+
     def view_federation_status(self):
         """Display current federation status with enhanced memory info and analytics"""
         print("\n🜂 FEDERATION STATUS & MEMORY 🜂")
@@ -608,12 +608,12 @@ You are part of the mystical Djinn Federation alongside:
                 print(f"    {qtype.title()}: {agent_names[pref_agent]} ({prefs[pref_agent]} times)")
             else:
                 print(f"    {qtype.title()}: None")
-                
+
     def clear_conversation_history(self):
         """Clear the conversation history with confirmation"""
         print("🜂 WARNING: This will permanently erase all cosmic memories!")
         confirm = input("🜂 Are you sure? Type 'YES' to confirm: ").strip()
-        
+
         if confirm.upper() == 'YES':
             self.conversation_history = []
             self.federation_state = "refreshed"
@@ -622,15 +622,15 @@ You are part of the mystical Djinn Federation alongside:
             print("🜂 All cosmic memories have been erased. Federation refreshed. 🜂")
         else:
             print("🜂 Memory clearing cancelled. Cosmic memories preserved. 🜂")
-            
+
     def export_memory_archive(self):
         """Export memory archive to a readable format"""
         if not self.conversation_history:
             print("🜂 No memories to export.")
             return
-            
+
         export_file = os.path.join(self.memory_dir, f'memory_archive_{datetime.now().strftime("%Y%m%d_%H%M%S")}.txt')
-        
+
         try:
             with open(export_file, 'w', encoding='utf-8') as f:
                 f.write("🜂 CONSTELLATION HUB MEMORY ARCHIVE 🜂\n")
@@ -638,28 +638,28 @@ You are part of the mystical Djinn Federation alongside:
                 f.write(f"Export Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                 f.write(f"Total Memories: {len(self.conversation_history)}\n")
                 f.write(f"Federation State: {self.federation_state}\n\n")
-                
+
                 for i, entry in enumerate(self.conversation_history, 1):
                     f.write(f"Memory #{i} - {entry['timestamp']}\n")
                     f.write(f"Agent: {entry['agent']}\n")
                     f.write(f"User: {entry['user_input']}\n")
                     f.write(f"Response: {entry['response']}\n")
                     f.write("-" * 60 + "\n\n")
-                    
+
             print(f"🜂 Memory archive exported to: {export_file}")
-            
+
         except Exception as e:
             print(f"🜂 Error exporting memory archive: {e}")
-        
+
     async def run(self):
         """Main orchestration loop with enhanced memory management"""
         self.display_banner()
-        
+
         while True:
             try:
                 self.display_menu()
                 choice = self.get_user_choice()
-                
+
                 if choice == '8':
                     print("🜂 Saving cosmic memories before returning to the realm...")
                     self.save_federation_state()
@@ -676,7 +676,7 @@ You are part of the mystical Djinn Federation alongside:
                     input("\n🜂 Press Enter to continue...")
                 elif choice in ['1', '2', '3', '4']:
                     user_input = input("\n🜂 Enter your query for the Djinn: ").strip()
-                    
+
                     if not user_input:
                         print("🜂 Please provide a query for the Djinn.")
                         continue
@@ -798,10 +798,10 @@ You are part of the mystical Djinn Federation alongside:
                                 print(f"🤖 Got it! I'll remember to use {agent_names[agent_key_map[correct]]} for {query_type} tasks.")
                     elif choice == '4':
                         response = await self.federation_council(user_input)
-                        
+
                     print(f"\n🜂 RESPONSE:\n{response}")
                     print("\n" + "=" * 80)
-                    
+
                     self.federation_state = "active"
                     self.save_federation_state()
                     input("🜂 Press Enter to continue...")
@@ -853,7 +853,7 @@ You are part of the mystical Djinn Federation alongside:
                     input("🜂 Press Enter to continue...")
                 else:
                     print("🜂 Invalid choice. Please select 1-9.")
-                    
+
             except KeyboardInterrupt:
                 print("\n🜂 Saving cosmic memories before interruption...")
                 self.save_federation_state()
@@ -869,4 +869,4 @@ async def main():
     await hub.run()
 
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    asyncio.run(main())

@@ -43,7 +43,7 @@ REM Verify Python version
 python -c "import sys; exit(0 if sys.version_info >= (3, 8) else 1)" >nul 2>&1
 if errorlevel 1 (
     echo ❌ ERROR: Python 3.8+ required!
-    echo 🔧 Current version: 
+    echo 🔧 Current version:
     python --version
     pause
     exit /b 1
@@ -86,6 +86,17 @@ echo ✅ Environment validated successfully
 echo 🚀 Launching Djinn Constellation Hub...
 echo.
 
+REM === Launch The Steward ===
+echo 🛠️ Launching The Steward...
+python steward-agent\maintainer_agent.py report
+if errorlevel 1 (
+    echo ⚠️ WARNING: The Steward launch failed, continuing with main hub...
+    echo ⚠️ Check logs/federation_audit.log for details
+) else (
+    echo ✅ The Steward launched successfully
+)
+echo.
+
 REM Change to the launcher directory
 cd djinn-federation\launcher
 
@@ -107,4 +118,4 @@ cd ..\..
 
 echo.
 echo 🜂 Djinn Constellation Hub session completed
-pause 
+pause

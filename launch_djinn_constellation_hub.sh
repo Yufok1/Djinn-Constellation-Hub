@@ -90,6 +90,16 @@ echo "✅ Environment validated successfully"
 echo "🚀 Launching Djinn Constellation Hub..."
 echo
 
+# === Launch The Steward ===
+echo "🛠️ Launching The Steward..."
+if python3 steward-agent/maintainer_agent.py report; then
+    echo "✅ The Steward launched successfully"
+else
+    echo "⚠️ WARNING: The Steward launch failed, continuing with main hub..."
+    echo "⚠️ Check logs/federation_audit.log for details"
+fi
+echo
+
 # Change to the launcher directory
 cd djinn-federation/launcher
 
@@ -106,4 +116,4 @@ fi
 cd ../..
 
 echo
-echo "🜂 Djinn Constellation Hub session completed" 
+echo "🜂 Djinn Constellation Hub session completed"

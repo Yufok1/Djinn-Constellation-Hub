@@ -9,7 +9,7 @@ echo Launching the TRUE MASTER HUB system...
 echo.
 echo Constellation Components:
 echo Federation: AI Model Coordination
-echo Void Framework: Environment and Tools  
+echo Void Framework: Environment and Tools
 echo Memory Bank: Persistent Storage
 echo Bridge Systems: Communication Protocols
 echo.
@@ -183,4 +183,4 @@ echo Bridge systems maintained
 echo Void Framework active
 echo Federation models ready
 echo.
-pause 
+pause

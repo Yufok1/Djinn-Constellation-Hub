@@ -277,6 +277,6 @@ Experience the future of AI with a system that combines:
 
 ---
 
-*Created by Yufok1*  
-*Federation Version: v2.0.0-secure*  
-*Ollama Profile: [https://ollama.com/Yufok1](https://ollama.com/Yufok1)* 
+*Created by Yufok1*
+*Federation Version: v2.0.0-secure*
+*Ollama Profile: [https://ollama.com/Yufok1](https://ollama.com/Yufok1)*

@@ -39,9 +39,9 @@ echo 🜂 ALL DJINN-IFIED CONSTELLATION COORDINATORS BUILT SUCCESSFULLY! 🜂
 echo.
 echo 📋 Available Constellation Coordinators:
 echo   ⚡ tinydolphin-constellation (636MB) - Ultra-Fast Task Coordinator
-echo   🐬 dolphin-phi-constellation (1.6GB) - Primary Constellation Coordinator  
+echo   🐬 dolphin-phi-constellation (1.6GB) - Primary Constellation Coordinator
 echo   🧠 phi3-constellation (2.2GB) - Complex Task Coordinator
 echo.
 echo 🎯 The Hierarchical Constellation Hub will now use these DJINN-ified coordinators!
 echo.
-pause 
+pause

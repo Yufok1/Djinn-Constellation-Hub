@@ -28,4 +28,4 @@ echo ========================================
 echo   🛡️ DJINN FEDERATION SESSION ENDED
 echo ========================================
 echo.
-pause 
+pause

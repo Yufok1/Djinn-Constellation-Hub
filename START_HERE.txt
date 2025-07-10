@@ -87,7 +87,7 @@ python efficiency_first_hub.py
 - Perfect for: Greetings, simple queries, status checks
 
 **🐬 Dolphin-Phi (1.6GB)** - `dolphin-phi:latest`
-- Balanced: <3s response time  
+- Balanced: <3s response time
 - Perfect for: General questions, explanations, basic tasks
 
 **🧠 Phi3 (2.2GB)** - `phi3:latest`

@@ -10,6 +10,7 @@ import logging
 import os
 from pathlib import Path
 from datetime import datetime
+import json
 
 # === Input Validation Integration ===
 try:
@@ -48,6 +49,8 @@ COMMAND_MAP = {
     "test": ["pytest", "tests/"],
     "launch": ["python", "djinn-federation/launcher/efficiency_first_hub.py"],
 }
+
+TRUST_REGISTRY_PATH = "trust_registry.json"
 
 def validate_command_mapping():
     """Validate that all commands in COMMAND_MAP are properly defined."""
@@ -126,7 +129,8 @@ def show_help():
         "System Status": ["status", "models", "performance", "efficiency"],
         "Federation Management": ["federate", "distribute", "local", "cloud", "auto", "escalate"],
         "PCloud Operations": ["pcloud", "sync"],
-        "Development": ["test", "launch"]
+        "Development": ["test", "launch"],
+        "The Steward": ["--steward"]
     }
     
     for category, commands in categories.items():
@@ -140,6 +144,10 @@ def show_help():
     print("  python djinn_cli.py status")
     print("  python djinn_cli.py models")
     print("  python djinn_cli.py launch")
+    print("  python djinn_cli.py --steward check-deps")
+    print("  python djinn_cli.py --agents")
+    print("  python djinn_cli.py --trust-score steward")
+    print("  python djinn_cli.py --verify steward")
     print("  python djinn_cli.py --help")
     print()
     print("For detailed help on specific commands, use: python djinn_cli.py <command> --help")
@@ -261,6 +269,42 @@ def execute_command_safely(command, args):
         logger.error(f"Unexpected error executing command '{command}': {e}")
         return False, f"Unexpected error: {e}"
 
+# Trust registry helpers
+
+def load_trust_registry():
+    if not os.path.exists(TRUST_REGISTRY_PATH):
+        return {}
+    with open(TRUST_REGISTRY_PATH, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def print_agents():
+    registry = load_trust_registry()
+    print("Federation Agents and Trust Status:")
+    for agent, data in registry.items():
+        print(f"- {agent}: trusted={data.get('trusted')}, federation_member={data.get('federation_member')}, score={data.get('trust_score', data.get('score', 'N/A'))}")
+
+def print_trust_score(agent):
+    registry = load_trust_registry()
+    data = registry.get(agent)
+    if not data:
+        print(f"Agent '{agent}' not found in trust registry.")
+        return
+    print(f"Agent: {agent}")
+    print(f"  Trusted: {data.get('trusted')}")
+    print(f"  Federation Member: {data.get('federation_member')}")
+    print(f"  Trust Score: {data.get('trust_score', data.get('score', 'N/A'))}")
+    print(f"  Last Verified: {data.get('last_verified', 'N/A')}")
+    print(f"  Role: {data.get('role', 'N/A')}")
+
+def verify_agent(agent):
+    registry = load_trust_registry()
+    data = registry.get(agent)
+    if not data:
+        print(f"Agent '{agent}' not found in trust registry.")
+        return
+    print(f"Agent '{agent}' verification: trusted={data.get('trusted')}, federation_member={data.get('federation_member')}, score={data.get('trust_score', data.get('score', 'N/A'))}")
+    print("Manual verification complete.")
+
 def main():
     """Main CLI entry point with comprehensive error handling."""
     logger.info("Djinn CLI starting up")
@@ -286,6 +330,26 @@ def main():
             action="store_true",
             help="Show this help message"
         )
+        parser.add_argument(
+            "--steward",
+            nargs='+',
+            help="Run maintenance commands with The Steward (check-deps, run-tests, monitor, report)"
+        )
+        parser.add_argument(
+            "--agents",
+            action="store_true",
+            help="List all federation agents and trust status"
+        )
+        parser.add_argument(
+            "--trust-score",
+            type=str,
+            help="Show trust score and status for a specific agent"
+        )
+        parser.add_argument(
+            "--verify",
+            type=str,
+            help="Manually verify agent trust status"
+        )
         
         args = parser.parse_args()
         
@@ -300,6 +364,30 @@ def main():
             print("[ERROR] Command mapping validation failed")
             return 1
         
+        # Steward commands
+        if args.steward:
+            try:
+                from steward_agent.maintainer_agent import MaintainerAgent
+            except ImportError:
+                print("[ERROR] Could not import The Steward agent.")
+                return 1
+            maintainer = MaintainerAgent()
+            command = args.steward[0]
+            subargs = args.steward[1:] if len(args.steward) > 1 else []
+            maintainer.receive_instruction(command, subargs)
+            return 0
+
+        # Trust registry commands
+        if args.agents:
+            print_agents()
+            return 0
+        if args.trust_score:
+            print_trust_score(args.trust_score)
+            return 0
+        if args.verify:
+            verify_agent(args.verify)
+            return 0
+
         # Sanitize arguments with validation layer
         sanitized_args = sanitize_args(args.args)
         

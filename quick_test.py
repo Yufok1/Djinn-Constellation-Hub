@@ -13,7 +13,7 @@ def test_ollama_connection():
     """Test basic Ollama connectivity"""
     print("🔗 Testing Ollama connection...")
     try:
-        result = subprocess.run(['ollama', 'list'], 
+        result = subprocess.run(['ollama', 'list'],
                               capture_output=True, text=True, timeout=10)
         if result.returncode == 0:
             print("✅ Ollama connection successful")
@@ -29,7 +29,7 @@ def test_model_availability():
     """Test if core models are available"""
     print("🧠 Testing model availability...")
     try:
-        result = subprocess.run(['ollama', 'list'], 
+        result = subprocess.run(['ollama', 'list'],
                               capture_output=True, text=True, timeout=10)
         if result.returncode == 0:
             models = result.stdout
@@ -37,7 +37,7 @@ def test_model_availability():
                 'Yufok1/djinn-federation:companion',
                 'tinydolphin:latest'
             ]
-            
+
             available = []
             missing = []
             for model in core_models:
@@ -45,11 +45,11 @@ def test_model_availability():
                     available.append(model)
                 else:
                     missing.append(model)
-            
+
             print(f"✅ Available: {len(available)}/{len(core_models)} core models")
             if missing:
                 print(f"⚠️ Missing: {', '.join(missing)}")
-            
+
             return len(available) > 0
         else:
             print("❌ Could not check models")
@@ -66,7 +66,7 @@ def test_simple_query():
         result = subprocess.run([
             'ollama', 'run', 'tinydolphin:latest', query
         ], capture_output=True, text=True, timeout=30)
-        
+
         if result.returncode == 0 and result.stdout.strip():
             print("✅ Simple query successful")
             return True
@@ -86,7 +86,7 @@ def test_constellation_hub_import():
     try:
         # Add current directory to path
         sys.path.insert(0, str(Path.cwd()))
-        
+
         # Try to import the main module
         import constellation_hub
         print("✅ Constellation hub import successful")
@@ -101,26 +101,26 @@ def test_constellation_hub_import():
 def main():
     print("🜂 DJINN CONSTELLATION HUB v2.0.0 - QUICK TEST")
     print("=" * 50)
-    
+
     tests = [
         ("Ollama Connection", test_ollama_connection),
         ("Model Availability", test_model_availability),
         ("Simple Query", test_simple_query),
         ("Constellation Hub Import", test_constellation_hub_import)
     ]
-    
+
     passed = 0
     total = len(tests)
-    
+
     for test_name, test_func in tests:
         print(f"\n🧪 {test_name}:")
         if test_func():
             passed += 1
         time.sleep(1)  # Brief pause between tests
-    
+
     print("\n" + "=" * 50)
     print(f"📊 Test Results: {passed}/{total} tests passed")
-    
+
     if passed == total:
         print("🎉 All tests passed! System is ready for use.")
         print("🚀 You can now run: ./launch_djinn_constellation_hub.bat")
@@ -135,4 +135,4 @@ def main():
         return 1
 
 if __name__ == "__main__":
-    sys.exit(main()) 
+    sys.exit(main())
