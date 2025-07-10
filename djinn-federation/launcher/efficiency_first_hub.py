@@ -24,10 +24,11 @@ import os
 import subprocess
 import sys
 import time
-import psutil
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+
+import psutil
 
 # Set console encoding for Windows
 if os.name == 'nt':
@@ -38,12 +39,12 @@ ENHANCED_SYSTEMS = False
 try:
     import sys
     sys.path.append('../../')
+    from cross_model_communication import CrossModelCommunication
+    from enhanced_predictive_analytics import EnhancedPredictiveAnalytics
     from federation_consciousness import FederationConsciousness
     from model_collaboration_framework import ModelCollaborationFramework
-    from enhanced_predictive_analytics import EnhancedPredictiveAnalytics
     from model_prewarming import ModelPrewarming
     from pcloud_djinn_federation import PCloudDjinnFederation
-    from cross_model_communication import CrossModelCommunication
     ENHANCED_SYSTEMS = True
     print("✨ Enhanced systems loaded successfully")
 except ImportError as e:

@@ -6,18 +6,19 @@ Advanced toolkit system for IDHHC autonomous operations
 import math
 import random
 import time
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
+
 
 # 🔥 Harmonic Purveyor - Uniform Subject (Coordinates all systems)
 class HarmonicPurveyor:
     """Fire-encapsulated analytics and uniform subject coordination"""
 
     def __init__(self):
-        self.mood = 'bonfire'  # 'fire', 'flame', 'bonfire'
+        self.mood = "bonfire"  # 'fire', 'flame', 'bonfire'
         self.patterns = []
         self.flame_intensity = 0.7
         self.is_uniform_subject = True
-        self.referencing_systems = ['kleene', 'phoenix', 'breath', 'symbolic']
+        self.referencing_systems = ["kleene", "phoenix", "breath", "symbolic"]
         self.system_status = {}
 
     def set_mood(self, new_mood: str) -> str:
@@ -30,11 +31,11 @@ class HarmonicPurveyor:
     def update_flame_encapsulation(self) -> str:
         """Update flame encapsulation based on current mood"""
         moods = {
-            'fire': 'Intense flame encapsulation - rapid pattern analysis',
-            'flame': 'Gentle flame encapsulation - steady harmonization',
-            'bonfire': 'Warm bonfire encapsulation - community pattern integration'
+            "fire": "Intense flame encapsulation - rapid pattern analysis",
+            "flame": "Gentle flame encapsulation - steady harmonization",
+            "bonfire": "Warm bonfire encapsulation - community pattern integration",
         }
-        return moods.get(self.mood, 'Unknown mood state')
+        return moods.get(self.mood, "Unknown mood state")
 
     def integrate_patterns(self, input_data: Any) -> str:
         """Harmonize multiple patterns with fire-based processing"""
@@ -50,10 +51,10 @@ class HarmonicPurveyor:
     def get_reference_data(self) -> Dict[str, Any]:
         """Get current reference data for other systems"""
         return {
-            'mood': self.mood,
-            'flame_intensity': self.flame_intensity,
-            'patterns': self.patterns,
-            'encapsulation': self.update_flame_encapsulation()
+            "mood": self.mood,
+            "flame_intensity": self.flame_intensity,
+            "patterns": self.patterns,
+            "encapsulation": self.update_flame_encapsulation(),
         }
 
     def get_mood_status(self) -> str:
@@ -65,6 +66,7 @@ class HarmonicPurveyor:
         for system in self.referencing_systems:
             print(f"🔥 Harmonic Purveyor notifying {system} system of mood: {self.mood}")
         return f"Notified {len(self.referencing_systems)} referencing systems"
+
 
 # 🔬 Kleene Convergence Engine
 class KleeneConvergenceEngine:
@@ -90,12 +92,13 @@ class KleeneConvergenceEngine:
     def apply_kleene_star(self, input_data: Any) -> str:
         """Apply Kleene star operation for infinite pattern expansion"""
         base_length = len(str(input_data)) if input_data else 1
-        possible_patterns = 2 ** base_length
+        possible_patterns = 2**base_length
         return f"Kleene star expansion: {possible_patterns} possible patterns generated"
 
     def get_status(self) -> str:
         """Get engine status"""
         return f"Status: Ready | Utilization: {len(self.convergence_patterns)}% | Recursive Convergence: Active"
+
 
 # 🔥 Phoenix Resurrection Forge
 class PhoenixResurrectionForge:
@@ -127,6 +130,7 @@ class PhoenixResurrectionForge:
     def get_status(self) -> str:
         """Get forge status"""
         return f"Status: Ready | Utilization: {len(self.resurrection_protocols)}% | Resurrection Forge: Active"
+
 
 # 🌬️ Breath Echo Chamber
 class BreathEchoChamber:
@@ -165,6 +169,7 @@ class BreathEchoChamber:
     def get_status(self) -> str:
         """Get echo chamber status"""
         return f"Status: Ready | Utilization: {len(self.breath_patterns)}% | Echo Chamber: Active"
+
 
 # 🔮 Symbolic Archetype Nexus
 class SymbolicArchetypeNexus:
@@ -209,6 +214,7 @@ class SymbolicArchetypeNexus:
         """Get nexus status"""
         return f"Status: Ready | Utilization: {len(self.symbolic_patterns)}% | Archetype Nexus: Active"
 
+
 # 🧠 IDHHC Toolkit Coordinator
 class IDHHCToolkitCoordinator:
     """Coordinates all advanced toolkits for IDHHC operations"""
@@ -222,7 +228,7 @@ class IDHHCToolkitCoordinator:
 
     def initialize_toolkits(self) -> str:
         """Initialize all toolkits and establish connections"""
-        self.harmonic_purveyor.set_mood('flame')
+        self.harmonic_purveyor.set_mood("flame")
         return "All toolkits initialized and synchronized through Harmonic Purveyor"
 
     def analyze_with_kleene(self, data: Any) -> str:
@@ -258,7 +264,7 @@ class IDHHCToolkitCoordinator:
 
     def full_analysis(self, data: Any) -> str:
         """Perform full analysis using all toolkits"""
-        self.harmonic_purveyor.set_mood('fire')  # Intense analysis mode
+        self.harmonic_purveyor.set_mood("fire")  # Intense analysis mode
 
         kleene_result = self.analyze_with_kleene(data)
         phoenix_result = self.restore_with_phoenix(data)
@@ -288,16 +294,20 @@ class IDHHCToolkitCoordinator:
 {self.archetype_nexus.get_status()}
         """.strip()
 
+
 # Global toolkit instance
 toolkit_coordinator = IDHHCToolkitCoordinator()
+
 
 def initialize_idhhc_toolkits():
     """Initialize IDHHC toolkits"""
     return toolkit_coordinator.initialize_toolkits()
 
+
 def analyze_with_idhhc_toolkits(data: Any):
     """Analyze data with all IDHHC toolkits"""
     return toolkit_coordinator.full_analysis(data)
+
 
 def get_toolkit_status():
     """Get current toolkit status"""

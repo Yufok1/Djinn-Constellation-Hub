@@ -4,10 +4,11 @@ Test Autonomous Constellation System
 Tests the constellation-to-IDHHC execution workflow
 """
 
+import json
 import subprocess
 import time
-import json
 from pathlib import Path
+
 
 def test_constellation_models():
     """Test if constellation models are available"""
@@ -15,16 +16,16 @@ def test_constellation_models():
     print("=" * 50)
 
     models = [
-        'Yufok1/djinn-federation:constellation-lite',
-        'Yufok1/djinn-federation:constellation-core',
-        'Yufok1/djinn-federation:constellation-max',
-        'Yufok1/djinn-federation:idhhc'
+        "Yufok1/djinn-federation:constellation-lite",
+        "Yufok1/djinn-federation:constellation-core",
+        "Yufok1/djinn-federation:constellation-max",
+        "Yufok1/djinn-federation:idhhc",
     ]
 
     available_models = []
 
     try:
-        result = subprocess.run(['ollama', 'list'], capture_output=True, text=True)
+        result = subprocess.run(["ollama", "list"], capture_output=True, text=True)
         if result.returncode == 0:
             for model in models:
                 if model in result.stdout:
@@ -42,6 +43,7 @@ def test_constellation_models():
     print(f"\n📊 Available models: {len(available_models)}/{len(models)}")
     return len(available_models) >= 3  # Need at least constellation + IDHHC
 
+
 def test_constellation_hub_import():
     """Test if constellation hub can be imported"""
     print("\n🧪 TESTING CONSTELLATION HUB IMPORT")
@@ -49,6 +51,7 @@ def test_constellation_hub_import():
 
     try:
         from constellation_hub import ConstellationHub
+
         print("✅ ConstellationHub class imported successfully")
 
         # Test initialization
@@ -64,6 +67,7 @@ def test_constellation_hub_import():
     except Exception as e:
         print(f"❌ Error importing/testing ConstellationHub: {e}")
         return False
+
 
 def test_memory_system():
     """Test if memory system is working"""
@@ -90,6 +94,7 @@ def test_memory_system():
         print(f"❌ Error testing memory system: {e}")
         return False
 
+
 def test_directive_execution():
     """Test directive execution system"""
     print("\n🧪 TESTING DIRECTIVE EXECUTION SYSTEM")
@@ -97,6 +102,7 @@ def test_directive_execution():
 
     try:
         from constellation_hub import ConstellationHub
+
         hub = ConstellationHub()
 
         # Test directive generation
@@ -114,6 +120,7 @@ def test_directive_execution():
         print(f"❌ Error testing directive execution: {e}")
         return False
 
+
 def test_bridge_system():
     """Test VOID bridge system"""
     print("\n🧪 TESTING VOID BRIDGE SYSTEM")
@@ -121,6 +128,7 @@ def test_bridge_system():
 
     try:
         from void_constellation_bridge import VOIDConstellationBridge
+
         bridge = VOIDConstellationBridge()
         print("✅ VOID bridge imported successfully")
 
@@ -132,6 +140,7 @@ def test_bridge_system():
     except Exception as e:
         print(f"❌ Error testing bridge system: {e}")
         return False
+
 
 def run_full_test():
     """Run complete test suite"""
@@ -145,7 +154,7 @@ def run_full_test():
         ("Hub Import & Init", test_constellation_hub_import),
         ("Memory System", test_memory_system),
         ("Directive Execution", test_directive_execution),
-        ("Bridge System", test_bridge_system)
+        ("Bridge System", test_bridge_system),
     ]
 
     results = []
@@ -183,6 +192,7 @@ def run_full_test():
         print("💡 Try running install_djinn_federation.bat if models are missing")
 
     return passed == len(results)
+
 
 if __name__ == "__main__":
     run_full_test()

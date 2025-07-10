@@ -3,13 +3,15 @@
 VOID-specific tools and workflows for enhanced autonomous operation
 """
 
-import os
 import json
+import os
 import subprocess
-import git
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
+
+import git
 from advanced_toolkits import HarmonicPurveyor
+
 
 class VOIDIntegration:
     """VOID IDE integration tools for IDHHC"""
@@ -29,7 +31,7 @@ class VOIDIntegration:
             ".vscode/launch.json",
             ".vscode/tasks.json",
             "package.json",
-            "extensions.json"
+            "extensions.json",
         ]
 
         found_indicators = []
@@ -50,28 +52,25 @@ class VOIDIntegration:
             "displayName": extension_name,
             "description": f"IDHHC-generated VOID extension: {extension_name}",
             "version": "1.0.0",
-            "engines": {
-                "vscode": "^1.60.0"
-            },
+            "engines": {"vscode": "^1.60.0"},
             "categories": ["Other"],
             "activationEvents": ["onCommand:extension.helloWorld"],
             "main": "./out/extension.js",
             "contributes": {
-                "commands": [{
-                    "command": "extension.helloWorld",
-                    "title": "Hello World"
-                }]
+                "commands": [
+                    {"command": "extension.helloWorld", "title": "Hello World"}
+                ]
             },
             "scripts": {
                 "vscode:prepublish": "npm run compile",
                 "compile": "tsc -p ./",
-                "watch": "tsc -watch -p ./"
+                "watch": "tsc -watch -p ./",
             },
             "devDependencies": {
                 "@types/vscode": "^1.60.0",
                 "@types/node": "^14.14.37",
-                "typescript": "^4.3.5"
-            }
+                "typescript": "^4.3.5",
+            },
         }
 
         self.extension_manifest = manifest
@@ -88,9 +87,9 @@ class VOIDIntegration:
                     "request": "launch",
                     "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
                     "outFiles": ["${workspaceFolder}/out/**/*.js"],
-                    "preLaunchTask": "npm: watch"
+                    "preLaunchTask": "npm: watch",
                 }
-            ]
+            ],
         }
 
         self.build_config = launch_config
@@ -106,17 +105,21 @@ class VOIDIntegration:
             "publish": "vsce publish",
             "debug": "code --debug --extensionDevelopmentPath=.",
             "package": "vsce package",
-            "install": "code --install-extension"
+            "install": "code --install-extension",
         }
 
         if command in commands:
             try:
-                result = subprocess.run(commands[command], shell=True, capture_output=True, text=True)
+                result = subprocess.run(
+                    commands[command], shell=True, capture_output=True, text=True
+                )
                 return f"VOID command '{command}' executed: {result.stdout}"
             except Exception as e:
                 return f"Error executing VOID command '{command}': {str(e)}"
         else:
-            return f"Unknown VOID command: {command}. Available: {list(commands.keys())}"
+            return (
+                f"Unknown VOID command: {command}. Available: {list(commands.keys())}"
+            )
 
     def analyze_void_project(self) -> str:
         """Analyze VOID project structure and dependencies"""
@@ -127,21 +130,25 @@ class VOIDIntegration:
             "workspace": str(self.void_workspace),
             "files": [],
             "dependencies": [],
-            "configurations": []
+            "configurations": [],
         }
 
         # Analyze workspace files
         for file_path in self.void_workspace.rglob("*"):
             if file_path.is_file():
-                analysis["files"].append(str(file_path.relative_to(self.void_workspace)))
+                analysis["files"].append(
+                    str(file_path.relative_to(self.void_workspace))
+                )
 
         # Check for package.json
         package_json = self.void_workspace / "package.json"
         if package_json.exists():
             try:
-                with open(package_json, 'r') as f:
+                with open(package_json, "r") as f:
                     package_data = json.load(f)
-                    analysis["dependencies"] = list(package_data.get("dependencies", {}).keys())
+                    analysis["dependencies"] = list(
+                        package_data.get("dependencies", {}).keys()
+                    )
             except:
                 pass
 
@@ -152,6 +159,7 @@ class VOIDIntegration:
                 analysis["configurations"].append(config_file.name)
 
         return f"VOID project analysis complete: {len(analysis['files'])} files, {len(analysis['dependencies'])} dependencies"
+
 
 class GitIntegration:
     """Git integration for IDHHC autonomous operations"""
@@ -210,6 +218,7 @@ class GitIntegration:
         except Exception as e:
             return f"Error creating Git branch: {str(e)}"
 
+
 class TestingIntegration:
     """Testing and CI integration for IDHHC"""
 
@@ -231,14 +240,19 @@ class TestingIntegration:
             results = []
             for test_file in test_files:
                 if test_file.is_file() and test_file.suffix == ".py":
-                    result = subprocess.run(["python", "-m", "pytest", str(test_file)],
-                                          capture_output=True, text=True)
-                    results.append({
-                        "file": str(test_file),
-                        "success": result.returncode == 0,
-                        "output": result.stdout,
-                        "errors": result.stderr
-                    })
+                    result = subprocess.run(
+                        ["python", "-m", "pytest", str(test_file)],
+                        capture_output=True,
+                        text=True,
+                    )
+                    results.append(
+                        {
+                            "file": str(test_file),
+                            "success": result.returncode == 0,
+                            "output": result.stdout,
+                            "errors": result.stderr,
+                        }
+                    )
 
             self.test_results = results
             success_count = sum(1 for r in results if r["success"])
@@ -251,8 +265,9 @@ class TestingIntegration:
         """Validate code quality using static analysis"""
         try:
             # Run basic Python linting
-            result = subprocess.run(["python", "-m", "flake8", code_path],
-                                  capture_output=True, text=True)
+            result = subprocess.run(
+                ["python", "-m", "flake8", code_path], capture_output=True, text=True
+            )
 
             if result.returncode == 0:
                 return "Code quality validation passed"
@@ -270,8 +285,10 @@ class TestingIntegration:
             "total_tests": len(self.test_results),
             "passed": sum(1 for r in self.test_results if r["success"]),
             "failed": sum(1 for r in self.test_results if not r["success"]),
-            "success_rate": sum(1 for r in self.test_results if r["success"]) / len(self.test_results) * 100,
-            "details": self.test_results
+            "success_rate": sum(1 for r in self.test_results if r["success"])
+            / len(self.test_results)
+            * 100,
+            "details": self.test_results,
         }
 
         return f"""
@@ -282,10 +299,12 @@ Failed: {report['failed']}
 Success Rate: {report['success_rate']:.1f}%
         """.strip()
 
+
 # Global integration instances
 void_integration = VOIDIntegration()
 git_integration = GitIntegration()
 testing_integration = TestingIntegration()
+
 
 def initialize_void_integration():
     """Initialize all VOID integration components"""
@@ -297,6 +316,7 @@ def initialize_void_integration():
 {void_result}
 {git_result}
     """.strip()
+
 
 def get_void_status():
     """Get comprehensive VOID integration status"""

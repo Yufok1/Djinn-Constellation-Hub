@@ -5,7 +5,9 @@ Tests the optimized intent analysis for speed
 """
 
 import time
+
 from constellation_hub import ConstellationHub
+
 
 def test_fast_routing_speed():
     """Test that fast-path routing is actually fast"""
@@ -15,16 +17,7 @@ def test_fast_routing_speed():
     hub = ConstellationHub()
 
     # Test fast-path cases
-    fast_cases = [
-        "hello",
-        "hi",
-        "hey",
-        "thanks",
-        "bye",
-        "analyze",
-        "fix",
-        "build"
-    ]
+    fast_cases = ["hello", "hi", "hey", "thanks", "bye", "analyze", "fix", "build"]
 
     print("Testing fast-path cases...")
     for prompt in fast_cases:
@@ -41,7 +34,7 @@ def test_fast_routing_speed():
     complex_cases = [
         "Hello, can you analyze my project structure?",
         "I think this code needs some optimization work",
-        "What do you think about implementing a new feature?"
+        "What do you think about implementing a new feature?",
     ]
 
     print("\nTesting complex cases...")
@@ -54,6 +47,7 @@ def test_fast_routing_speed():
         speed_status = "⚡ FAST" if duration_ms < 5 else "🐌 SLOW"
 
         print(f"{speed_status} '{prompt}' -> {intent} ({duration_ms:.2f}ms)")
+
 
 def test_intent_accuracy():
     """Test that fast routing is still accurate"""
@@ -81,6 +75,7 @@ def test_intent_accuracy():
 
     print(f"\n📊 Accuracy: {correct}/{len(test_cases)} correct")
     return correct == len(test_cases)
+
 
 if __name__ == "__main__":
     print("🚀 FAST-PATH ROUTING TEST")

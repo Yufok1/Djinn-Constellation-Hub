@@ -5,7 +5,7 @@ echo.
 
 echo 📋 Federation Models to Push:
 echo - djinn-cosmic-coder
-echo - djinn-logic-master  
+echo - djinn-logic-master
 echo - djinn-deep-thinker
 echo - djinn-enterprise-architect
 echo - constellation-lite
@@ -202,4 +202,4 @@ echo.
 echo 🎉 Federation models are now live on Ollama Hub!
 echo 🜂 May your constellation shine bright across the digital cosmos! 🜂
 echo.
-pause 
+pause

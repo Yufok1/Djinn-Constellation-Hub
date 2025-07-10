@@ -72,4 +72,4 @@ echo "   - consciousness: AI consciousness models"
 echo "   - mystical: Djinn mystical protocols"
 echo
 echo "🌟 Check your Ollama Hub page to see the organized models!"
-echo 
+echo

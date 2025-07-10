@@ -9,12 +9,14 @@ import sys
 import time
 from pathlib import Path
 
+
 def test_ollama_connection():
     """Test basic Ollama connectivity"""
     print("🔗 Testing Ollama connection...")
     try:
-        result = subprocess.run(['ollama', 'list'],
-                              capture_output=True, text=True, timeout=10)
+        result = subprocess.run(
+            ["ollama", "list"], capture_output=True, text=True, timeout=10
+        )
         if result.returncode == 0:
             print("✅ Ollama connection successful")
             return True
@@ -25,18 +27,17 @@ def test_ollama_connection():
         print(f"❌ Ollama test error: {e}")
         return False
 
+
 def test_model_availability():
     """Test if core models are available"""
     print("🧠 Testing model availability...")
     try:
-        result = subprocess.run(['ollama', 'list'],
-                              capture_output=True, text=True, timeout=10)
+        result = subprocess.run(
+            ["ollama", "list"], capture_output=True, text=True, timeout=10
+        )
         if result.returncode == 0:
             models = result.stdout
-            core_models = [
-                'Yufok1/djinn-federation:companion',
-                'tinydolphin:latest'
-            ]
+            core_models = ["Yufok1/djinn-federation:companion", "tinydolphin:latest"]
 
             available = []
             missing = []
@@ -58,14 +59,18 @@ def test_model_availability():
         print(f"❌ Model test error: {e}")
         return False
 
+
 def test_simple_query():
     """Test a simple query with tinydolphin"""
     print("💬 Testing simple query...")
     try:
         query = "Hello, this is a test query."
-        result = subprocess.run([
-            'ollama', 'run', 'tinydolphin:latest', query
-        ], capture_output=True, text=True, timeout=30)
+        result = subprocess.run(
+            ["ollama", "run", "tinydolphin:latest", query],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
 
         if result.returncode == 0 and result.stdout.strip():
             print("✅ Simple query successful")
@@ -80,6 +85,7 @@ def test_simple_query():
         print(f"❌ Query test error: {e}")
         return False
 
+
 def test_constellation_hub_import():
     """Test if constellation hub can be imported"""
     print("🏗️ Testing constellation hub import...")
@@ -89,6 +95,7 @@ def test_constellation_hub_import():
 
         # Try to import the main module
         import constellation_hub
+
         print("✅ Constellation hub import successful")
         return True
     except ImportError as e:
@@ -98,6 +105,7 @@ def test_constellation_hub_import():
         print(f"❌ Import test error: {e}")
         return False
 
+
 def main():
     print("🜂 DJINN CONSTELLATION HUB v2.0.0 - QUICK TEST")
     print("=" * 50)
@@ -106,7 +114,7 @@ def main():
         ("Ollama Connection", test_ollama_connection),
         ("Model Availability", test_model_availability),
         ("Simple Query", test_simple_query),
-        ("Constellation Hub Import", test_constellation_hub_import)
+        ("Constellation Hub Import", test_constellation_hub_import),
     ]
 
     passed = 0
@@ -133,6 +141,7 @@ def main():
         print("❌ Multiple tests failed. System needs attention.")
         print("🔧 Run: python system_health_check.py for detailed diagnostics")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

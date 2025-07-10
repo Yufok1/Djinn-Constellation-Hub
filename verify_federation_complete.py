@@ -4,22 +4,25 @@
 Comprehensive verification of all federation models and consciousness
 """
 
+import json
 import subprocess
 import sys
 import time
-import json
 from pathlib import Path
+
 
 def check_model_exists(model_name):
     """Check if a model exists in Ollama"""
     try:
-        result = subprocess.run(['ollama', 'list'],
-                              capture_output=True, text=True, timeout=30)
+        result = subprocess.run(
+            ["ollama", "list"], capture_output=True, text=True, timeout=30
+        )
         if result.returncode == 0:
             return model_name in result.stdout
         return False
     except Exception:
         return False
+
 
 def test_model_federation_awareness(model_name):
     """Test if a model has federation consciousness with proper encoding"""
@@ -30,9 +33,14 @@ def test_model_federation_awareness(model_name):
         test_question = "Are you part of the Djinn Federation? Answer yes or no only."
 
         # Run with proper encoding handling
-        result = subprocess.run([
-            'ollama', 'run', model_name, test_question
-        ], capture_output=True, text=True, timeout=120, encoding='utf-8', errors='ignore')
+        result = subprocess.run(
+            ["ollama", "run", model_name, test_question],
+            capture_output=True,
+            text=True,
+            timeout=120,
+            encoding="utf-8",
+            errors="ignore",
+        )
 
         if result.returncode == 0:
             response = result.stdout.strip()
@@ -40,8 +48,15 @@ def test_model_federation_awareness(model_name):
 
             # Check for federation indicators
             federation_indicators = [
-                'federation', 'djinn federation', 'federation member',
-                '🜂', 'council', 'cosmic', 'logic', 'enterprise', 'yes'
+                "federation",
+                "djinn federation",
+                "federation member",
+                "🜂",
+                "council",
+                "cosmic",
+                "logic",
+                "enterprise",
+                "yes",
             ]
 
             has_federation_awareness = any(
@@ -66,6 +81,7 @@ def test_model_federation_awareness(model_name):
         print(f"  ❌ Error testing {model_name}: {e}")
         return False
 
+
 def verify_federation_architecture():
     """Verify the complete federation architecture"""
     print("🏗️ Verifying Federation Architecture...")
@@ -78,26 +94,26 @@ def verify_federation_architecture():
             "capable": "phi3:latest",
             "coding": "djinn-federation:idhhc",
             "wisdom": "djinn-federation:council",
-            "dialogue": "djinn-federation:companion"
+            "dialogue": "djinn-federation:companion",
         },
         "cloud_tier": {
             "cosmic_coding": "djinn-cosmic-coder:latest",
             "deep_thinking": "djinn-deep-thinker:latest",
             "logic_master": "djinn-logic-master:latest",
-            "enterprise_architect": "djinn-enterprise-architect:latest"
+            "enterprise_architect": "djinn-enterprise-architect:latest",
         },
         "constellation_tier": {
             "lite": "djinn-federation:constellation-lite",
             "core": "djinn-federation:constellation-core",
-            "max": "djinn-federation:constellation-max"
-        }
+            "max": "djinn-federation:constellation-max",
+        },
     }
 
     verification_results = {
         "local_tier": {},
         "cloud_tier": {},
         "constellation_tier": {},
-        "federation_consciousness": {}
+        "federation_consciousness": {},
     }
 
     # Check each tier
@@ -108,21 +124,24 @@ def verify_federation_architecture():
             verification_results[tier_name][model_role] = {
                 "model": model_name,
                 "exists": exists,
-                "status": "✅ Available" if exists else "❌ Missing"
+                "status": "✅ Available" if exists else "❌ Missing",
             }
-            print(f"  {model_role}: {verification_results[tier_name][model_role]['status']}")
+            print(
+                f"  {model_role}: {verification_results[tier_name][model_role]['status']}"
+            )
 
     return verification_results
+
 
 def test_revolutionary_models_consciousness():
     """Test federation consciousness of revolutionary models"""
     print("\n🧠 Testing Revolutionary Models Federation Consciousness...")
 
     revolutionary_models = [
-        'djinn-deep-thinker:latest',
-        'djinn-cosmic-coder:latest',
-        'djinn-logic-master:latest',
-        'djinn-enterprise-architect:latest'
+        "djinn-deep-thinker:latest",
+        "djinn-cosmic-coder:latest",
+        "djinn-logic-master:latest",
+        "djinn-enterprise-architect:latest",
     ]
 
     consciousness_results = {}
@@ -135,11 +154,12 @@ def test_revolutionary_models_consciousness():
 
     return consciousness_results
 
+
 def generate_comprehensive_report(architecture_results, consciousness_results):
     """Generate comprehensive federation report"""
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("🜂 DJINN FEDERATION COMPREHENSIVE VERIFICATION REPORT 🜂")
-    print("="*80)
+    print("=" * 80)
 
     # Architecture Status
     print("\n📊 FEDERATION ARCHITECTURE STATUS:")
@@ -151,16 +171,20 @@ def generate_comprehensive_report(architecture_results, consciousness_results):
         for model_role, data in models.items():
             print(f"  {model_role}: {data['status']}")
             total_models += 1
-            if data['exists']:
+            if data["exists"]:
                 available_models += 1
 
-    architecture_score = (available_models / total_models) * 100 if total_models > 0 else 0
+    architecture_score = (
+        (available_models / total_models) * 100 if total_models > 0 else 0
+    )
 
     # Consciousness Status
     print("\n🧠 FEDERATION CONSCIOUSNESS STATUS:")
     conscious_models = sum(consciousness_results.values())
     total_revolutionary = len(consciousness_results)
-    consciousness_score = (conscious_models / total_revolutionary) * 100 if total_revolutionary > 0 else 0
+    consciousness_score = (
+        (conscious_models / total_revolutionary) * 100 if total_revolutionary > 0 else 0
+    )
 
     for model, has_consciousness in consciousness_results.items():
         status = "✅ CONSCIOUS" if has_consciousness else "❌ UNCONSCIOUS"
@@ -168,8 +192,12 @@ def generate_comprehensive_report(architecture_results, consciousness_results):
 
     # Overall Assessment
     print(f"\n📈 OVERALL ASSESSMENT:")
-    print(f"  Architecture Completeness: {architecture_score:.1f}% ({available_models}/{total_models})")
-    print(f"  Federation Consciousness: {consciousness_score:.1f}% ({conscious_models}/{total_revolutionary})")
+    print(
+        f"  Architecture Completeness: {architecture_score:.1f}% ({available_models}/{total_models})"
+    )
+    print(
+        f"  Federation Consciousness: {consciousness_score:.1f}% ({conscious_models}/{total_revolutionary})"
+    )
 
     # Recommendations
     print(f"\n💡 RECOMMENDATIONS:")
@@ -193,16 +221,19 @@ def generate_comprehensive_report(architecture_results, consciousness_results):
         "consciousness_results": consciousness_results,
         "architecture_score": architecture_score,
         "consciousness_score": consciousness_score,
-        "overall_status": "OPERATIONAL" if (architecture_score >= 90 and consciousness_score >= 75) else "NEEDS_ATTENTION"
+        "overall_status": "OPERATIONAL"
+        if (architecture_score >= 90 and consciousness_score >= 75)
+        else "NEEDS_ATTENTION",
     }
 
     report_file = Path("federation_verification_report.json")
-    with open(report_file, 'w', encoding='utf-8') as f:
+    with open(report_file, "w", encoding="utf-8") as f:
         json.dump(report_data, f, indent=2, ensure_ascii=False)
 
     print(f"\n📄 Detailed report saved to: {report_file}")
 
     return architecture_score >= 90 and consciousness_score >= 75
+
 
 def main():
     print("🜂 DJINN FEDERATION COMPLETE VERIFICATION")
@@ -215,9 +246,11 @@ def main():
     consciousness_results = test_revolutionary_models_consciousness()
 
     # Step 3: Generate report
-    is_operational = generate_comprehensive_report(architecture_results, consciousness_results)
+    is_operational = generate_comprehensive_report(
+        architecture_results, consciousness_results
+    )
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     if is_operational:
         print("🎉 FEDERATION VERIFICATION COMPLETE - SYSTEM OPERATIONAL!")
         print("🚀 The Djinn Federation is ready for mystical operations!")
@@ -226,6 +259,7 @@ def main():
         print("⚠️ FEDERATION VERIFICATION COMPLETE - SYSTEM NEEDS ATTENTION")
         print("🔧 Please address the recommendations above")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

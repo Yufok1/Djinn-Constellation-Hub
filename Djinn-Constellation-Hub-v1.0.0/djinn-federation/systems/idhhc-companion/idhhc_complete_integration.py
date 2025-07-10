@@ -5,11 +5,13 @@ Following LOGS.0.txt specifications for Internode Djinn HUD Companion ERRI v0.1
 """
 
 import sys
-import time
 import threading
-from dialogue_controller import IDHHCDialogueInterface, DialogueMode
-from riv_engine_integration import RIVDialogueInterface
+import time
+
+from dialogue_controller import DialogueMode, IDHHCDialogueInterface
 from idhhc_folder_access import IDHHCFolderInterface
+from riv_engine_integration import RIVDialogueInterface
+
 
 class IDHHCCompleteSystem:
     """
@@ -55,7 +57,9 @@ class IDHHCCompleteSystem:
 
         # Step 2: Initialize Dialogue Control
         print("🜂 Step 2: Initializing Dialogue Control...")
-        self.dialogue_interface.controller.set_dialogue_mode(DialogueMode.CONVERSATIONAL)
+        self.dialogue_interface.controller.set_dialogue_mode(
+            DialogueMode.CONVERSATIONAL
+        )
         print("🜂 Dialogue Control: Turn-taking enabled")
         print()
 
@@ -81,7 +85,9 @@ class IDHHCCompleteSystem:
     def start_interactive_session(self):
         """Start interactive session with complete system"""
         if not self.system_initialized:
-            print("🜂 Error: System not initialized. Please run initialize_system() first.")
+            print(
+                "🜂 Error: System not initialized. Please run initialize_system() first."
+            )
             return
 
         self.running = True
@@ -102,16 +108,20 @@ class IDHHCCompleteSystem:
         print()
 
         # Initial greeting with dialogue control
-        self.dialogue_interface.respond("Greetings! I am IDHHC Complete System, now operating with full dialogue control, RIV Engine integration, and real folder access capabilities. I will pause after each response and wait for your acknowledgment.")
+        self.dialogue_interface.respond(
+            "Greetings! I am IDHHC Complete System, now operating with full dialogue control, RIV Engine integration, and real folder access capabilities. I will pause after each response and wait for your acknowledgment."
+        )
 
         while self.running:
             try:
                 # Get user input
                 user_input = input("You: ").strip()
 
-                if user_input.lower() == 'exit':
+                if user_input.lower() == "exit":
                     self.running = False
-                    self.dialogue_interface.respond("Session ending. Thank you for testing the IDHHC Complete System.")
+                    self.dialogue_interface.respond(
+                        "Session ending. Thank you for testing the IDHHC Complete System."
+                    )
                     break
 
                 # Process user input through dialogue control
@@ -135,28 +145,28 @@ class IDHHCCompleteSystem:
         user_input_lower = user_input.lower()
 
         # Basic commands
-        if any(phrase in user_input_lower for phrase in ['hello', 'hi', 'greetings']):
+        if any(phrase in user_input_lower for phrase in ["hello", "hi", "greetings"]):
             return "Hello! I'm the IDHHC Complete System, operating with full dialogue control, RIV Engine integration, and real folder access capabilities. How may I assist you today?"
 
-        elif 'status' in user_input_lower:
+        elif "status" in user_input_lower:
             dialogue_status = self.dialogue_interface.get_status()
             riv_status = self.riv_interface.riv_engine.get_engine_status()
 
             return f"System Status:\n🜂 Dialogue Mode: {dialogue_status['mode']}\n🜂 Turn Count: {dialogue_status['turn_count']}\n🜂 RIV Mode: {riv_status['current_mode']}\n🜂 Innovation Rate: {riv_status['innovation_rate']:.3f}\n🜂 Recursive Depth: {riv_status['recursive_depth']}\n🜂 Folder Access: ENABLED"
 
-        elif 'riv' in user_input_lower:
+        elif "riv" in user_input_lower:
             return "🜂 **RIV ENGINE ACCESSED**\n🜂 Recursive Integration Vision Engine is online and ready for design parameter processing.\n🜂 Current mode: Self-referential recursion\n🜂 Innovation rate: Surging\n🜂 Creativity levels: Reaching turbocharge"
 
-        elif 'design' in user_input_lower:
+        elif "design" in user_input_lower:
             # Process through RIV Engine
             result = self.riv_interface.process_user_design_input(user_input)
             return f"🜂 **DESIGN PROCESS INITIATED**\n🜂 RIV Engine processing design parameters...\n🜂 Status: {result['status']}\n🜂 Recursive Depth: {result['recursive_depth']}\n🜂 Innovation Rate: {result['innovation_rate']:.3f}"
 
-        elif 'folder' in user_input_lower or 'list' in user_input_lower:
+        elif "folder" in user_input_lower or "list" in user_input_lower:
             # Use real folder access
             return self.folder_interface.list_folder_contents()
 
-        elif user_input_lower.startswith('read '):
+        elif user_input_lower.startswith("read "):
             # Read file contents
             file_path = user_input[5:].strip()
             if file_path:
@@ -164,7 +174,7 @@ class IDHHCCompleteSystem:
             else:
                 return "🜂 Please specify a file to read. Usage: 'read <filename>'"
 
-        elif user_input_lower.startswith('search '):
+        elif user_input_lower.startswith("search "):
             # Search for files
             pattern = user_input[7:].strip()
             if pattern:
@@ -172,7 +182,7 @@ class IDHHCCompleteSystem:
             else:
                 return "🜂 Please specify a search pattern. Usage: 'search <pattern>'"
 
-        elif 'test' in user_input_lower:
+        elif "test" in user_input_lower:
             return "🜂 **SYSTEM TEST MODE**\n🜂 Testing dialogue control, RIV Engine, and folder access integration...\n🜂 Turn-taking: ACTIVE\n🜂 Recursive integration: ENABLED\n🜂 Folder access: REAL FILESYSTEM\n🜂 User acknowledgment: REQUIRED\n🜂 All systems operational."
 
         else:
@@ -185,8 +195,9 @@ class IDHHCCompleteSystem:
             "running": self.running,
             "dialogue_status": self.dialogue_interface.get_status(),
             "riv_status": self.riv_interface.riv_engine.get_engine_status(),
-            "folder_access": "ENABLED"
+            "folder_access": "ENABLED",
         }
+
 
 def main():
     """Main function to run the complete IDHHC system"""
@@ -215,6 +226,7 @@ def main():
     print(f"🜂 - Folder Access: {final_status['folder_access']}")
     print()
     print("🜂 IDHHC Complete System Shutdown Complete")
+
 
 if __name__ == "__main__":
     main()

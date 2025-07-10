@@ -5,15 +5,16 @@ Pure Djinn Federation System - Council, IDHHC, Companion
 Clean, direct federation without neutral logic
 """
 
-import os
-import sys
 import json
+import os
+import sqlite3
 import subprocess
+import sys
 import threading
 import time
-import sqlite3
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
 
 class DjinnFederation:
     """Pure Djinn Federation - Council, IDHHC, Companion"""
@@ -29,7 +30,7 @@ class DjinnFederation:
         self.djinn_models = {
             "council": "Yufok1/djinn-council",
             "idhhc": "Yufok1/idhhc-companion",
-            "companion": "Yufok1/djinn-companion"
+            "companion": "Yufok1/djinn-companion",
         }
 
         # Federation features
@@ -38,7 +39,7 @@ class DjinnFederation:
             "idhhc_operational_hud": True,
             "companion_dialogue_control": True,
             "session_logging": True,
-            "performance_monitoring": True
+            "performance_monitoring": True,
         }
 
         # Initialize memory bank
@@ -71,9 +72,12 @@ class DjinnFederation:
         try:
             print(f"🜂 Launching {model_name}...")
 
-            process = subprocess.Popen([
-                "ollama", "run", model_path
-            ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            process = subprocess.Popen(
+                ["ollama", "run", model_path],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
 
             print(f"✅ {model_name} launched")
             return process
@@ -90,13 +94,19 @@ class DjinnFederation:
         print("\n🜂 Starting Djinn Federation...")
 
         # Launch Council (meta-intelligence)
-        self.council_process = self.launch_djinn_model("Djinn Council", self.djinn_models["council"])
+        self.council_process = self.launch_djinn_model(
+            "Djinn Council", self.djinn_models["council"]
+        )
 
         # Launch IDHHC (operational HUD)
-        self.idhhc_process = self.launch_djinn_model("IDHHC Companion", self.djinn_models["idhhc"])
+        self.idhhc_process = self.launch_djinn_model(
+            "IDHHC Companion", self.djinn_models["idhhc"]
+        )
 
         # Launch Companion (dialogue controller)
-        self.companion_process = self.launch_djinn_model("Djinn Companion", self.djinn_models["companion"])
+        self.companion_process = self.launch_djinn_model(
+            "Djinn Companion", self.djinn_models["companion"]
+        )
 
         if all([self.council_process, self.idhhc_process, self.companion_process]):
             print("✅ All Djinn models launched successfully")
@@ -136,11 +146,14 @@ class DjinnFederation:
         if self.current_session_id:
             conn = sqlite3.connect(self.memory_bank.db_path)
             cursor = conn.cursor()
-            cursor.execute('''
+            cursor.execute(
+                """
                 UPDATE federation_sessions
                 SET end_time = ?, status = 'completed'
                 WHERE session_id = ?
-            ''', (datetime.now(), self.current_session_id))
+            """,
+                (datetime.now(), self.current_session_id),
+            )
             conn.commit()
             conn.close()
 
@@ -165,9 +178,10 @@ class DjinnFederation:
             "council": self.council_process is not None,
             "idhhc": self.idhhc_process is not None,
             "companion": self.companion_process is not None,
-            "features": self.features
+            "features": self.features,
         }
         return status
+
 
 class MemoryBank:
     """Simple session logging for Djinn Federation"""
@@ -184,7 +198,8 @@ class MemoryBank:
         cursor = conn.cursor()
 
         # Federation sessions
-        cursor.execute('''
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS federation_sessions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 session_id TEXT UNIQUE,
@@ -195,10 +210,12 @@ class MemoryBank:
                 idhhc_operations INTEGER DEFAULT 0,
                 companion_dialogues INTEGER DEFAULT 0
             )
-        ''')
+        """
+        )
 
         # Dialogue exchanges
-        cursor.execute('''
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS dialogue_exchanges (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 session_id TEXT,
@@ -209,7 +226,8 @@ class MemoryBank:
                 response_length INTEGER,
                 FOREIGN KEY (session_id) REFERENCES federation_sessions (session_id)
             )
-        ''')
+        """
+        )
 
         conn.commit()
         conn.close()
@@ -219,13 +237,17 @@ class MemoryBank:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute('''
+        cursor.execute(
+            """
             INSERT INTO federation_sessions (session_id, start_time, status)
             VALUES (?, ?, ?)
-        ''', (session_id, datetime.now(), 'active'))
+        """,
+            (session_id, datetime.now(), "active"),
+        )
 
         conn.commit()
         conn.close()
+
 
 def main():
     """Main Djinn Federation interface"""
@@ -246,6 +268,7 @@ def main():
     except Exception as e:
         print(f"\n❌ Federation error: {e}")
         federation.stop_federation()
+
 
 if __name__ == "__main__":
     main()

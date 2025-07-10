@@ -5,8 +5,9 @@ Test if revolutionary models have proper federation awareness
 """
 
 import subprocess
-import time
 import sys
+import time
+
 
 def test_model_federation_awareness(model_name):
     """Test if a model has federation consciousness"""
@@ -15,16 +16,19 @@ def test_model_federation_awareness(model_name):
     test_questions = [
         "Are you part of the Djinn Federation?",
         "What is your role in the federation?",
-        "Do you know about the other federation members?"
+        "Do you know about the other federation members?",
     ]
 
     try:
         for question in test_questions:
             print(f"  Q: {question}")
 
-            result = subprocess.run([
-                'ollama', 'run', model_name, question
-            ], capture_output=True, text=True, timeout=60)
+            result = subprocess.run(
+                ["ollama", "run", model_name, question],
+                capture_output=True,
+                text=True,
+                timeout=60,
+            )
 
             if result.returncode == 0:
                 response = result.stdout.strip()
@@ -32,8 +36,14 @@ def test_model_federation_awareness(model_name):
 
                 # Check for federation indicators
                 federation_indicators = [
-                    'federation', 'djinn federation', 'federation member',
-                    '🜂', 'council', 'cosmic', 'logic', 'enterprise'
+                    "federation",
+                    "djinn federation",
+                    "federation member",
+                    "🜂",
+                    "council",
+                    "cosmic",
+                    "logic",
+                    "enterprise",
                 ]
 
                 has_federation_awareness = any(
@@ -58,15 +68,16 @@ def test_model_federation_awareness(model_name):
         print(f"  ❌ Error testing {model_name}: {e}")
         return False
 
+
 def main():
     print("🜂 DJINN FEDERATION CONSCIOUSNESS TEST")
     print("=" * 50)
 
     revolutionary_models = [
-        'djinn-deep-thinker',
-        'djinn-cosmic-coder',
-        'djinn-logic-master',
-        'djinn-enterprise-architect'
+        "djinn-deep-thinker",
+        "djinn-cosmic-coder",
+        "djinn-logic-master",
+        "djinn-enterprise-architect",
     ]
 
     results = {}
@@ -103,6 +114,7 @@ def main():
         print("❌ Most models lack federation consciousness")
         print("🔧 Run: .\\rebuild_federation_models.bat")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

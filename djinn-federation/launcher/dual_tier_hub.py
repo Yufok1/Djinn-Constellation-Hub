@@ -10,11 +10,12 @@ Cloud Tier: Revolutionary models for SHADOW cloud system
 import asyncio
 import json
 import os
+import platform
 import subprocess
 import sys
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
-import platform
+
 
 class DualTierFederationHub:
     """
@@ -35,7 +36,7 @@ class DualTierFederationHub:
 
     def __init__(self):
         self.current_tier = "local"  # Start with local tier
-        self.cloud_endpoint = None   # Will be configured for SHADOW
+        self.cloud_endpoint = None  # Will be configured for SHADOW
 
         # Define tier configurations
         self.tiers = {
@@ -48,15 +49,15 @@ class DualTierFederationHub:
                     "complex": "phi3-constellation:latest",
                     "council": "djinn-federation:council",
                     "idhhc": "djinn-federation:idhhc",
-                    "companion": "djinn-federation:companion"
+                    "companion": "djinn-federation:companion",
                 },
                 "capabilities": [
                     "✅ Quick responses",
                     "✅ Basic coding",
                     "✅ Mystical wisdom",
                     "✅ Fast routing",
-                    "✅ Low memory usage"
-                ]
+                    "✅ Low memory usage",
+                ],
             },
             "cloud": {
                 "name": "☁️ SHADOW CLOUD HIGH-POWER FEDERATION",
@@ -67,30 +68,47 @@ class DualTierFederationHub:
                     "advanced_reasoning": "phi4-reasoning:14b",
                     "elite_coding": "codestral:22b",
                     "council": "djinn-federation:council",  # Shared
-                    "companion": "djinn-federation:companion"  # Shared
+                    "companion": "djinn-federation:companion",  # Shared
                 },
                 "capabilities": [
                     "🚀 Massive context (10M tokens)",
                     "🧠 Deep reasoning & thinking mode",
                     "🎨 Multimodal capabilities",
                     "⚡ Mixture of Experts",
-                    "🌟 Revolutionary AI features"
-                ]
-            }
+                    "🌟 Revolutionary AI features",
+                ],
+            },
         }
 
         # Complexity thresholds for tier selection
         self.complexity_keywords = {
             "local": {
-                "keywords": ["quick", "fast", "simple", "hello", "hi", "status", "list"],
+                "keywords": [
+                    "quick",
+                    "fast",
+                    "simple",
+                    "hello",
+                    "hi",
+                    "status",
+                    "list",
+                ],
                 "max_words": 10,
-                "complexity_score": 0.3
+                "complexity_score": 0.3,
             },
             "cloud": {
-                "keywords": ["complex", "design", "architect", "analyze", "multimodal", "image", "advanced", "thinking"],
+                "keywords": [
+                    "complex",
+                    "design",
+                    "architect",
+                    "analyze",
+                    "multimodal",
+                    "image",
+                    "advanced",
+                    "thinking",
+                ],
                 "min_words": 15,
-                "complexity_score": 0.7
-            }
+                "complexity_score": 0.7,
+            },
         }
 
     def display_banner(self):
@@ -132,8 +150,12 @@ class DualTierFederationHub:
         word_count = len(words)
 
         # Check for tier-specific keywords
-        local_keywords = sum(1 for word in words if word in self.complexity_keywords["local"]["keywords"])
-        cloud_keywords = sum(1 for word in words if word in self.complexity_keywords["cloud"]["keywords"])
+        local_keywords = sum(
+            1 for word in words if word in self.complexity_keywords["local"]["keywords"]
+        )
+        cloud_keywords = sum(
+            1 for word in words if word in self.complexity_keywords["cloud"]["keywords"]
+        )
 
         # Calculate complexity score
         base_complexity = min(1.0, word_count / 30.0)
@@ -164,14 +186,20 @@ class DualTierFederationHub:
         if tier == "local":
             # Check local ollama models
             try:
-                result = subprocess.run(['ollama', 'list'], capture_output=True, text=True)
+                result = subprocess.run(
+                    ["ollama", "list"], capture_output=True, text=True
+                )
                 if result.returncode == 0:
                     installed_models = result.stdout.lower()
                     for model_key, model_name in tier_config["models"].items():
-                        available_models[model_key] = model_name.lower() in installed_models
+                        available_models[model_key] = (
+                            model_name.lower() in installed_models
+                        )
                 else:
                     # Default to True if can't check (assume available)
-                    available_models = {key: True for key in tier_config["models"].keys()}
+                    available_models = {
+                        key: True for key in tier_config["models"].keys()
+                    }
             except Exception:
                 available_models = {key: True for key in tier_config["models"].keys()}
 
@@ -179,13 +207,19 @@ class DualTierFederationHub:
             # For cloud tier, check if models are downloaded
             # In future, this would check cloud endpoint availability
             try:
-                result = subprocess.run(['ollama', 'list'], capture_output=True, text=True)
+                result = subprocess.run(
+                    ["ollama", "list"], capture_output=True, text=True
+                )
                 if result.returncode == 0:
                     installed_models = result.stdout.lower()
                     for model_key, model_name in tier_config["models"].items():
-                        available_models[model_key] = model_name.lower() in installed_models
+                        available_models[model_key] = (
+                            model_name.lower() in installed_models
+                        )
                 else:
-                    available_models = {key: False for key in tier_config["models"].keys()}
+                    available_models = {
+                        key: False for key in tier_config["models"].keys()
+                    }
             except Exception:
                 available_models = {key: False for key in tier_config["models"].keys()}
 
@@ -234,7 +268,11 @@ class DualTierFederationHub:
             else:
                 model = tier_config["models"]["complex"]
                 agent_type = "Complex Coordinator"
-        elif "ethical" in query.lower() or "wisdom" in query.lower() or "philosophy" in query.lower():
+        elif (
+            "ethical" in query.lower()
+            or "wisdom" in query.lower()
+            or "philosophy" in query.lower()
+        ):
             if selected_tier == "cloud" and available_models.get("deep_thinking"):
                 model = tier_config["models"]["deep_thinking"]
                 agent_type = "Deep Thinking (Qwen3)"
@@ -265,10 +303,10 @@ class DualTierFederationHub:
         try:
             # Execute ollama query
             result = subprocess.run(
-                ['ollama', 'run', model, query],
+                ["ollama", "run", model, query],
                 capture_output=True,
                 text=True,
-                encoding='utf-8'
+                encoding="utf-8",
             )
 
             if result.returncode == 0:
@@ -295,7 +333,9 @@ class DualTierFederationHub:
             available_models = self.check_tier_availability(tier_name)
 
             for model_key, model_name in tier_config["models"].items():
-                status = "✅ READY" if available_models.get(model_key, False) else "❌ MISSING"
+                status = (
+                    "✅ READY" if available_models.get(model_key, False) else "❌ MISSING"
+                )
                 print(f"  {model_key:15} │ {model_name:35} │ {status}")
 
             print(f"\nCapabilities:")
@@ -334,14 +374,18 @@ class DualTierFederationHub:
         while True:
             try:
                 # Get user input
-                user_input = input(f"🜂 [{self.current_tier.upper()}] Enter query: ").strip()
+                user_input = input(
+                    f"🜂 [{self.current_tier.upper()}] Enter query: "
+                ).strip()
 
                 if not user_input:
                     continue
 
                 # Handle commands
                 if user_input.lower() == "/quit":
-                    print("🜂 Dual-Tier Federation signing off! May the cosmic wisdom guide you!")
+                    print(
+                        "🜂 Dual-Tier Federation signing off! May the cosmic wisdom guide you!"
+                    )
                     break
                 elif user_input.lower() == "/local":
                     self.current_tier = "local"
@@ -356,7 +400,9 @@ class DualTierFederationHub:
                     self.current_tier = "auto"
                     continue
                 elif user_input.lower() == "/toggle":
-                    self.current_tier = "cloud" if self.current_tier == "local" else "local"
+                    self.current_tier = (
+                        "cloud" if self.current_tier == "local" else "local"
+                    )
                     print(f"🔄 Toggled to {self.current_tier.upper()} tier")
                     continue
                 elif user_input.lower() == "/status":
@@ -370,16 +416,21 @@ class DualTierFederationHub:
                 if self.current_tier == "auto":
                     response = await self.route_query(user_input)
                 else:
-                    response = await self.route_query(user_input, force_tier=self.current_tier)
+                    response = await self.route_query(
+                        user_input, force_tier=self.current_tier
+                    )
 
                 print(response)
                 print()
 
             except KeyboardInterrupt:
-                print("\n🜂 Dual-Tier Federation signing off! May the cosmic wisdom guide you!")
+                print(
+                    "\n🜂 Dual-Tier Federation signing off! May the cosmic wisdom guide you!"
+                )
                 break
             except Exception as e:
                 print(f"❌ Error: {e}")
+
 
 async def main():
     """Main entry point for dual-tier federation"""
@@ -387,6 +438,7 @@ async def main():
 
     hub = DualTierFederationHub()
     await hub.interactive_mode()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

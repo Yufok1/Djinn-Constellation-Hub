@@ -3,26 +3,33 @@
 Test script for Phase 2.1: Input Validation Layer
 Verifies all validation functions work correctly
 """
-import sys
-import os
 import json
+import os
+import sys
 from pathlib import Path
 
 # Add validators to path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'validators'))
+sys.path.append(os.path.join(os.path.dirname(__file__), "validators"))
 
 try:
     from input_validator import (
-        validate_federation_config, validate_user_preferences,
-        validate_memory_payload, validate_model_response,
-        validate_cli_args, validate_trust_registry,
-        ConfigValidationError, MemoryValidationError, PayloadValidationError,
-        ValidationError
+        ConfigValidationError,
+        MemoryValidationError,
+        PayloadValidationError,
+        ValidationError,
+        validate_cli_args,
+        validate_federation_config,
+        validate_memory_payload,
+        validate_model_response,
+        validate_trust_registry,
+        validate_user_preferences,
     )
+
     print("✅ Input validation module imported successfully")
 except ImportError as e:
     print(f"❌ Failed to import validation module: {e}")
     sys.exit(1)
+
 
 def test_federation_config_validation():
     """Test federation configuration validation"""
@@ -33,14 +40,8 @@ def test_federation_config_validation():
         "port": 8080,
         "auth_required": False,
         "models": ["djinn-council", "idhhc-companion"],
-        "logging": {
-            "level": "INFO",
-            "output": "both"
-        },
-        "memory": {
-            "max_size_mb": 1000,
-            "backup_interval": 3600
-        }
+        "logging": {"level": "INFO", "output": "both"},
+        "memory": {"max_size_mb": 1000, "backup_interval": 3600},
     }
 
     try:
@@ -55,7 +56,7 @@ def test_federation_config_validation():
     invalid_config = {
         "port": "8080",  # Should be int
         "auth_required": False,
-        "models": ["djinn-council"]
+        "models": ["djinn-council"],
     }
 
     try:
@@ -67,6 +68,7 @@ def test_federation_config_validation():
 
     return True
 
+
 def test_user_preferences_validation():
     """Test user preferences validation"""
     print("\n🧪 Testing User Preferences Validation...")
@@ -77,7 +79,7 @@ def test_user_preferences_validation():
         "autosave": True,
         "session_timeout": 3600,
         "notifications": True,
-        "performance_mode": "balanced"
+        "performance_mode": "balanced",
     }
 
     try:
@@ -91,7 +93,7 @@ def test_user_preferences_validation():
     # Invalid preferences - invalid theme
     invalid_prefs = {
         "theme": "invalid_theme",  # Not in allowed values
-        "autosave": True
+        "autosave": True,
     }
 
     try:
@@ -102,6 +104,7 @@ def test_user_preferences_validation():
         print("✅ Invalid preferences correctly rejected")
 
     return True
+
 
 def test_memory_payload_validation():
     """Test memory payload validation"""
@@ -114,7 +117,7 @@ def test_memory_payload_validation():
         "user_input": "Hello, how are you?",
         "response": "I am well, thank you for asking.",
         "metadata": {"model": "djinn-council-enhanced-v2"},
-        "trust_score": 0.9
+        "trust_score": 0.9,
     }
 
     try:
@@ -140,6 +143,7 @@ def test_memory_payload_validation():
         print("✅ Invalid payload correctly rejected")
 
     return True
+
 
 def test_cli_args_validation():
     """Test CLI arguments validation"""
@@ -169,6 +173,7 @@ def test_cli_args_validation():
 
     return True
 
+
 def test_model_response_validation():
     """Test model response validation"""
     print("\n🧪 Testing Model Response Validation...")
@@ -179,7 +184,7 @@ def test_model_response_validation():
         "agent": "djinn-council",
         "user_input": "What is the meaning of life?",
         "response": "The meaning of life is to seek understanding and growth.",
-        "metadata": {"model": "djinn-council-enhanced-v2"}
+        "metadata": {"model": "djinn-council-enhanced-v2"},
     }
 
     try:
@@ -196,7 +201,7 @@ def test_model_response_validation():
         "agent": "djinn-council",
         "user_input": "What is the meaning of life?",
         "response": "<script>alert('xss')</script>The meaning of life is to seek understanding.",
-        "metadata": {"model": "djinn-council-enhanced-v2"}
+        "metadata": {"model": "djinn-council-enhanced-v2"},
     }
 
     try:
@@ -209,6 +214,7 @@ def test_model_response_validation():
 
     return True
 
+
 def test_trust_registry_validation():
     """Test trust registry validation"""
     print("\n🧪 Testing Trust Registry Validation...")
@@ -219,7 +225,7 @@ def test_trust_registry_validation():
         "trust_score": 0.95,
         "last_verified": "2025-07-09T20:00:00",
         "capabilities": ["reasoning", "ethics", "alignment"],
-        "federation_member": True
+        "federation_member": True,
     }
 
     try:
@@ -235,7 +241,7 @@ def test_trust_registry_validation():
         "agent_id": "djinn council v2",  # Contains spaces, should be alphanumeric + underscore/dash
         "trust_score": 0.95,
         "last_verified": "2025-07-09T20:00:00",
-        "capabilities": ["reasoning"]
+        "capabilities": ["reasoning"],
     }
 
     try:
@@ -246,6 +252,7 @@ def test_trust_registry_validation():
         print("✅ Invalid entry correctly rejected")
 
     return True
+
 
 def main():
     """Run all validation tests"""
@@ -258,7 +265,7 @@ def main():
         test_memory_payload_validation,
         test_cli_args_validation,
         test_model_response_validation,
-        test_trust_registry_validation
+        test_trust_registry_validation,
     ]
 
     passed = 0
@@ -282,6 +289,7 @@ def main():
         print("❌ Some validation tests failed")
         print("🔧 Check the validation implementation")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

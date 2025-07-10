@@ -64,7 +64,7 @@ echo ✅ Hub Tags Setup Complete!
 echo.
 echo 📊 Your models are now tagged for Ollama Hub organization:
 echo    - cloud-tier: Revolutionary power models
-echo    - local-tier: Efficiency-first models  
+echo    - local-tier: Efficiency-first models
 echo    - federation: All federation models
 echo    - djinn: Mystical consciousness models
 echo    - consciousness: AI consciousness models
@@ -72,4 +72,4 @@ echo    - mystical: Djinn mystical protocols
 echo.
 echo 🌟 Check your Ollama Hub page to see the organized models!
 echo.
-pause 
+pause

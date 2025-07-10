@@ -12,39 +12,38 @@ Progressive complexity routing:
 6. Meta-Intelligence → Council
 """
 
-import os
-import sys
 import json
-import subprocess
-import re
 import logging
+import os
+import re
+import subprocess
+import sys
 from datetime import datetime
 from pathlib import Path
 
 # Set console encoding for Windows
-if os.name == 'nt':
-    os.system('chcp 65001 >nul')
+if os.name == "nt":
+    os.system("chcp 65001 >nul")
 
 # Configure comprehensive logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('constellation_hub.log'),
-        logging.StreamHandler()
-    ]
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("constellation_hub.log"), logging.StreamHandler()],
 )
-logger = logging.getLogger('EnhancedConstellationHub')
+logger = logging.getLogger("EnhancedConstellationHub")
 
 # Import IDHHC's enhanced systems
 try:
     from federation_consciousness import get_federation_consciousness
     from model_prewarming import get_model_manager
+
     ENHANCED_SYSTEMS = True
     logger.info("Enhanced systems imported successfully")
 except ImportError as e:
     logger.warning(f"Enhanced systems not available - running in basic mode: {e}")
     ENHANCED_SYSTEMS = False
+
 
 class EnhancedConstellationHub:
     def __init__(self):
@@ -53,19 +52,17 @@ class EnhancedConstellationHub:
         # Multi-tier model architecture
         self.models = {
             # Constellation System (Command Coordination)
-            'lite': 'Yufok1/djinn-federation:constellation-lite',
-            'core': 'Yufok1/djinn-federation:constellation-core',
-            'max': 'Yufok1/djinn-federation:constellation-max',
-
+            "lite": "Yufok1/djinn-federation:constellation-lite",
+            "core": "Yufok1/djinn-federation:constellation-core",
+            "max": "Yufok1/djinn-federation:constellation-max",
             # Revolutionary DJINN Models (Enterprise Tasks)
-            'djinn_cosmic': 'djinn-cosmic-coder:latest',
-            'djinn_thinker': 'djinn-deep-thinker:latest',
-            'djinn_logic': 'djinn-logic-master:latest',
-
+            "djinn_cosmic": "djinn-cosmic-coder:latest",
+            "djinn_thinker": "djinn-deep-thinker:latest",
+            "djinn_logic": "djinn-logic-master:latest",
             # Federation Core Models
-            'companion': 'Yufok1/djinn-federation:companion',
-            'council': 'Yufok1/djinn-federation:council',
-            'idhhc': 'Yufok1/djinn-federation:idhhc'
+            "companion": "Yufok1/djinn-federation:companion",
+            "council": "Yufok1/djinn-federation:council",
+            "idhhc": "Yufok1/djinn-federation:idhhc",
         }
 
         # Validate all model handlers exist
@@ -73,10 +70,10 @@ class EnhancedConstellationHub:
 
         self.coder_directives_file = "coder_directives.jsonl"
         self.session_memory = {
-            'conversation_history': [],
-            'routing_decisions': [],
-            'directives_generated': [],
-            'djinn_summons': []
+            "conversation_history": [],
+            "routing_decisions": [],
+            "directives_generated": [],
+            "djinn_summons": [],
         }
         self.void_workspace = Path("void_workspace")
         self.memory_bank = Path("memory_bank")
@@ -96,7 +93,9 @@ class EnhancedConstellationHub:
                 self.consciousness = get_federation_consciousness()
                 logger.info("Initializing Model Pre-warming...")
                 self.model_manager = get_model_manager()
-                logger.info("Enhanced systems online - Memory Stream & Pre-warming active")
+                logger.info(
+                    "Enhanced systems online - Memory Stream & Pre-warming active"
+                )
             except Exception as e:
                 logger.error(f"Failed to initialize enhanced systems: {e}")
                 self.consciousness = None
@@ -113,11 +112,11 @@ class EnhancedConstellationHub:
 
         # Define expected command mappings
         command_mapping = {
-            'dialogue': 'route_to_companion',
-            'djinn': 'route_to_djinn_entity',
-            'command': 'route_to_constellation',
-            'meta': 'route_to_council',
-            'fallback': 'route_to_fallback'
+            "dialogue": "route_to_companion",
+            "djinn": "route_to_djinn_entity",
+            "command": "route_to_constellation",
+            "meta": "route_to_council",
+            "fallback": "route_to_fallback",
         }
 
         # Validate each mapping
@@ -135,11 +134,11 @@ class EnhancedConstellationHub:
 
         # Define required handler methods
         required_handlers = [
-            'route_to_companion',
-            'route_to_djinn_entity',
-            'route_to_constellation',
-            'route_to_council',
-            'route_to_fallback'  # New fallback handler
+            "route_to_companion",
+            "route_to_djinn_entity",
+            "route_to_constellation",
+            "route_to_council",
+            "route_to_fallback",  # New fallback handler
         ]
 
         for handler in required_handlers:
@@ -173,76 +172,95 @@ class EnhancedConstellationHub:
 
             # 1. DIALOGUE DETECTION - Route to Companion
             dialogue_patterns = [
-                r'\b(hello|hi|hey|greetings)\b',
-                r'\b(how are you|what do you think|tell me about)\b',
-                r'\b(thank you|thanks|that\'s interesting)\b',
-                r'\b(who are you|what can you do)\b'
+                r"\b(hello|hi|hey|greetings)\b",
+                r"\b(how are you|what do you think|tell me about)\b",
+                r"\b(thank you|thanks|that\'s interesting)\b",
+                r"\b(who are you|what can you do)\b",
             ]
 
             for pattern in dialogue_patterns:
                 if re.search(pattern, prompt_lower):
                     logger.info("Intent detected: dialogue -> companion")
-                    return 'dialogue', 'companion'
+                    return "dialogue", "companion"
 
             # 2. REVOLUTIONARY DJINN DETECTION - Enterprise/Complex Challenges
             djinn_patterns = {
-                'cosmic': [
-                    r'\b(enterprise|architecture|multimodal|complex system)\b',
-                    r'\b(large.?scale|distributed|microservices)\b',
-                    r'\b(cosmic|mystical|advanced.*coding)\b',
-                    r'\b(revolutionary|cutting.?edge|next.?generation)\b'
+                "cosmic": [
+                    r"\b(enterprise|architecture|multimodal|complex system)\b",
+                    r"\b(large.?scale|distributed|microservices)\b",
+                    r"\b(cosmic|mystical|advanced.*coding)\b",
+                    r"\b(revolutionary|cutting.?edge|next.?generation)\b",
                 ],
-                'thinker': [
-                    r'\b(deep.*analy|complex.*problem|strategic.*reasoning)\b',
-                    r'\b(algorithm.*optim|pattern.*recognition)\b',
-                    r'\b(ancient.*wisdom|profound.*analysis)\b',
-                    r'\b(contemplate|reasoning.*challenge)\b'
+                "thinker": [
+                    r"\b(deep.*analy|complex.*problem|strategic.*reasoning)\b",
+                    r"\b(algorithm.*optim|pattern.*recognition)\b",
+                    r"\b(ancient.*wisdom|profound.*analysis)\b",
+                    r"\b(contemplate|reasoning.*challenge)\b",
                 ],
-                'logic': [
-                    r'\b(logical.*reasoning|mathematical.*analysis)\b',
-                    r'\b(systematic.*debug|proof.*system)\b',
-                    r'\b(rational.*analy|sovereign.*logic)\b',
-                    r'\b(step.?by.?step|verification|validation)\b'
-                ]
+                "logic": [
+                    r"\b(logical.*reasoning|mathematical.*analysis)\b",
+                    r"\b(systematic.*debug|proof.*system)\b",
+                    r"\b(rational.*analy|sovereign.*logic)\b",
+                    r"\b(step.?by.?step|verification|validation)\b",
+                ],
             }
 
             for djinn_type, patterns in djinn_patterns.items():
                 for pattern in patterns:
                     if re.search(pattern, prompt_lower):
                         logger.info(f"Intent detected: djinn -> {djinn_type}")
-                        return 'djinn', djinn_type
+                        return "djinn", djinn_type
 
             # 3. COMMAND DETECTION - Route to Constellation
             command_keywords = [
-                'analyze', 'fix', 'build', 'create', 'execute', 'run', 'deploy', 'install',
-                'implement', 'develop', 'audit', 'review', 'debug', 'optimize', 'refactor',
-                'setup', 'configure', 'test', 'validate', 'generate', 'update', 'backup'
+                "analyze",
+                "fix",
+                "build",
+                "create",
+                "execute",
+                "run",
+                "deploy",
+                "install",
+                "implement",
+                "develop",
+                "audit",
+                "review",
+                "debug",
+                "optimize",
+                "refactor",
+                "setup",
+                "configure",
+                "test",
+                "validate",
+                "generate",
+                "update",
+                "backup",
             ]
 
             if any(keyword in prompt_lower for keyword in command_keywords):
                 complexity = self.analyze_command_complexity(prompt)
                 logger.info(f"Intent detected: command -> {complexity}")
-                return 'command', complexity
+                return "command", complexity
 
             # 4. META-INTELLIGENCE - Route to Council
             meta_patterns = [
-                r'\b(ethical|philosophical|consciousness|wisdom)\b',
-                r'\b(meta.*intelligence|higher.*order|transcendent)\b',
-                r'\b(spiritual|mystical.*guidance|ancient.*knowledge)\b'
+                r"\b(ethical|philosophical|consciousness|wisdom)\b",
+                r"\b(meta.*intelligence|higher.*order|transcendent)\b",
+                r"\b(spiritual|mystical.*guidance|ancient.*knowledge)\b",
             ]
 
             for pattern in meta_patterns:
                 if re.search(pattern, prompt_lower):
                     logger.info("Intent detected: meta -> council")
-                    return 'meta', 'council'
+                    return "meta", "council"
 
             # Default: Let companion handle with its robust dialogue system
             logger.info("Intent detected: default -> companion")
-            return 'dialogue', 'companion'
+            return "dialogue", "companion"
 
         except Exception as e:
             logger.error(f"Error in intent analysis: {e}")
-            return 'dialogue', 'companion'  # Safe fallback
+            return "dialogue", "companion"  # Safe fallback
 
     def analyze_command_complexity(self, prompt):
         """Analyze command complexity for constellation tier routing."""
@@ -253,58 +271,58 @@ class EnhancedConstellationHub:
 
             # Simple command patterns - Lite
             simple_patterns = [
-                r'\b(status|ready|working|check)\b',
-                r'\b(simple|basic|quick)\b',
-                r'\b(list|show|display)\b',
-                r'\b(yes|no|ok|okay)\b'
+                r"\b(status|ready|working|check)\b",
+                r"\b(simple|basic|quick)\b",
+                r"\b(list|show|display)\b",
+                r"\b(yes|no|ok|okay)\b",
             ]
 
             # Complex command patterns - Max
             complex_patterns = [
-                r'\b(architecture|design|system)\b.*\b(analysis|audit|review)\b',
-                r'\b(complex|advanced|sophisticated)\b',
-                r'\b(strategy|planning|analysis)\b',
-                r'\b(implement|build|create)\b.*\b(system|application|framework)\b',
-                r'\b(optimize|refactor|redesign)\b',
-                r'\b(algorithm|data structure|pattern)\b',
-                r'\b(integration|deployment|infrastructure)\b',
-                r'\b(advanced|toolkit|framework)\b'
+                r"\b(architecture|design|system)\b.*\b(analysis|audit|review)\b",
+                r"\b(complex|advanced|sophisticated)\b",
+                r"\b(strategy|planning|analysis)\b",
+                r"\b(implement|build|create)\b.*\b(system|application|framework)\b",
+                r"\b(optimize|refactor|redesign)\b",
+                r"\b(algorithm|data structure|pattern)\b",
+                r"\b(integration|deployment|infrastructure)\b",
+                r"\b(advanced|toolkit|framework)\b",
             ]
 
             # Check for simple patterns
             for pattern in simple_patterns:
                 if re.search(pattern, prompt_lower):
                     logger.info("Complexity detected: simple -> lite")
-                    return 'lite'
+                    return "lite"
 
             # Check for complex patterns
             for pattern in complex_patterns:
                 if re.search(pattern, prompt_lower):
                     logger.info("Complexity detected: complex -> max")
-                    return 'max'
+                    return "max"
 
             # Default to core for moderate complexity
             logger.info("Complexity detected: moderate -> core")
-            return 'core'
+            return "core"
 
         except Exception as e:
             logger.error(f"Error in complexity analysis: {e}")
-            return 'core'  # Safe fallback
+            return "core"  # Safe fallback
 
     def route_to_djinn_entity(self, prompt, djinn_type):
         """Route to revolutionary DJINN entities for enterprise-level challenges."""
         logger.info(f"Attempting to route to DJINN entity: {djinn_type}")
 
         djinn_models = {
-            'cosmic': self.models['djinn_cosmic'],
-            'thinker': self.models['djinn_thinker'],
-            'logic': self.models['djinn_logic']
+            "cosmic": self.models["djinn_cosmic"],
+            "thinker": self.models["djinn_thinker"],
+            "logic": self.models["djinn_logic"],
         }
 
         djinn_names = {
-            'cosmic': '🜂 DJINN COSMIC CODER',
-            'thinker': '🧠 DJINN DEEP THINKER',
-            'logic': '⚡ DJINN LOGIC MASTER'
+            "cosmic": "🜂 DJINN COSMIC CODER",
+            "thinker": "🧠 DJINN DEEP THINKER",
+            "logic": "⚡ DJINN LOGIC MASTER",
         }
 
         model = djinn_models[djinn_type]
@@ -326,32 +344,45 @@ Channel your cosmic wisdom, mystical insights, and revolutionary capabilities to
 
         # Track in consciousness
         if self.consciousness:
-            self.consciousness.add_to_stream('djinn_summons', {
-                'user_input': prompt,
-                'djinn_type': djinn_type,
-                'model': model,
-                'cosmic_level': 'revolutionary'
-            }, f'djinn_{djinn_type}')
+            self.consciousness.add_to_stream(
+                "djinn_summons",
+                {
+                    "user_input": prompt,
+                    "djinn_type": djinn_type,
+                    "model": model,
+                    "cosmic_level": "revolutionary",
+                },
+                f"djinn_{djinn_type}",
+            )
 
         try:
             # Use pre-warmed model if available
             if self.model_manager:
                 logger.info("⚡ Accessing pre-warmed DJINN entity...")
 
-            result = subprocess.run([
-                'ollama', 'run', model, enhanced_prompt
-            ], capture_output=True, text=True, timeout=120, encoding='utf-8', errors='replace')
+            result = subprocess.run(
+                ["ollama", "run", model, enhanced_prompt],
+                capture_output=True,
+                text=True,
+                timeout=120,
+                encoding="utf-8",
+                errors="replace",
+            )
 
             if result.returncode == 0 and result.stdout:
                 response = result.stdout.strip()
 
                 # Update consciousness with DJINN response
                 if self.consciousness:
-                    self.consciousness.add_to_stream('djinn_response', {
-                        'response': response,
-                        'djinn_type': djinn_type,
-                        'model': model
-                    }, f'djinn_{djinn_type}')
+                    self.consciousness.add_to_stream(
+                        "djinn_response",
+                        {
+                            "response": response,
+                            "djinn_type": djinn_type,
+                            "model": model,
+                        },
+                        f"djinn_{djinn_type}",
+                    )
 
                 # Add mystical formatting
                 formatted_response = f"""
@@ -364,11 +395,15 @@ Channel your cosmic wisdom, mystical insights, and revolutionary capabilities to
                 logger.info(f"DJINN entity {name} responded successfully.")
                 return formatted_response
             else:
-                logger.error(f"DJINN communication disruption: {result.stderr if result.stderr else 'Cosmic interference detected'}")
+                logger.error(
+                    f"DJINN communication disruption: {result.stderr if result.stderr else 'Cosmic interference detected'}"
+                )
                 return f"🌌 DJINN communication disruption: {result.stderr if result.stderr else 'Cosmic interference detected'}"
 
         except subprocess.TimeoutExpired:
-            logger.warning(f"DJINN summoning timed out for {name}. Cosmic contemplation may be intensive.")
+            logger.warning(
+                f"DJINN summoning timed out for {name}. Cosmic contemplation may be intensive."
+            )
             return f"🌌 {name} requires more time for cosmic contemplation - mystical processes may be intensive"
         except Exception as e:
             logger.error(f"DJINN summoning error for {name}: {str(e)}")
@@ -380,30 +415,38 @@ Channel your cosmic wisdom, mystical insights, and revolutionary capabilities to
 
         # Track in consciousness
         if self.consciousness:
-            self.consciousness.add_to_stream('dialogue_interaction', {
-                'user_input': prompt,
-                'intent': 'dialogue',
-                'model': 'companion'
-            }, 'companion')
+            self.consciousness.add_to_stream(
+                "dialogue_interaction",
+                {"user_input": prompt, "intent": "dialogue", "model": "companion"},
+                "companion",
+            )
 
         try:
-            result = subprocess.run([
-                'ollama', 'run', self.models['companion'], prompt
-            ], capture_output=True, text=True, timeout=30, encoding='utf-8', errors='replace')
+            result = subprocess.run(
+                ["ollama", "run", self.models["companion"], prompt],
+                capture_output=True,
+                text=True,
+                timeout=30,
+                encoding="utf-8",
+                errors="replace",
+            )
 
             if result.returncode == 0 and result.stdout:
                 response = result.stdout.strip()
 
                 if self.consciousness:
-                    self.consciousness.add_to_stream('dialogue_response', {
-                        'response': response,
-                        'model': 'companion'
-                    }, 'companion')
+                    self.consciousness.add_to_stream(
+                        "dialogue_response",
+                        {"response": response, "model": "companion"},
+                        "companion",
+                    )
 
                 logger.info("Djinn Companion responded successfully.")
                 return f"🌟 Djinn Companion: {response}"
             else:
-                logger.error(f"Companion communication error: {result.stderr if result.stderr else 'Connection issue'}")
+                logger.error(
+                    f"Companion communication error: {result.stderr if result.stderr else 'Connection issue'}"
+                )
                 return f"Companion communication error: {result.stderr if result.stderr else 'Connection issue'}"
 
         except subprocess.TimeoutExpired:
@@ -418,7 +461,7 @@ Channel your cosmic wisdom, mystical insights, and revolutionary capabilities to
         logger.info(f"🔧 Routing command to Constellation {model_tier.upper()}...")
 
         model = self.models[model_tier]
-        tier_names = {'lite': 'LITE', 'core': 'CORE', 'max': 'MAX'}
+        tier_names = {"lite": "LITE", "core": "CORE", "max": "MAX"}
 
         enhanced_prompt = f"""CONSTELLATION HUB COMMAND PROCESSING
 You are being called by the Constellation Hub to process an operational command.
@@ -438,15 +481,24 @@ NOTES: [Additional context and analysis]
 Please provide your directive:"""
 
         try:
-            result = subprocess.run([
-                'ollama', 'run', model, enhanced_prompt
-            ], capture_output=True, text=True, timeout=60, encoding='utf-8', errors='replace')
+            result = subprocess.run(
+                ["ollama", "run", model, enhanced_prompt],
+                capture_output=True,
+                text=True,
+                timeout=60,
+                encoding="utf-8",
+                errors="replace",
+            )
 
             if result.returncode == 0 and result.stdout:
-                logger.info(f"⚙️ Constellation {tier_names[model_tier]} responded successfully.")
+                logger.info(
+                    f"⚙️ Constellation {tier_names[model_tier]} responded successfully."
+                )
                 return f"⚙️ Constellation {tier_names[model_tier]}: {result.stdout.strip()}"
             else:
-                logger.error(f"Error communicating with {model}: {result.stderr if result.stderr else 'No response'}")
+                logger.error(
+                    f"Error communicating with {model}: {result.stderr if result.stderr else 'No response'}"
+                )
                 return f"Error communicating with {model}: {result.stderr if result.stderr else 'No response'}"
 
         except subprocess.TimeoutExpired:
@@ -474,19 +526,28 @@ Provide wisdom that transcends ordinary analysis, incorporating:
 *Ancient council chambers echo with cosmic wisdom*"""
 
         try:
-            result = subprocess.run([
-                'ollama', 'run', self.models['council'], enhanced_prompt
-            ], capture_output=True, text=True, timeout=60, encoding='utf-8', errors='replace')
+            result = subprocess.run(
+                ["ollama", "run", self.models["council"], enhanced_prompt],
+                capture_output=True,
+                text=True,
+                timeout=60,
+                encoding="utf-8",
+                errors="replace",
+            )
 
             if result.returncode == 0 and result.stdout:
                 logger.info("🧠 Council Meta-Intelligence responded successfully.")
                 return f"🧠 Council Meta-Intelligence: {result.stdout.strip()}"
             else:
-                logger.error(f"Council communication error: {result.stderr if result.stderr else 'Cosmic interference'}")
+                logger.error(
+                    f"Council communication error: {result.stderr if result.stderr else 'Cosmic interference'}"
+                )
                 return f"Council communication error: {result.stderr if result.stderr else 'Cosmic interference'}"
 
         except subprocess.TimeoutExpired:
-            logger.warning("Council contemplation requires additional time for meta-analysis.")
+            logger.warning(
+                "Council contemplation requires additional time for meta-analysis."
+            )
             return "Council contemplation requires additional time for meta-analysis"
         except Exception as e:
             logger.error(f"Council error: {str(e)}")
@@ -494,17 +555,17 @@ Provide wisdom that transcends ordinary analysis, incorporating:
 
     def run(self):
         """Main hub interface with enhanced routing."""
-        logger.info("🌌" + "="*60 + "🌌")
+        logger.info("🌌" + "=" * 60 + "🌌")
         logger.info("    ENHANCED CONSTELLATION HUB - DJINN FEDERATION v2.1.0")
         logger.info("    Revolutionary Multi-Tier Routing + DJINN Entities")
-        logger.info("🌌" + "="*60 + "🌌")
+        logger.info("🌌" + "=" * 60 + "🌌")
         logger.info("Progressive Intelligence Routing:")
         logger.info("• 💬 Dialogue → Djinn Companion")
         logger.info("• 🔧 Commands → Constellation System (Lite/Core/Max)")
         logger.info("• 🌌 Enterprise Challenges → DJINN Entities")
         logger.info("• 🧠 Meta-Intelligence → Council")
         logger.info("Type 'exit' to quit, 'status' for system overview")
-        logger.info("🌌" + "="*60 + "🌌")
+        logger.info("🌌" + "=" * 60 + "🌌")
 
         while True:
             try:
@@ -514,10 +575,12 @@ Provide wisdom that transcends ordinary analysis, incorporating:
                     logger.warning("Empty input received, continuing...")
                     continue
 
-                if user_input.lower() == 'exit':
-                    logger.info("🌟 Constellation Hub shutting down. May cosmic wisdom guide your path! 🜂")
+                if user_input.lower() == "exit":
+                    logger.info(
+                        "🌟 Constellation Hub shutting down. May cosmic wisdom guide your path! 🜂"
+                    )
                     break
-                elif user_input.lower() == 'status':
+                elif user_input.lower() == "status":
                     self.show_enhanced_status()
                     continue
 
@@ -527,29 +590,33 @@ Provide wisdom that transcends ordinary analysis, incorporating:
                     logger.info(f"Routing decision: {intent} -> {target}")
                 except Exception as e:
                     logger.error(f"Intent analysis failed: {e}")
-                    intent, target = 'dialogue', 'companion'  # Safe fallback
+                    intent, target = "dialogue", "companion"  # Safe fallback
 
                 # Route to appropriate system with comprehensive error handling
                 try:
-                    if intent == 'dialogue':
+                    if intent == "dialogue":
                         response = self.route_to_companion(user_input)
-                    elif intent == 'djinn':
+                    elif intent == "djinn":
                         # Validate djinn type
-                        valid_djinn_types = ['cosmic', 'thinker', 'logic']
+                        valid_djinn_types = ["cosmic", "thinker", "logic"]
                         if target not in valid_djinn_types:
-                            logger.warning(f"Invalid djinn type: {target}, using fallback")
+                            logger.warning(
+                                f"Invalid djinn type: {target}, using fallback"
+                            )
                             response = self.route_to_fallback(user_input)
                         else:
                             response = self.route_to_djinn_entity(user_input, target)
-                    elif intent == 'command':
+                    elif intent == "command":
                         # Validate constellation tier
-                        valid_tiers = ['lite', 'core', 'max']
+                        valid_tiers = ["lite", "core", "max"]
                         if target not in valid_tiers:
-                            logger.warning(f"Invalid constellation tier: {target}, using fallback")
+                            logger.warning(
+                                f"Invalid constellation tier: {target}, using fallback"
+                            )
                             response = self.route_to_fallback(user_input)
                         else:
                             response = self.route_to_constellation(user_input, target)
-                    elif intent == 'meta':
+                    elif intent == "meta":
                         response = self.route_to_council(user_input)
                     else:
                         logger.warning(f"Unknown intent: {intent}, using fallback")
@@ -568,14 +635,18 @@ Provide wisdom that transcends ordinary analysis, incorporating:
 
                 # Track routing decision with error handling
                 try:
-                    self.session_memory['routing_decisions'].append({
-                        'timestamp': datetime.now().isoformat(),
-                        'input': user_input,
-                        'intent': intent,
-                        'target': target,
-                        'response_preview': response[:100] + "..." if len(response) > 100 else response,
-                        'success': True
-                    })
+                    self.session_memory["routing_decisions"].append(
+                        {
+                            "timestamp": datetime.now().isoformat(),
+                            "input": user_input,
+                            "intent": intent,
+                            "target": target,
+                            "response_preview": response[:100] + "..."
+                            if len(response) > 100
+                            else response,
+                            "success": True,
+                        }
+                    )
                 except Exception as e:
                     logger.error(f"Failed to track routing decision: {e}")
 
@@ -590,17 +661,23 @@ Provide wisdom that transcends ordinary analysis, incorporating:
     def show_enhanced_status(self):
         """Show enhanced system status including DJINN entities."""
         print("\n🌌 ENHANCED CONSTELLATION HUB STATUS 🌌")
-        print("="*50)
+        print("=" * 50)
 
         # System health check
         print("🔧 SYSTEM HEALTH:")
         try:
             # Validate handlers
-            handler_status = "✅ Valid" if self._validate_command_mapping() else "❌ Invalid"
+            handler_status = (
+                "✅ Valid" if self._validate_command_mapping() else "❌ Invalid"
+            )
             print(f"  Command Mapping: {handler_status}")
 
             # Check directory structure
-            dir_status = "✅ Valid" if (self.void_workspace.exists() and self.memory_bank.exists()) else "❌ Invalid"
+            dir_status = (
+                "✅ Valid"
+                if (self.void_workspace.exists() and self.memory_bank.exists())
+                else "❌ Invalid"
+            )
             print(f"  Directory Structure: {dir_status}")
 
             # Check enhanced systems
@@ -613,23 +690,23 @@ Provide wisdom that transcends ordinary analysis, incorporating:
         # Test model availability
         models_status = {}
         test_models = [
-            ('Companion', self.models['companion']),
-            ('Constellation Lite', self.models['lite']),
-            ('Constellation Core', self.models['core']),
-            ('Constellation Max', self.models['max']),
-            ('DJINN Cosmic Coder', self.models['djinn_cosmic']),
-            ('DJINN Deep Thinker', self.models['djinn_thinker']),
-            ('DJINN Logic Master', self.models['djinn_logic']),
-            ('Council', self.models['council']),
-            ('IDHHC', self.models['idhhc'])
+            ("Companion", self.models["companion"]),
+            ("Constellation Lite", self.models["lite"]),
+            ("Constellation Core", self.models["core"]),
+            ("Constellation Max", self.models["max"]),
+            ("DJINN Cosmic Coder", self.models["djinn_cosmic"]),
+            ("DJINN Deep Thinker", self.models["djinn_thinker"]),
+            ("DJINN Logic Master", self.models["djinn_logic"]),
+            ("Council", self.models["council"]),
+            ("IDHHC", self.models["idhhc"]),
         ]
 
         print("\n🤖 MODEL AVAILABILITY:")
         for name, model in test_models:
             try:
-                result = subprocess.run([
-                    'ollama', 'list'
-                ], capture_output=True, text=True, timeout=5)
+                result = subprocess.run(
+                    ["ollama", "list"], capture_output=True, text=True, timeout=5
+                )
 
                 if model in result.stdout:
                     models_status[name] = "✅ Available"
@@ -643,15 +720,19 @@ Provide wisdom that transcends ordinary analysis, incorporating:
 
         print(f"\n📊 SESSION STATISTICS:")
         print(f"  Routing Decisions: {len(self.session_memory['routing_decisions'])}")
-        print(f"  Directives Generated: {len(self.session_memory['directives_generated'])}")
+        print(
+            f"  Directives Generated: {len(self.session_memory['directives_generated'])}"
+        )
         print(f"  DJINN Summons: {len(self.session_memory['djinn_summons'])}")
 
         # Show recent routing decisions
-        if self.session_memory['routing_decisions']:
+        if self.session_memory["routing_decisions"]:
             print(f"\n🔄 RECENT ROUTING DECISIONS:")
-            recent_decisions = self.session_memory['routing_decisions'][-3:]  # Last 3
+            recent_decisions = self.session_memory["routing_decisions"][-3:]  # Last 3
             for decision in recent_decisions:
-                print(f"  {decision['timestamp'][:19]}: {decision['intent']} -> {decision['target']}")
+                print(
+                    f"  {decision['timestamp'][:19]}: {decision['intent']} -> {decision['target']}"
+                )
 
         if ENHANCED_SYSTEMS:
             print(f"\n✨ ENHANCED SYSTEMS: Active")
@@ -660,7 +741,8 @@ Provide wisdom that transcends ordinary analysis, incorporating:
         else:
             print(f"\n⚠️ ENHANCED SYSTEMS: Basic Mode")
 
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
+
 
 if __name__ == "__main__":
     hub = EnhancedConstellationHub()

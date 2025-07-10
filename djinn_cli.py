@@ -4,18 +4,19 @@ Djinn Constellation Hub CLI
 Universal command-line interface for all major user commands and features.
 """
 import argparse
-import sys
-import subprocess
+import json
 import logging
 import os
-from pathlib import Path
+import subprocess
+import sys
 from datetime import datetime
-import json
+from pathlib import Path
 
 # === Input Validation Integration ===
 try:
-    sys.path.append(os.path.join(os.path.dirname(__file__), 'validators'))
-    from input_validator import validate_cli_args, quarantine_invalid_data
+    sys.path.append(os.path.join(os.path.dirname(__file__), "validators"))
+    from input_validator import quarantine_invalid_data, validate_cli_args
+
     VALIDATION_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Input validation not available: {e}")
@@ -24,13 +25,10 @@ except ImportError as e:
 # Configure comprehensive logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('djinn_cli.log'),
-        logging.StreamHandler()
-    ]
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("djinn_cli.log"), logging.StreamHandler()],
 )
-logger = logging.getLogger('DjinnCLI')
+logger = logging.getLogger("DjinnCLI")
 
 # Mapping of CLI commands to Python scripts or batch files
 COMMAND_MAP = {
@@ -52,15 +50,16 @@ COMMAND_MAP = {
 
 TRUST_REGISTRY_PATH = "trust_registry.json"
 
+
 def validate_command_mapping():
     """Validate that all commands in COMMAND_MAP are properly defined."""
     logger.info("Validating command mapping...")
-    
+
     for cmd, command_list in COMMAND_MAP.items():
         if not isinstance(command_list, list) or len(command_list) == 0:
             logger.error(f"Invalid command definition for '{cmd}': {command_list}")
             return False
-        
+
         # Check if the main executable exists
         main_executable = command_list[0]
         if main_executable == "python":
@@ -69,25 +68,34 @@ def validate_command_mapping():
         elif main_executable == "pytest":
             # Check if pytest is available
             try:
-                subprocess.run([main_executable, "--version"], 
-                             capture_output=True, check=True, timeout=5)
-            except (subprocess.TimeoutExpired, subprocess.CalledProcessError, FileNotFoundError):
+                subprocess.run(
+                    [main_executable, "--version"],
+                    capture_output=True,
+                    check=True,
+                    timeout=5,
+                )
+            except (
+                subprocess.TimeoutExpired,
+                subprocess.CalledProcessError,
+                FileNotFoundError,
+            ):
                 logger.warning(f"Executable not found: {main_executable}")
         else:
             # Check if file exists for other executables
             if not os.path.exists(main_executable):
                 logger.warning(f"Executable not found: {main_executable}")
-    
+
     logger.info("Command mapping validation complete")
     return True
+
 
 def sanitize_args(args):
     """Sanitize and validate command arguments."""
     logger.info(f"Sanitizing arguments: {args}")
-    
+
     if not args:
         return []
-    
+
     # Use validation layer if available
     if VALIDATION_AVAILABLE:
         try:
@@ -97,25 +105,26 @@ def sanitize_args(args):
         except Exception as e:
             logger.warning(f"Validation failed, using fallback sanitization: {e}")
             # Fall back to basic sanitization
-    
+
     # Basic sanitization fallback
     sanitized = []
     for arg in args:
         # Basic sanitization - remove any potentially dangerous characters
         sanitized_arg = str(arg).strip()
-        
+
         # Prevent command injection attempts
-        dangerous_chars = [';', '|', '&', '`', '$', '(', ')', '{', '}']
+        dangerous_chars = [";", "|", "&", "`", "$", "(", ")", "{", "}"]
         if any(char in sanitized_arg for char in dangerous_chars):
             logger.warning(f"Potentially dangerous argument detected: {sanitized_arg}")
             for char in dangerous_chars:
-                sanitized_arg = sanitized_arg.replace(char, '')
-        
+                sanitized_arg = sanitized_arg.replace(char, "")
+
         if sanitized_arg:
             sanitized.append(sanitized_arg)
-    
+
     logger.info(f"Sanitized arguments: {sanitized}")
     return sanitized
+
 
 def show_help():
     """Display comprehensive help information."""
@@ -123,23 +132,30 @@ def show_help():
     print("=" * 60)
     print("Available Commands:")
     print()
-    
+
     # Group commands by category
     categories = {
         "System Status": ["status", "models", "performance", "efficiency"],
-        "Federation Management": ["federate", "distribute", "local", "cloud", "auto", "escalate"],
+        "Federation Management": [
+            "federate",
+            "distribute",
+            "local",
+            "cloud",
+            "auto",
+            "escalate",
+        ],
         "PCloud Operations": ["pcloud", "sync"],
         "Development": ["test", "launch"],
-        "The Steward": ["--steward"]
+        "The Steward": ["--steward"],
     }
-    
+
     for category, commands in categories.items():
         print(f"📋 {category}:")
         for cmd in commands:
             if cmd in COMMAND_MAP:
                 print(f"  {cmd:12} - {get_command_description(cmd)}")
         print()
-    
+
     print("Usage Examples:")
     print("  python djinn_cli.py status")
     print("  python djinn_cli.py models")
@@ -150,8 +166,11 @@ def show_help():
     print("  python djinn_cli.py --verify steward")
     print("  python djinn_cli.py --help")
     print()
-    print("For detailed help on specific commands, use: python djinn_cli.py <command> --help")
+    print(
+        "For detailed help on specific commands, use: python djinn_cli.py <command> --help"
+    )
     print("=" * 60)
+
 
 def get_command_description(command):
     """Get description for a specific command."""
@@ -169,81 +188,88 @@ def get_command_description(command):
         "auto": "Return to automatic intelligent routing",
         "escalate": "Manual escalation to higher tier",
         "test": "Run all system tests",
-        "launch": "Launch the main federation hub"
+        "launch": "Launch the main federation hub",
     }
     return descriptions.get(command, "No description available")
+
 
 def show_status():
     """Display current system status."""
     print("🜂 DJINN CONSTELLATION HUB STATUS 🜂")
     print("=" * 40)
-    
+
     # System information
     print("🔧 System Information:")
     print(f"  Python Version: {sys.version}")
     print(f"  Working Directory: {os.getcwd()}")
     print(f"  Log File: djinn_cli.log")
-    
+
     # Command availability
     print("\n📋 Available Commands:")
     for cmd in sorted(COMMAND_MAP.keys()):
         print(f"  ✅ {cmd}")
-    
+
     # Check critical files
     print("\n📁 Critical Files:")
     critical_files = [
         "constellation_hub.py",
-        "enhanced_constellation_hub.py", 
+        "enhanced_constellation_hub.py",
         "pcloud_djinn_federation.py",
-        "djinn-federation/launcher/efficiency_first_hub.py"
+        "djinn-federation/launcher/efficiency_first_hub.py",
     ]
-    
+
     for file_path in critical_files:
         if os.path.exists(file_path):
             print(f"  ✅ {file_path}")
         else:
             print(f"  ❌ {file_path} (missing)")
-    
+
     # Check Ollama availability
     print("\n🤖 Ollama Status:")
     try:
-        result = subprocess.run(['ollama', '--version'], 
-                              capture_output=True, text=True, timeout=5)
+        result = subprocess.run(
+            ["ollama", "--version"], capture_output=True, text=True, timeout=5
+        )
         if result.returncode == 0:
             print(f"  ✅ Ollama: {result.stdout.strip()}")
         else:
             print("  ❌ Ollama: Not responding")
-    except (subprocess.TimeoutExpired, subprocess.CalledProcessError, FileNotFoundError):
+    except (
+        subprocess.TimeoutExpired,
+        subprocess.CalledProcessError,
+        FileNotFoundError,
+    ):
         print("  ❌ Ollama: Not found")
-    
+
     print("=" * 40)
+
 
 def execute_command_safely(command, args):
     """Execute a command with comprehensive error handling."""
     logger.info(f"Executing command: {command} with args: {args}")
-    
+
     try:
         # Validate command exists
         if command not in COMMAND_MAP:
             logger.error(f"Unknown command: {command}")
             return False, f"Unknown command: {command}"
-        
+
         # Get command definition
         command_to_run = COMMAND_MAP[command] + args
-        
+
         # Log the full command being executed
         logger.info(f"Running: {' '.join(command_to_run)}")
-        
+
         # Execute with timeout
         result = subprocess.run(
-            command_to_run, 
-            capture_output=True, 
-            text=True, 
+            command_to_run,
+            capture_output=True,
+            text=True,
             timeout=300,  # 5 minute timeout
-            encoding='utf-8',
-            errors='replace'
+            encoding="utf-8",
+            errors="replace",
         )
-        
+
         # Log the result
         if result.returncode == 0:
             logger.info(f"Command '{command}' executed successfully")
@@ -251,11 +277,13 @@ def execute_command_safely(command, args):
                 print(result.stdout)
             return True, "Command executed successfully"
         else:
-            logger.error(f"Command '{command}' failed with exit code {result.returncode}")
+            logger.error(
+                f"Command '{command}' failed with exit code {result.returncode}"
+            )
             if result.stderr:
                 print(f"Error: {result.stderr}")
             return False, f"Command failed with exit code {result.returncode}"
-            
+
     except subprocess.TimeoutExpired:
         logger.error(f"Command '{command}' timed out")
         return False, f"Command '{command}' timed out"
@@ -269,19 +297,25 @@ def execute_command_safely(command, args):
         logger.error(f"Unexpected error executing command '{command}': {e}")
         return False, f"Unexpected error: {e}"
 
+
 # Trust registry helpers
+
 
 def load_trust_registry():
     if not os.path.exists(TRUST_REGISTRY_PATH):
         return {}
-    with open(TRUST_REGISTRY_PATH, 'r', encoding='utf-8') as f:
+    with open(TRUST_REGISTRY_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
+
 
 def print_agents():
     registry = load_trust_registry()
     print("Federation Agents and Trust Status:")
     for agent, data in registry.items():
-        print(f"- {agent}: trusted={data.get('trusted')}, federation_member={data.get('federation_member')}, score={data.get('trust_score', data.get('score', 'N/A'))}")
+        print(
+            f"- {agent}: trusted={data.get('trusted')}, federation_member={data.get('federation_member')}, score={data.get('trust_score', data.get('score', 'N/A'))}"
+        )
+
 
 def print_trust_score(agent):
     registry = load_trust_registry()
@@ -296,74 +330,74 @@ def print_trust_score(agent):
     print(f"  Last Verified: {data.get('last_verified', 'N/A')}")
     print(f"  Role: {data.get('role', 'N/A')}")
 
+
 def verify_agent(agent):
     registry = load_trust_registry()
     data = registry.get(agent)
     if not data:
         print(f"Agent '{agent}' not found in trust registry.")
         return
-    print(f"Agent '{agent}' verification: trusted={data.get('trusted')}, federation_member={data.get('federation_member')}, score={data.get('trust_score', data.get('score', 'N/A'))}")
+    print(
+        f"Agent '{agent}' verification: trusted={data.get('trusted')}, federation_member={data.get('federation_member')}, score={data.get('trust_score', data.get('score', 'N/A'))}"
+    )
     print("Manual verification complete.")
+
 
 def main():
     """Main CLI entry point with comprehensive error handling."""
     logger.info("Djinn CLI starting up")
-    
+
     try:
         parser = argparse.ArgumentParser(
             description="Djinn Constellation Hub - Universal CLI",
-            add_help=False  # We'll handle help manually
+            add_help=False,  # We'll handle help manually
         )
         parser.add_argument(
             "command",
-            nargs='?',  # Make command optional for --help
+            nargs="?",  # Make command optional for --help
             type=str,
-            help="Command to run"
+            help="Command to run",
         )
         parser.add_argument(
             "args",
             nargs=argparse.REMAINDER,
-            help="Additional arguments to pass to the command."
+            help="Additional arguments to pass to the command.",
         )
         parser.add_argument(
-            "--help", "-h",
-            action="store_true",
-            help="Show this help message"
+            "--help", "-h", action="store_true", help="Show this help message"
         )
         parser.add_argument(
             "--steward",
-            nargs='+',
-            help="Run maintenance commands with The Steward (check-deps, run-tests, monitor, report)"
+            nargs="+",
+            help="Run maintenance commands with The Steward (check-deps, run-tests, monitor, report)",
         )
         parser.add_argument(
             "--agents",
             action="store_true",
-            help="List all federation agents and trust status"
+            help="List all federation agents and trust status",
         )
         parser.add_argument(
             "--trust-score",
             type=str,
-            help="Show trust score and status for a specific agent"
+            help="Show trust score and status for a specific agent",
         )
         parser.add_argument(
-            "--verify",
-            type=str,
-            help="Manually verify agent trust status"
+            "--verify", type=str, help="Manually verify agent trust status"
         )
-        
+
         args = parser.parse_args()
-        
+
         # Handle help command
         if args.help or not args.command:
             show_help()
             return 0
-        
+
         # Validate command mapping
         if not validate_command_mapping():
             logger.error("Command mapping validation failed")
             print("[ERROR] Command mapping validation failed")
             return 1
-        
+
         # Steward commands
         if args.steward:
             try:
@@ -390,7 +424,7 @@ def main():
 
         # Sanitize arguments with validation layer
         sanitized_args = sanitize_args(args.args)
-        
+
         # Handle builtin commands
         if args.command.lower() == "help":
             show_help()
@@ -398,16 +432,16 @@ def main():
         elif args.command.lower() == "status":
             show_status()
             return 0
-        
+
         # Execute the command
         success, message = execute_command_safely(args.command.lower(), sanitized_args)
-        
+
         if success:
             return 0
         else:
             print(f"[ERROR] {message}")
             return 1
-            
+
     except KeyboardInterrupt:
         logger.info("CLI interrupted by user")
         print("\n[INFO] CLI interrupted by user")
@@ -418,6 +452,7 @@ def main():
         return 1
     finally:
         logger.info("Djinn CLI shutting down")
+
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -2,7 +2,12 @@
 🧠 Test IDHHC Kernel Integration
 """
 
-from kernel_integration import connect_idhhc_to_kernel, get_kernel_bridge_status, perform_kernel_breath_analysis
+from kernel_integration import (
+    connect_idhhc_to_kernel,
+    get_kernel_bridge_status,
+    perform_kernel_breath_analysis,
+)
+
 
 def main():
     """Test kernel integration"""
@@ -23,6 +28,7 @@ def main():
     test_data = "IDHHC autonomous coding system with kernel integration"
     print("Testing breath analysis with kernel integration...")
     print(perform_kernel_breath_analysis(test_data))
+
 
 if __name__ == "__main__":
     main()

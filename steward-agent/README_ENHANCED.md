@@ -102,7 +102,7 @@ Patched files are backed up in `logs/patches/`:
 
 ### System Alerts
 - **High CPU (>80%):** Warning
-- **High Memory (>85%):** Warning  
+- **High Memory (>85%):** Warning
 - **Low Disk (<10%):** Critical
 
 ### Federation Health
@@ -165,4 +165,4 @@ The Enhanced Steward is ready for:
 
 ---
 
-**Enhanced Steward v2.0** - Your federation's advanced guardian 
+**Enhanced Steward v2.0** - Your federation's advanced guardian

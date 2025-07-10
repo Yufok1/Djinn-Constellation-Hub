@@ -6,6 +6,7 @@ Tests the dialogue vs command routing system
 
 from constellation_hub import ConstellationHub
 
+
 def test_intent_analysis():
     """Test intent analysis for dialogue vs commands"""
     print("🧪 TESTING INTENT ANALYSIS")
@@ -22,7 +23,6 @@ def test_intent_analysis():
         ("Thank you for your help", "dialogue"),
         ("Who are you?", "dialogue"),
         ("That's really interesting!", "dialogue"),
-
         # Command examples
         ("Analyze the project directory", "command"),
         ("Execute a system audit", "command"),
@@ -30,11 +30,16 @@ def test_intent_analysis():
         ("Generate a backup script", "command"),
         ("Review the constellation code", "command"),
         ("Update the project files", "command"),
-
         # Edge cases
         ("Status of the models", "command"),
-        ("Hello, can you analyze my code?", "command"),  # Mixed - should prioritize command
-        ("Thanks! Now please run tests", "command"),  # Mixed - should prioritize command
+        (
+            "Hello, can you analyze my code?",
+            "command",
+        ),  # Mixed - should prioritize command
+        (
+            "Thanks! Now please run tests",
+            "command",
+        ),  # Mixed - should prioritize command
     ]
 
     correct = 0
@@ -47,6 +52,7 @@ def test_intent_analysis():
 
     print(f"\n📊 Intent Analysis: {correct}/{len(test_cases)} correct")
     return correct == len(test_cases)
+
 
 def test_routing_logic():
     """Test the basic routing logic"""
@@ -67,6 +73,7 @@ def test_routing_logic():
     print(f"Command test: '{command_prompt}' -> {intent} (complexity: {complexity})")
 
     return True
+
 
 if __name__ == "__main__":
     print("🎯 INTENT-BASED ROUTING TEST")

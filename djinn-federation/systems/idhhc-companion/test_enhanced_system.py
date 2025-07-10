@@ -3,10 +3,19 @@
 Test all Phase 1 & 2 enhancements: toolkits, kernel, VOID integration, memory
 """
 
-from advanced_toolkits import initialize_idhhc_toolkits, analyze_with_idhhc_toolkits, get_toolkit_status
-from kernel_integration import connect_idhhc_to_kernel, get_kernel_bridge_status, perform_kernel_breath_analysis
-from void_integration import initialize_void_integration, get_void_status
-from memory_manager import store_interaction, create_memory_summary, get_memory_status
+from advanced_toolkits import (
+    analyze_with_idhhc_toolkits,
+    get_toolkit_status,
+    initialize_idhhc_toolkits,
+)
+from kernel_integration import (
+    connect_idhhc_to_kernel,
+    get_kernel_bridge_status,
+    perform_kernel_breath_analysis,
+)
+from memory_manager import create_memory_summary, get_memory_status, store_interaction
+from void_integration import get_void_status, initialize_void_integration
+
 
 def test_phase_1_enhancements():
     """Test Phase 1: Core Modelfile Enhancements"""
@@ -24,7 +33,7 @@ def test_phase_1_enhancements():
     memory_result = store_interaction(
         "How do I debug a VOID extension?",
         "Use the debug configuration in launch.json and set breakpoints in your extension code.",
-        {"context": "VOID debugging", "mode": "tactical"}
+        {"context": "VOID debugging", "mode": "tactical"},
     )
     print(f"   {memory_result}")
 
@@ -34,6 +43,7 @@ def test_phase_1_enhancements():
     print("   ✅ Code review and testing capabilities enabled")
 
     return "Phase 1 tests completed successfully"
+
 
 def test_phase_2_tool_integration():
     """Test Phase 2: Tool & Integration Modules"""
@@ -69,6 +79,7 @@ def test_phase_2_tool_integration():
 
     return "Phase 2 tests completed successfully"
 
+
 def test_autonomous_capabilities():
     """Test autonomous capabilities"""
     print("\n🧪 AUTONOMOUS CAPABILITIES TEST")
@@ -91,6 +102,7 @@ def test_autonomous_capabilities():
 
     return "Autonomous capabilities verified"
 
+
 def test_void_specific_workflows():
     """Test VOID-specific workflows"""
     print("\n🧪 VOID-SPECIFIC WORKFLOWS TEST")
@@ -103,7 +115,7 @@ def test_void_specific_workflows():
         "Set up development environment",
         "Implement debugging features",
         "Test extension functionality",
-        "Package and deploy"
+        "Package and deploy",
     ]
 
     for step in extension_workflow:
@@ -116,13 +128,14 @@ def test_void_specific_workflows():
         "Configure launch.json for debugging",
         "Run extension in debug mode",
         "Analyze variables and call stack",
-        "Fix issues and retest"
+        "Fix issues and retest",
     ]
 
     for step in debugging_workflow:
         print(f"   ✅ {step}")
 
     return "VOID workflows validated"
+
 
 def main():
     """Run comprehensive test suite"""
@@ -166,6 +179,7 @@ def main():
         return False
 
     return True
+
 
 if __name__ == "__main__":
     main()

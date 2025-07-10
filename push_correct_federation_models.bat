@@ -202,4 +202,4 @@ echo.
 echo 🎉 Federation models are now live on Ollama Hub!
 echo 🜂 May your constellation shine bright across the digital cosmos! 🜂
 echo.
-pause 
+pause
