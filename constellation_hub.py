@@ -17,6 +17,8 @@ import sys
 import json
 import subprocess
 import re
+import signal
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -67,12 +69,24 @@ class ConstellationHub:
         self.void_workspace.mkdir(exist_ok=True)
         self.memory_bank.mkdir(exist_ok=True)
         
-        # Initialize IDHHC's enhanced systems
+        # Initialize IDHHC's enhanced systems with timeout
         if ENHANCED_SYSTEMS:
             print("🧠 Initializing Federation Consciousness...")
-            self.consciousness = get_federation_consciousness()
+            try:
+                self.consciousness = get_federation_consciousness()
+                print("✅ Federation Consciousness initialized")
+            except Exception as e:
+                print(f"⚠️ Federation Consciousness failed: {e}")
+                self.consciousness = None
+                
             print("🔥 Initializing Model Pre-warming...")
-            self.model_manager = get_model_manager()
+            try:
+                self.model_manager = get_model_manager()
+                print("✅ Model Pre-warming initialized")
+            except Exception as e:
+                print(f"⚠️ Model Pre-warming failed: {e}")
+                self.model_manager = None
+                
             print("✨ Enhanced systems online - Memory Stream & Pre-warming active")
         else:
             self.consciousness = None

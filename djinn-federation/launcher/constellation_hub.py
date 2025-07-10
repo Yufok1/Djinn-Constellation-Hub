@@ -11,8 +11,26 @@ import subprocess
 import sys
 import time
 import os
+import shutil
+import logging
 from typing import Dict, List, Optional, Any
 from datetime import datetime
+from pathlib import Path
+
+# === Input Validation Integration ===
+try:
+    import sys
+    sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'validators'))
+    from input_validator import (
+        validate_federation_config, validate_user_preferences, 
+        validate_memory_payload, validate_model_response,
+        validate_cli_args, quarantine_invalid_data,
+        ConfigValidationError, MemoryValidationError, PayloadValidationError
+    )
+    VALIDATION_AVAILABLE = True
+except ImportError as e:
+    print(f"⚠️ Input validation not available: {e}")
+    VALIDATION_AVAILABLE = False
 
 # ULTIMATE REVOLUTIONARY SYSTEMS INTEGRATION
 try:
@@ -37,6 +55,35 @@ except ImportError as e:
     get_model_collaboration = lambda: None
     get_federation_consciousness = lambda: None
     get_model_prewarming = lambda: None
+
+# --- Memory Integrity Error ---
+class MemoryIntegrityError(Exception):
+    pass
+
+# --- Logging Setup ---
+MEMORY_LOG_DIR = os.path.join(os.path.dirname(__file__), '..', 'logs')
+MEMORY_LOG_FILE = os.path.join(MEMORY_LOG_DIR, 'memory.log')
+os.makedirs(MEMORY_LOG_DIR, exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[logging.FileHandler(MEMORY_LOG_FILE), logging.StreamHandler()]
+)
+mem_logger = logging.getLogger('MemoryBank')
+
+# --- Quarantine Helper ---
+def quarantine_memory_file(file_path, reason="corruption"):
+    try:
+        quarantine_dir = os.path.join(os.path.dirname(file_path), 'corrupted')
+        os.makedirs(quarantine_dir, exist_ok=True)
+        base = os.path.basename(file_path)
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        new_name = f"{base}.quarantine.{reason}.{timestamp}"
+        new_path = os.path.join(quarantine_dir, new_name)
+        shutil.move(file_path, new_path)
+        mem_logger.warning(f"Quarantined {file_path} to {new_path} due to {reason}")
+    except Exception as e:
+        mem_logger.error(f"Failed to quarantine {file_path}: {e}")
 
 class ConstellationHub:
     """
@@ -153,43 +200,91 @@ class ConstellationHub:
         self.check_system_capabilities()
         
     def load_conversation_history(self) -> List[Dict]:
-        """Load conversation history from persistent storage"""
+        """Load conversation history from persistent storage with sanity checks and logging"""
         try:
             if os.path.exists(self.conversation_file):
                 with open(self.conversation_file, 'r', encoding='utf-8') as f:
-                    history = json.load(f)
-                    print(f"🜂 Loaded {len(history)} conversation memories from cosmic archives")
-                    return history
+                    try:
+                        history = json.load(f)
+                    except json.JSONDecodeError as e:
+                        mem_logger.error(f"JSON decode error in {self.conversation_file}: {e}")
+                        quarantine_memory_file(self.conversation_file, reason="jsondecode")
+                        raise MemoryIntegrityError(f"Corrupted conversation history: {e}")
+                
+                # Validate each memory entry if validation is available
+                if VALIDATION_AVAILABLE and history:
+                    validated_history = []
+                    for i, entry in enumerate(history):
+                        try:
+                            validated_entry = validate_memory_payload(entry)
+                            validated_history.append(validated_entry)
+                        except MemoryValidationError as e:
+                            mem_logger.warning(f"Invalid memory entry {i}: {e.message}")
+                            quarantine_invalid_data(entry, f"memory_validation_error:{e.message}", f"conversation_history_{i}")
+                            # Continue with other entries
+                    history = validated_history
+                
+                # Sanity check: must be a list of dicts
+                if not isinstance(history, list) or (history and not isinstance(history[0], dict)):
+                    mem_logger.error(f"Invalid structure in {self.conversation_file}")
+                    quarantine_memory_file(self.conversation_file, reason="structure")
+                    raise MemoryIntegrityError("Conversation history structure invalid")
+                mem_logger.info(f"Loaded {len(history)} conversation memories from {self.conversation_file}")
+                print(f"🜂 Loaded {len(history)} conversation memories from cosmic archives")
+                return history
             else:
+                mem_logger.info(f"No previous conversation memories found at {self.conversation_file}")
                 print("🜂 No previous conversation memories found. Starting fresh cosmic journey.")
                 return []
+        except MemoryIntegrityError as e:
+            print(f"🜂 Error loading conversation history: {e}")
+            return []
         except Exception as e:
+            mem_logger.error(f"Error loading conversation history: {e}")
             print(f"🜂 Error loading conversation history: {e}")
             return []
             
     def save_conversation_history(self):
-        """Save conversation history to persistent storage"""
+        """Save conversation history to persistent storage with logging"""
         try:
             with open(self.conversation_file, 'w', encoding='utf-8') as f:
                 json.dump(self.conversation_history, f, indent=2, ensure_ascii=False)
+            mem_logger.info(f"Saved {len(self.conversation_history)} conversation memories to {self.conversation_file}")
         except Exception as e:
+            mem_logger.error(f"Error saving conversation history: {e}")
             print(f"🜂 Error saving conversation history: {e}")
             
     def load_federation_state(self) -> str:
-        """Load federation state from persistent storage"""
+        """Load federation state from persistent storage with sanity checks and logging"""
         try:
             if os.path.exists(self.federation_state_file):
                 with open(self.federation_state_file, 'r', encoding='utf-8') as f:
-                    state = json.load(f)
-                    return state.get('state', 'awakening')
+                    try:
+                        state = json.load(f)
+                    except json.JSONDecodeError as e:
+                        mem_logger.error(f"JSON decode error in {self.federation_state_file}: {e}")
+                        quarantine_memory_file(self.federation_state_file, reason="jsondecode")
+                        raise MemoryIntegrityError(f"Corrupted federation state: {e}")
+                # Sanity check: must be dict with 'state' key
+                if not isinstance(state, dict) or 'state' not in state:
+                    mem_logger.error(f"Invalid structure in {self.federation_state_file}")
+                    quarantine_memory_file(self.federation_state_file, reason="structure")
+                    raise MemoryIntegrityError("Federation state structure invalid")
+                mem_logger.info(f"Loaded federation state '{state['state']}' from {self.federation_state_file}")
+                return state.get('state', 'awakening')
             else:
+                mem_logger.info(f"No previous federation state found at {self.federation_state_file}")
                 return 'awakening'
+        except MemoryIntegrityError as e:
+            print(f"🜂 Error loading federation state: {e}")
+            return 'awakening'
         except Exception as e:
+            mem_logger.error(f"Error loading federation state: {e}")
             print(f"🜂 Error loading federation state: {e}")
             return 'awakening'
             
     def save_federation_state(self):
-        """Save federation state to persistent storage"""
+        """Save federation state to persistent storage with logging"""
         try:
             state_data = {
                 'state': self.federation_state,
@@ -198,7 +293,9 @@ class ConstellationHub:
             }
             with open(self.federation_state_file, 'w', encoding='utf-8') as f:
                 json.dump(state_data, f, indent=2, ensure_ascii=False)
+            mem_logger.info(f"Saved federation state '{self.federation_state}' to {self.federation_state_file}")
         except Exception as e:
+            mem_logger.error(f"Error saving federation state: {e}")
             print(f"🜂 Error saving federation state: {e}")
             
     def check_system_capabilities(self):
@@ -481,21 +578,56 @@ class ConstellationHub:
             return 'general'
 
     def load_user_preferences(self):
+        """Load user preferences with validation"""
         try:
             if os.path.exists(self.preference_file):
                 with open(self.preference_file, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                    try:
+                        preferences = json.load(f)
+                    except json.JSONDecodeError as e:
+                        mem_logger.error(f"JSON decode error in {self.preference_file}: {e}")
+                        quarantine_memory_file(self.preference_file, reason="jsondecode")
+                        raise MemoryIntegrityError(f"Corrupted user preferences: {e}")
+                
+                # Validate preferences if validation is available
+                if VALIDATION_AVAILABLE:
+                    try:
+                        preferences = validate_user_preferences(preferences)
+                        mem_logger.info(f"Validated user preferences from {self.preference_file}")
+                    except Exception as e:
+                        mem_logger.warning(f"User preferences validation failed: {e}")
+                        quarantine_invalid_data(preferences, f"preferences_validation_error:{e}", "user_preferences")
+                        # Use defaults
+                        preferences = {}
+                
+                return preferences
             else:
+                mem_logger.info(f"No user preferences found at {self.preference_file}")
                 return {}
-        except Exception:
+        except MemoryIntegrityError as e:
+            print(f"🜂 Error loading user preferences: {e}")
+            return {}
+        except Exception as e:
+            mem_logger.error(f"Error loading user preferences: {e}")
             return {}
 
     def save_user_preferences(self):
+        """Save user preferences with validation"""
         try:
+            # Validate preferences before saving if validation is available
+            if VALIDATION_AVAILABLE:
+                try:
+                    self.user_preferences = validate_user_preferences(self.user_preferences)
+                except Exception as e:
+                    mem_logger.warning(f"User preferences validation failed before save: {e}")
+                    # Continue with save anyway
+            
             with open(self.preference_file, 'w', encoding='utf-8') as f:
-                json.dump(self.user_preferences, f, indent=2)
-        except Exception:
-            pass
+                json.dump(self.user_preferences, f, indent=2, ensure_ascii=False)
+            mem_logger.info(f"Saved user preferences to {self.preference_file}")
+        except Exception as e:
+            mem_logger.error(f"Error saving user preferences: {e}")
+            print(f"🜂 Error saving user preferences: {e}")
 
     def display_menu(self):
         """Display the main menu with enhanced options and performance metrics"""
@@ -579,13 +711,29 @@ class ConstellationHub:
         print(menu)
         
     def get_user_choice(self) -> str:
-        """Get user choice with strict validation (1-9 only, no spam)"""
-        while True:
+        """Get user choice with input validation"""
+        try:
             user_input = input("\n🜂 Enter your sovereign directive (1-9): ").strip()
+            
+            # Validate and sanitize user input
+            if VALIDATION_AVAILABLE:
+                try:
+                    sanitized_choice = validate_cli_args([user_input])[0] if validate_cli_args([user_input]) else user_input
+                except Exception as e:
+                    mem_logger.warning(f"Choice sanitization failed: {e}")
+                    sanitized_choice = user_input[:50]  # Fallback truncation
+            else:
+                sanitized_choice = user_input[:50]  # Basic truncation
+            
             # Only accept a single character that is a digit 1-9
-            if user_input and user_input in '123456789' and len(user_input) == 1:
-                return user_input
+            if sanitized_choice and sanitized_choice in '123456789' and len(sanitized_choice) == 1:
+                return sanitized_choice
             print("🜂 Invalid choice. Please select a single number between 1 and 9.")
+            return "" # Indicate failure to get a valid choice
+            
+        except Exception as e:
+            mem_logger.error(f"Error getting user choice: {e}")
+            return ""
         
     async def hierarchical_route_query(self, user_input: str) -> str:
         """Route query through hierarchical constellation coordinators with REVOLUTIONARY INTELLIGENCE"""
@@ -710,7 +858,7 @@ ANALYSIS: Based on enhanced predictive analytics, I recommend routing to {self.a
                     'session_id': f"session_{int(time.time())}",
                     'complexity_score': complexity,
                     'coordinator_tier': coordinator_tier,
-                    'suggested_agent': suggested_agent,
+                    'suggested_agent': suggested_agent_key, # This was 'suggested_agent' in the prompt, but 'suggested_agent_key' is the actual agent
                     'confidence': confidence
                 }
                 
@@ -720,11 +868,11 @@ ANALYSIS: Based on enhanced predictive analytics, I recommend routing to {self.a
                 # Format the response
                 response = f"🜂 {coordinator['name']} COORDINATION 🜂\n"
                 response += f"📊 Complexity: {complexity:.2f}/1.0 | Tier: {coordinator_tier.upper()}\n"
-                response += f"🎯 Recommended Agent: {self.agents[suggested_agent]['name']}\n"
+                response += f"🎯 Recommended Agent: {self.agents[suggested_agent_key]['name']}\n"
                 response += f"⚡ Confidence: {confidence:.1%}\n"
                 response += "=" * 60 + "\n\n"
                 response += coordinator_response
-                response += f"\n\n🜂 Would you like me to summon {self.agents[suggested_agent]['name']} for a full response? 🜂"
+                response += f"\n\n🜂 Would you like me to summon {self.agents[suggested_agent_key]['name']} for a full response? 🜂"
                 
                 return response
             else:
@@ -742,25 +890,40 @@ ANALYSIS: Based on enhanced predictive analytics, I recommend routing to {self.a
             return error_msg
         
     async def summon_agent(self, agent_key: str, user_input: str) -> str:
-        """Summon a specific Djinn agent with enhanced codellama:13b power"""
-        agent = self.agents[agent_key]
-        
-        print(f"\n🜂 Summoning {agent['name']}...")
-        print(f"🌟 Role: {agent['role']}")
-        print(f"📖 Description: {agent['description']}")
-        print(f"🚀 Model: {agent['model']} ({agent['size']})")
-        print("=" * 80)
-        
+        """Summon a specific agent with input validation"""
         try:
-            # Enhanced prompt with mystical context and memory context
-            memory_context = ""
-            if self.conversation_history:
-                recent_memories = self.conversation_history[-5:]  # Last 5 conversations
-                memory_context = "\n🜂 RECENT COSMIC MEMORIES:\n"
-                for memory in recent_memories:
-                    memory_context += f"- {memory['timestamp']}: {memory['agent']} - {memory['user_input'][:100]}...\n"
+            # Validate agent key
+            if agent_key not in self.agents:
+                raise ValueError(f"Unknown agent: {agent_key}")
             
-            enhanced_prompt = f"""
+            # Validate and sanitize user input
+            if VALIDATION_AVAILABLE:
+                try:
+                    sanitized_input = validate_cli_args([user_input])[0] if validate_cli_args([user_input]) else user_input
+                except Exception as e:
+                    mem_logger.warning(f"Input sanitization failed: {e}")
+                    sanitized_input = user_input[:1000]  # Fallback truncation
+            else:
+                sanitized_input = user_input[:1000]  # Basic truncation
+            
+            agent = self.agents[agent_key]
+            
+            print(f"\n🜂 Summoning {agent['name']}...")
+            print(f"�� Role: {agent['role']}")
+            print(f"📖 Description: {agent['description']}")
+            print(f"🚀 Model: {agent['model']} ({agent['size']})")
+            print("=" * 80)
+            
+            try:
+                # Enhanced prompt with mystical context and memory context
+                memory_context = ""
+                if self.conversation_history:
+                    recent_memories = self.conversation_history[-5:]  # Last 5 conversations
+                    memory_context = "\n🜂 RECENT COSMIC MEMORIES:\n"
+                    for memory in recent_memories:
+                        memory_context += f"- {memory['timestamp']}: {memory['agent']} - {memory['user_input'][:100]}...\n"
+                
+                enhanced_prompt = f"""
 🜂 DJINN FEDERATION CONTEXT 🜂
 You are {agent['name']}, {agent['description']}
 You are part of the mystical Djinn Federation alongside:
@@ -770,68 +933,88 @@ You are part of the mystical Djinn Federation alongside:
 
 {memory_context}
 
-🜂 USER QUERY: {user_input}
+🜂 USER QUERY: {sanitized_input}
 
 🜂 RESPOND AS {agent['name'].upper()}:"""
-            
-            # Call Ollama with enhanced parameters for codellama:13b model
-            cmd = [
-                'ollama', 'run', agent['model'],
-                enhanced_prompt
-            ]
-            
-            print(f"🔄 Invoking {agent['name']} with mystical power...")
-            print(f"⏳ This may take several minutes for large models ({agent['size']})...")
-            
-            # Enhanced subprocess call with proper encoding
-            result = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                encoding='utf-8',
-                timeout=600  # 10 minute timeout for large models
-            )
-            
-            if result.returncode == 0:
-                response = result.stdout.strip()
-                # Deduplicate output lines
-                lines = response.splitlines()
-                seen = set()
-                unique_lines = []
-                for line in lines:
-                    if line not in seen:
-                        unique_lines.append(line)
-                        seen.add(line)
-                response = "\n".join(unique_lines)
-                if not response:
-                    response = f"🜂 {agent['name']} acknowledges your query but requires more specific guidance."
                 
-                # Add to conversation history and save
-                conversation_entry = {
-                    'agent': agent['name'],
-                    'user_input': user_input,
-                    'response': response,
-                    'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                    'session_id': f"session_{int(time.time())}"
-                }
+                # Call Ollama with enhanced parameters for codellama:13b model
+                cmd = [
+                    'ollama', 'run', agent['model'],
+                    enhanced_prompt
+                ]
                 
-                self.conversation_history.append(conversation_entry)
-                self.save_conversation_history()
+                print(f"🔄 Invoking {agent['name']} with mystical power...")
+                print(f"⏳ This may take several minutes for large models ({agent['size']})...")
                 
-                return response
-            else:
-                error_msg = f"🜂 Error summoning {agent['name']}: {result.stderr}"
+                # Enhanced subprocess call with proper encoding
+                result = subprocess.run(
+                    cmd,
+                    capture_output=True,
+                    text=True,
+                    encoding='utf-8',
+                    timeout=600  # 10 minute timeout for large models
+                )
+                
+                if result.returncode == 0:
+                    response = result.stdout.strip()
+                    # Deduplicate output lines
+                    lines = response.splitlines()
+                    seen = set()
+                    unique_lines = []
+                    for line in lines:
+                        if line not in seen:
+                            unique_lines.append(line)
+                            seen.add(line)
+                    response = "\n".join(unique_lines)
+                    if not response:
+                        response = f"🜂 {agent['name']} acknowledges your query but requires more specific guidance."
+                    
+                    # Add to conversation history and save
+                    conversation_entry = {
+                        'agent': agent['name'],
+                        'user_input': sanitized_input,
+                        'response': response,
+                        'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                        'session_id': f"session_{int(time.time())}"
+                    }
+                    
+                    self.conversation_history.append(conversation_entry)
+                    self.save_conversation_history()
+                    
+                    # Validate model response if validation is available
+                    if VALIDATION_AVAILABLE:
+                        try:
+                            response_data = {
+                                "timestamp": datetime.now().isoformat(),
+                                "agent": agent_key,
+                                "user_input": sanitized_input,
+                                "response": response,
+                                "metadata": {"model": agent['model']}
+                            }
+                            validated_response = validate_model_response(response_data)
+                            response = validated_response["response"]  # Use validated response
+                        except PayloadValidationError as e:
+                            mem_logger.warning(f"Model response validation failed: {e.message}")
+                            # Continue with original response
+                    
+                    return response
+                else:
+                    error_msg = f"🜂 Error summoning {agent['name']}: {result.stderr}"
+                    print(error_msg)
+                    return error_msg
+                    
+            except subprocess.TimeoutExpired:
+                timeout_msg = f"🜂 {agent['name']} is still contemplating cosmic wisdom. The model may be too large for your system. Consider using smaller models or increasing system resources."
+                print(timeout_msg)
+                return timeout_msg
+            except Exception as e:
+                error_msg = f"🜂 Mystical error summoning {agent['name']}: {str(e)}"
                 print(error_msg)
                 return error_msg
-                
-        except subprocess.TimeoutExpired:
-            timeout_msg = f"🜂 {agent['name']} is still contemplating cosmic wisdom. The model may be too large for your system. Consider using smaller models or increasing system resources."
-            print(timeout_msg)
-            return timeout_msg
+            
         except Exception as e:
-            error_msg = f"🜂 Mystical error summoning {agent['name']}: {str(e)}"
-            print(error_msg)
-            return error_msg
+            mem_logger.error(f"Error summoning agent {agent_key}: {e}")
+            return f"❌ Error summoning {agent_key}: {e}"
             
     async def federation_council(self, user_input: str) -> str:
         """Convene all three Djinn agents in parallel mystical council"""
@@ -925,18 +1108,22 @@ You are part of the mystical Djinn Federation alongside:
                 print(f"    {qtype.title()}: None")
                 
     def clear_conversation_history(self):
-        """Clear the conversation history with confirmation"""
-        print("🜂 WARNING: This will permanently erase all cosmic memories!")
-        confirm = input("🜂 Are you sure? Type 'YES' to confirm: ").strip()
-        
-        if confirm.upper() == 'YES':
+        """Clear conversation history with logging and backup"""
+        try:
+            if os.path.exists(self.conversation_file):
+                backup_file = self.conversation_file + ".backup." + datetime.now().strftime('%Y%m%d_%H%M%S')
+                shutil.copy2(self.conversation_file, backup_file)
+                mem_logger.info(f"Backed up conversation history to {backup_file}")
+                os.remove(self.conversation_file)
+                mem_logger.info(f"Cleared conversation history at {self.conversation_file}")
             self.conversation_history = []
             self.federation_state = "refreshed"
             self.save_conversation_history()
             self.save_federation_state()
-            print("🜂 All cosmic memories have been erased. Federation refreshed. 🜂")
-        else:
-            print("🜂 Memory clearing cancelled. Cosmic memories preserved. 🜂")
+            print("🜂 Conversation history cleared. Cosmic memories reset.")
+        except Exception as e:
+            mem_logger.error(f"Error clearing conversation history: {e}")
+            print(f"🜂 Error clearing conversation history: {e}")
             
     def export_memory_archive(self):
         """Export memory archive to a readable format"""
