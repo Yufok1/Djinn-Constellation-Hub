@@ -1,0 +1,27 @@
+{
+  "steward": {
+    "trusted": true,
+    "federation_member": true,
+    "trust_score": 1.0,
+    "last_verified": "2025-07-09T00:00:00Z",
+    "role": "maintainer"
+  },
+  "Yufok1/djinn-federation:council": {
+    "trusted": true,
+    "federation_member": true,
+    "trust_score": 1.0,
+    "last_verified": "2025-07-10T02:15:00Z",
+    "role": "sovereign_council",
+    "version": "enhanced-v2",
+    "capabilities": [
+      "recursive_meta_judgment",
+      "ethical_oversight", 
+      "deep_inference",
+      "sovereign_risk_arbitration",
+      "meta_auditor_validation",
+      "adaptive_learning",
+      "predictive_analysis",
+      "cosmic_harmony_integration"
+    ]
+  }
+} 
