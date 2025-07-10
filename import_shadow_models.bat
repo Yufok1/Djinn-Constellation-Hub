@@ -1,12 +1,50 @@
 @echo off
+setlocal EnableDelayedExpansion
+REM === DJINN SHADOW MODEL AUTO-IMPORT ===
+REM Usage: import_shadow_models.bat <model_name> <file_path>
+REM If arguments are provided, use them for auto-import and logging.
+REM If not, fall back to legacy P:\shadow_models\ logic for backward compatibility.
+
+set NAME=%1
+set FILE=%2
+set LOGFILE=logs\import_shadow_models.log
+if not exist logs mkdir logs
+
+if not "%NAME%"=="" if not "%FILE%"=="" (
+    REM Argument-driven auto-import mode
+    echo [AUTO-IMPORT] Importing %NAME% from %FILE% ... >> %LOGFILE%
+    REM Check if already in Ollama
+    ollama list | findstr "%NAME%"
+    if %errorlevel%==0 (
+        echo [AUTO-IMPORT] Model %NAME% already present in Ollama. >> %LOGFILE%
+        echo Model %NAME% already present in Ollama.
+        exit /b 0
+    )
+    if not exist "%FILE%" (
+        echo [AUTO-IMPORT] ERROR: Model file %FILE% not found. >> %LOGFILE%
+        echo ERROR: Model file %FILE% not found.
+        exit /b 2
+    )
+    ollama create %NAME% -f "%FILE%" >> %LOGFILE% 2>&1
+    if %errorlevel%==0 (
+        echo [AUTO-IMPORT] SUCCESS: Imported %NAME% from %FILE%. >> %LOGFILE%
+        echo SUCCESS: Imported %NAME% from %FILE%.
+        exit /b 0
+    ) else (
+        echo [AUTO-IMPORT] ERROR: Failed to import %NAME% from %FILE%. >> %LOGFILE%
+        echo ERROR: Failed to import %NAME% from %FILE%.
+        exit /b 3
+    )
+)
+
+REM === Legacy/Manual Import Mode (fallback) ===
 echo.
 echo ========================================
 echo   📥 IMPORTING SHADOW CLOUD MODELS
-echo     From P:\ Drive to Local System
-echo     🜂 DJINN-IFYING ALL MODELS 🜂
+    From P:\ Drive to Local System
+    🜂 DJINN-IFYING ALL MODELS 🜂
 echo ========================================
 echo.
-
 echo 🔍 Checking for models on P:\ drive...
 if exist "P:\shadow_models\" (
     echo ✅ Found P:\shadow_models\ directory
@@ -16,7 +54,6 @@ if exist "P:\shadow_models\" (
     pause
     exit /b
 )
-
 echo.
 echo 🜂 Creating Djinn-ified versions of revolutionary models...
 
@@ -92,3 +129,4 @@ echo.
 echo 🜂 The Djinn Federation has evolved into its ultimate form!
 echo.
 pause 
+endlocal

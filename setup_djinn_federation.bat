@@ -76,6 +76,25 @@ for /f "usebackq tokens=1-5 delims=, " %%A in ("federation_setup.cfg") do (
                 set STATUS=Downloaded
             )
         )
+    ) else if /i "!METHOD!"=="file" (
+        echo Checking for file !URL! ...
+        if exist !URL! (
+            echo ✅ File !URL! is present. >> %LOGFILE%
+            set STATUS=Present
+            REM Attempt auto-import to Ollama if a script is provided
+            if not "!SCRIPT!"=="" if exist !SCRIPT! (
+                echo Attempting to auto-import !URL! using !SCRIPT!... >> %LOGFILE%
+                call !SCRIPT! !NAME! !URL! >> %LOGFILE% 2>&1
+                if !errorlevel! neq 0 (
+                    echo ⚠️ Auto-import of !NAME! from !URL! failed with !SCRIPT!. >> %LOGFILE%
+                ) else (
+                    echo ✅ Auto-imported !NAME! from !URL! using !SCRIPT!. >> %LOGFILE%
+                )
+            )
+        ) else (
+            echo ❌ File !URL! is missing. >> %LOGFILE%
+            set STATUS=Error
+        )
     )
     set SUMMARY=!SUMMARY!!NAME!: !STATUS!\n
 )
