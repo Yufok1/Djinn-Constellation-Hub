@@ -1,6 +1,25 @@
 @echo off
 setlocal EnableDelayedExpansion
 
+REM === Auto-navigation for GitHub zip extraction ===
+REM If this script is being run from a wrapper folder, cd into the correct folder and re-run
+for %%F in (Djinn-Constellation-Hub-main Djinn-Constellation-Hub Djinn-Constellation-Hub-v2.0.0) do (
+    if exist "%%F\setup_djinn_federation.bat" (
+        cd "%%F"
+        call setup_djinn_federation.bat
+        exit /b
+    )
+)
+REM Try any single subdirectory with the setup script
+for /d %%D in (*) do (
+    if exist "%%D\setup_djinn_federation.bat" (
+        cd "%%D"
+        call setup_djinn_federation.bat
+        exit /b
+    )
+)
+REM If not found, continue as normal (if we're in the right folder)
+
 REM === RAP-4+ Config-Driven Federation Setup ===
 REM Reads federation_setup.cfg and automates onboarding for all models/agents
 
