@@ -1,20 +1,93 @@
 @echo off
-echo 🜂 DJINN FEDERATION COMPLETE SETUP 🜂
-echo =====================================
-echo.
-echo This script will set up the complete DJINN Federation with:
-echo   - DJINN-ified Constellation Coordinators (Tiered Task Management)
-echo   - Specialized DJINN Agents
-echo   - Hierarchical Constellation Hub
-echo.
+setlocal EnableDelayedExpansion
 
-set /p choice="Do you want to proceed with the setup? (Y/N): "
-if /i "%choice%" neq "Y" (
-    echo Setup cancelled.
-    pause
-    exit /b 0
+REM === RAP-4+ Config-Driven Federation Setup ===
+REM Reads federation_setup.cfg and automates onboarding for all models/agents
+
+REM Log file
+set LOGFILE=logs\setup.log
+if not exist logs mkdir logs
+if exist %LOGFILE% del %LOGFILE%
+
+REM Status tracking
+set SUMMARY=
+
+REM Read config and process each entry
+for /f "usebackq tokens=1-5 delims=, " %%A in ("federation_setup.cfg") do (
+    set NAME=%%A
+    set METHOD=%%B
+    set URL=%%C
+    set HASH=%%D
+    set SCRIPT=%%E
+    set STATUS=NotChecked
+    echo === Processing !NAME! with method !METHOD! >> %LOGFILE%
+    if /i "!METHOD!"=="ollama" (
+        echo Checking for !NAME!:latest ...
+        ollama list | findstr "!NAME!"
+        if !errorlevel! neq 0 (
+            echo Not present. Pulling from Ollama... >> %LOGFILE%
+            ollama pull !NAME!:latest >> %LOGFILE% 2>&1
+            if !errorlevel! neq 0 (
+                echo ❌ Failed to pull !NAME! from Ollama. >> %LOGFILE%
+                set STATUS=Error
+            ) else (
+                echo ✅ Pulled !NAME!. >> %LOGFILE%
+                set STATUS=Pulled
+            )
+        ) else (
+            echo ✅ !NAME! is present. >> %LOGFILE%
+            set STATUS=Present
+        )
+    ) else if /i "!METHOD!"=="batch" (
+        echo Checking for !NAME!:latest ...
+        ollama list | findstr "!NAME!"
+        if !errorlevel! neq 0 (
+            echo Not present. Importing via !SCRIPT!... >> %LOGFILE%
+            if exist !SCRIPT! (
+                call !SCRIPT! !NAME! >> %LOGFILE% 2>&1
+                if !errorlevel! neq 0 (
+                    echo ❌ Failed to import !NAME! with !SCRIPT!. >> %LOGFILE%
+                    set STATUS=Error
+                ) else (
+                    echo ✅ Imported !NAME! via !SCRIPT!. >> %LOGFILE%
+                    set STATUS=Imported
+                )
+            ) else (
+                echo ❌ Script !SCRIPT! not found for !NAME!. >> %LOGFILE%
+                set STATUS=Error
+            )
+        ) else (
+            echo ✅ !NAME! is present. >> %LOGFILE%
+            set STATUS=Present
+        )
+    ) else if /i "!METHOD!"=="cloud" (
+        echo Checking for !NAME! file presence ...
+        if exist !NAME!.bin (
+            echo ✅ !NAME!.bin is present. >> %LOGFILE%
+            set STATUS=Present
+        ) else (
+            echo Not present. Downloading from !URL!... >> %LOGFILE%
+            curl -L --retry 3 --retry-delay 5 -o !NAME!.bin !URL! >> %LOGFILE% 2>&1
+            if !errorlevel! neq 0 (
+                echo ❌ Failed to download !NAME! from cloud. >> %LOGFILE%
+                set STATUS=Error
+            ) else (
+                echo ✅ Downloaded !NAME! from cloud. >> %LOGFILE%
+                set STATUS=Downloaded
+            )
+        )
+    )
+    set SUMMARY=!SUMMARY!!NAME!: !STATUS!\n
 )
 
+REM === Summary Table ===
+echo.
+echo ================= Federation Model/Agent Setup Summary ================
+echo !SUMMARY!
+echo =======================================================================
+
+echo 🜂 DJINN FEDERATION RAP-4+ AUTOMATED SETUP COMPLETE! 🜂
+endlocal
 echo.
 echo 🚀 STEP 1: Building DJINN-ified Constellation Coordinators...
 call build_constellation_coordinators.bat
