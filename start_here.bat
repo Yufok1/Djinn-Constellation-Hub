@@ -9,7 +9,8 @@ if exist "setup_djinn_federation.bat" (
     echo Running federation setup...
     call setup_djinn_federation.bat
     if errorlevel 1 (
-        echo ❌ Federation setup failed. Not launching chat interface.
+        echo ❌ Federation setup failed. Required models/agents are missing or not running.
+        echo ❌ Please resolve all missing models/agents before continuing. See the setup log and instructions above.
         pause
         goto :end
     )

@@ -111,8 +111,31 @@ for /f "usebackq tokens=1-5 delims=, " %%A in ("federation_setup.cfg") do (
                 )
             )
         ) else (
-            echo ❌ File !URL! is missing. >> %LOGFILE%
-            set STATUS=Error
+            REM === If .bin is missing, check for .Modelfile ===
+            set MODELFILENAME=!NAME!.Modelfile
+            set MODELFILEREL=.
+            set MODELFILEROOT=!MODELFILENAME!
+            set MODELFILEMODS=djinn-federation\modelfiles\!MODELFILENAME!
+            set MODELFILENAMEFOUND=
+            if exist !MODELFILEROOT! set MODELFILENAMEFOUND=!MODELFILEROOT!
+            if exist !MODELFILEMODS! set MODELFILENAMEFOUND=!MODELFILEMODS!
+            REM Warn if both exist
+            if exist !MODELFILEROOT! if exist !MODELFILEMODS! echo ⚠️ Multiple .Modelfile files found for !NAME!. Using !MODELFILENAMEFOUND!. >> %LOGFILE%
+            if defined MODELFILENAMEFOUND (
+                echo 📝 Found .Modelfile for !NAME!: !MODELFILENAMEFOUND! >> %LOGFILE%
+                echo Attempting to create Ollama model !NAME! from !MODELFILENAMEFOUND!... >> %LOGFILE%
+                ollama create !NAME! -f !MODELFILENAMEFOUND! >> %LOGFILE% 2>&1
+                if !errorlevel! neq 0 (
+                    echo ❌ Failed to create !NAME! from .Modelfile. >> %LOGFILE%
+                    set STATUS=Error
+                ) else (
+                    echo ✅ Created !NAME! from .Modelfile. >> %LOGFILE%
+                    set STATUS=Imported
+                )
+            ) else (
+                echo ❌ File !URL! and .Modelfile for !NAME! are both missing. >> %LOGFILE%
+                set STATUS=Error
+            )
         )
     )
     set SUMMARY=!SUMMARY!!NAME!: !STATUS!\n
