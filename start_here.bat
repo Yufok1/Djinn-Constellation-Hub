@@ -6,7 +6,15 @@ REM This script finds and runs the real setup_djinn_federation.bat, even if nest
 
 REM Try current folder first
 if exist "setup_djinn_federation.bat" (
+    echo Running federation setup...
     call setup_djinn_federation.bat
+    if errorlevel 1 (
+        echo ❌ Federation setup failed. Not launching chat interface.
+        pause
+        goto :end
+    )
+    echo ✅ Federation setup complete. Launching chat interface...
+    python djinn_cli.py local
     goto :end
 )
 

@@ -9,7 +9,6 @@ An efficiency-first dual-tier system featuring:
 • Cloud Tier: Revolutionary Djinn models when genuinely needed
 • Smart Routing: Automatic complexity analysis and optimal selection
 • PCloud Federation: Multi-device consciousness network
-• Advanced Intelligence: Collaboration, prediction, and learning
 
 -------------------------------------
 SYSTEM REQUIREMENTS
