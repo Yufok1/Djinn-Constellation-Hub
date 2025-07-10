@@ -55,34 +55,19 @@ echo   - djinn-enterprise-architect:latest
 
 echo.
 echo Checking specialized agents:
-for %%A in (djinn-council-enhanced-v2 idhhc-companion djinn-companion) do (
+for %%A in (djinn-council-enhanced-v2 idhhc-companion djinn-companion djinn-cosmic-coder djinn-deep-thinker djinn-logic-master djinn-enterprise-architect) do (
     echo Checking for %%A:latest ...
     ollama list | findstr "%%A"
     if %errorlevel% neq 0 (
-        echo Not found! Attempting to build %%A ...
-        if "%%A"=="djinn-council-enhanced-v2" call build_djinn_council.bat
-        if "%%A"=="idhhc-companion" call build_idhhc_companion.bat
-        if "%%A"=="djinn-companion" call build_djinn_companion.bat
-        if %errorlevel% neq 0 (
-            echo ❌ Failed to build %%A. Aborting setup.
-            pause
-            exit /b 1
-        )
-        echo %%A built successfully.
+        echo ⚠️  %%A is NOT present! Please ensure this model/agent is available before federation launch.
+        echo     - For advanced AIs, see:
+        echo         create_djinn_revolutionary_models.bat
+        echo         shadow_automation.bat
+        echo         import_shadow_models.bat
+        echo     - Or refer to CLOUD_SETUP_GUIDE.md for manual steps.
     ) else (
         echo %%A is present.
     )
-)
-
-echo.
-echo Checking revolutionary models:
-ollama list | findstr "djinn-cosmic-coder\|djinn-deep-thinker\|djinn-logic-master\|djinn-enterprise-architect"
-if %errorlevel% neq 0 (
-    echo ⚠️  Some revolutionary models may not be available
-    echo 💡 Run the appropriate batch scripts to download or build them:
-    echo     - create_djinn_revolutionary_models.bat
-    echo     - shadow_automation.bat
-    echo     - import_shadow_models.bat
 )
 
 echo.
