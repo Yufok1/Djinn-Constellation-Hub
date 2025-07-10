@@ -1,0 +1,15 @@
+# Djinn Constellation Hub - Core Dependencies
+# Basic Python packages for the federation system
+
+# Core dependencies
+requests>=2.25.1
+subprocess32>=3.5.4; python_version<"3.2"
+
+# Optional: For enhanced features
+# ollama>=0.1.0  # Uncomment if using Ollama Python client
+# openai>=1.0.0  # Uncomment if using OpenAI API
+
+# Development dependencies (optional)
+# pytest>=6.0.0
+# black>=21.0.0
+# flake8>=3.8.0 
